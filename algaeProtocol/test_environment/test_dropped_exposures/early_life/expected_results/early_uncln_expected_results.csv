@@ -1,0 +1,17 @@
+person_id,comments,ith_life_stage,life_stage,pm10_tot_cumulative,pm10_tot_avg,pm10_tot_median
+early_no_moves,,1,T1,460,5,5
+early_no_moves,,2,T2,460,5,5
+early_no_moves,,3,T3,380,5,5
+early_no_moves,,4,EL,1825,5,5
+early_many_moves,,1,T1,506,5.5,5
+early_many_moves,,2,T2,713,7.75,7
+early_many_moves,,3,T3,912,12,12
+early_many_moves,,4,EL,6670,18.2739726,19
+early_many_moves_with_err,,1,T1,499,5.483516484,5
+early_many_moves_with_err,,2,T2,683,7.674157303,7
+early_many_moves_with_err,,3,T3,856,11.88888889,10
+early_many_moves_with_err,,4,EL,6575,18.26388889,19
+early_many_overlaps,,1,T1,575,6.534090909,5
+early_many_overlaps,,2,T2,920,10,10
+early_many_overlaps,,3,T3,760,10,10
+early_many_overlaps,,4,EL,3650,10,10

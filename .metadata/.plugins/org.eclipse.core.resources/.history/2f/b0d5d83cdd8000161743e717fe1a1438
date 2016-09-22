@@ -1,0 +1,11 @@
+person_id,comments,life_stage,contention_days,distinct_addresses,moves
+no_addr,,T1,0,0,0
+one_addr,,T1,0,1,0
+mult_fix_addr,,T1,24,5,39
+mult_no_fix_addr,,T1,32,2,1
+one_each_stage_addr,,T1,3,2,1
+after_el_deletion_addr,,T1,0,1,0
+missing_start_date,,T1,0,1,0
+missing_end_date,,T1,0,1,0
+missing_both_dates,,T1,0,1,0
+missing_last_end_date,,T1,0,2,1

@@ -1,0 +1,16 @@
+person_id,comments,geocode,start_date,end_date
+early_no_moves,no moves.  One address for whole period,a1,03/03/1992,01/01/2015
+early_many_moves,,a1,10/03/1992,10/05/1992
+early_many_moves,one move in T1,a2,11/05/1992,10/08/1992
+early_many_moves,one move in T2,a3,11/08/1992,10/10/1992
+early_many_moves,one move in T3,a4,11/10/1992,09/01/1993
+early_many_moves,one move in EL,a5,10/01/1993,11/10/2015
+early_many_moves_with_err,,a1,10/03/1992,10/05/1992
+early_many_moves_with_err,one move in T1.  One day gap,a2,12/05/1992,13/08/1992
+early_many_moves_with_err,one move in T2. Three day overlap,a3,11/08/1992,10/10/1992
+early_many_moves_with_err,one move in T3.  Four day gap.,a4,15/10/1992,09/01/1993
+early_many_moves_with_err,one move in EL. Five day gap.,a5,15/01/1993,11/10/2015
+early_many_overlaps,a day is spanned by multiple overlaps,a1,10/03/1992,05/05/1992
+early_many_overlaps,a day is spanned by multiple overlaps,a2,03/05/1992,06/05/1992
+early_many_overlaps,a day is spanned by multiple overlaps,a3,04/05/1992,01/01/2015
+missing_exposure_days,missing first ten days of exposure data,a8,03/03/1992,01/01/2015

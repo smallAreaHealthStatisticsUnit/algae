@@ -1,0 +1,75 @@
+person_id,ith_residence,comments,date_state,start_date,end_date,final_adjusted_start_date,final_adjusted_end_date,fit_type,days_changed,geocode,start_date_contender,start_date_delta_1,start_date_delta2,end_date_contender,end_date_delta1,end_date_delta2,imputed_first_start,imputed_last_end
+after_el_deletion_addr,1,deletion after relevant exposure time frame,no_imputation,01/04/1992,01/06/2013,03/03/1992,01/06/2013,C,0,a1,,,,,,,Y,N
+after_el_deletion_addr,2,deletion after relevant exposure time frame,no_imputation,02/06/2013,04/06/2013,02/06/2013,01/06/2013,D,3,a2,,,,a2,02/06/2013,04/06/2013,N,N
+after_el_deletion_addr,3,deletion after relevant exposure time frame,no_imputation,02/06/2013,02/07/2013,02/06/2013,02/07/2013,C,0,a3,,,,,,,N,N
+missing_both_dates,1,,imputed_both_dates,,now,03/03/1992,now,C,0,a1,,,,,,,N,N
+missing_end_date,1,,imputed_end_date,01/04/1992,now,03/03/1992,now,C,0,a1,,,,,,,Y,N
+missing_last_end_date,1,,no_imputation,03/03/1992,04/03/1992,03/03/1992,04/03/1992,C,0,a1,,,,,,,N,N
+missing_last_end_date,2,,imputed_end_date,05/03/1992,now,05/03/1992,now,C,0,a2,,,,,,,N,N
+missing_start_date,1,,imputed_start_date,,01/01/2015,03/03/1992,01/01/2015,C,0,a1,,,,,,,N,N
+mult_fix_addr,1,see scenario 1 diagram address period a1,no_imputation,01/03/1992,01/03/1992,25/02/1992,01/03/1992,C,0,a1,,,,,,,Y,N
+mult_fix_addr,2,see scenario 1 diagram address period a2,no_imputation,03/03/1992,03/03/1992,02/03/1992,03/03/1992,G,1,a2,a1,02/03/1992,02/03/1992,,,,N,N
+mult_fix_addr,3,see scenario 2 diagram address period a1,no_imputation,04/03/1992,04/03/1992,04/03/1992,04/03/1992,C,0,a3,,,,,,,N,N
+mult_fix_addr,4,see scenario 2 diagram address period a2,no_imputation,05/03/1992,05/03/1992,05/03/1992,05/03/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,5,see scenario 3 diagram address period a2,no_imputation,06/03/1992,06/03/1992,06/03/1992,05/03/1992,D,1,a1,,,,a1,06/03/1992,06/03/1992,N,N
+mult_fix_addr,6,see scenario 3 diagram address period a1,no_imputation,06/03/1992,06/03/1992,06/03/1992,06/03/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,7,see scenario 4 diagram address period a1,no_imputation,07/03/1992,07/03/1992,07/03/1992,07/03/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,8,see scenario 4 diagram address period a2,no_imputation,09/03/1992,10/03/1992,08/03/1992,10/03/1992,G,1,a3,a2,08/03/1992,08/03/1992,,,,N,N
+mult_fix_addr,9,see scenario 5 diagram address period a1,no_imputation,11/03/1992,11/03/1992,11/03/1992,11/03/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,10,see scenario 5 diagram address period a2,no_imputation,12/03/1992,13/03/1992,12/03/1992,13/03/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,11,see scenario 6 diagram address period a1,no_imputation,14/03/1992,14/03/1992,14/03/1992,13/03/1992,D,1,a1,,,,a1,14/03/1992,14/03/1992,N,N
+mult_fix_addr,12,see scenario 6 diagram address period a2,no_imputation,14/03/1992,15/03/1992,14/03/1992,15/03/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,13,see scenario 7 diagram address period a1,no_imputation,16/03/1992,16/03/1992,16/03/1992,16/03/1992,C,0,a3,,,,,,,N,N
+mult_fix_addr,14,see scenario 7 diagram address period a2,no_imputation,18/03/1992,20/03/1992,17/03/1992,20/03/1992,G,1,a4,a3,17/03/1992,17/03/1992,,,,N,N
+mult_fix_addr,15,see scenario 8 diagram address period a1,no_imputation,21/03/1992,21/03/1992,21/03/1992,21/03/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,16,see scenario 8 diagram address period a2,no_imputation,22/03/1992,24/03/1992,22/03/1992,24/03/1992,C,0,a1,,,,,,,N,N
+mult_fix_addr,17,see scenario 9 diagram address period a1,no_imputation,25/03/1992,25/03/1992,25/03/1992,24/03/1992,D,1,a2,,,,a2,25/03/1992,25/03/1992,N,N
+mult_fix_addr,18,see scenario 9 diagram address period a2,no_imputation,25/03/1992,27/03/1992,25/03/1992,27/03/1992,C,0,a3,,,,,,,N,N
+mult_fix_addr,19,see scenario 10 diagram address period a1,no_imputation,28/03/1992,29/03/1992,28/03/1992,29/03/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,20,see scenario 10 diagram address period a2,no_imputation,31/03/1992,01/04/1992,30/03/1992,01/04/1992,G,1,a5,a4,30/03/1992,30/03/1992,,,,N,N
+mult_fix_addr,21,see scenario 11 diagram address period a1,no_imputation,02/04/1992,03/04/1992,02/04/1992,03/04/1992,C,0,a1,,,,,,,N,N
+mult_fix_addr,22,see scenario 11 diagram address period a2,no_imputation,04/04/1992,05/04/1992,04/04/1992,05/04/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,23,see scenario 12 diagram address period a1,no_imputation,06/04/1992,07/04/1992,06/04/1992,06/04/1992,O,1,a3,,,,a3,07/04/1992,07/04/1992,N,N
+mult_fix_addr,24,see scenario 12 diagram address period a2,no_imputation,07/04/1992,08/04/1992,07/04/1992,08/04/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,25,see scenario 13 diagram address period a2,no_imputation,09/04/1992,10/04/1992,09/04/1992,08/04/1992,D,2,a1,,,,a1,09/04/1992,10/04/1992,N,N
+mult_fix_addr,26,see scenario 13 diagram address period a1,no_imputation,09/04/1992,10/04/1992,09/04/1992,10/04/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,27,see scenario 14 diagram address period a1,no_imputation,11/04/1992,12/04/1992,11/04/1992,12/04/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,28,see scenario 14 diagram address period a2,no_imputation,14/04/1992,16/04/1992,13/04/1992,16/04/1992,G,1,a3,a2,13/04/1992,13/04/1992,,,,N,N
+mult_fix_addr,29,see scenario 15 diagram address period a1,no_imputation,17/04/1992,18/04/1992,17/04/1992,18/04/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,30,see scenario 15 diagram address period a2,no_imputation,19/04/1992,21/04/1992,19/04/1992,21/04/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,31,see scenario 16 diagram address period a1,no_imputation,22/04/1992,23/04/1992,22/04/1992,22/04/1992,O,1,a1,,,,a1,23/04/1992,23/04/1992,N,N
+mult_fix_addr,32,see scenario 16 diagram address period a2,no_imputation,23/04/1992,25/04/1992,23/04/1992,25/04/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,33,see scenario 17 diagram address period a1,no_imputation,26/04/1992,27/04/1992,26/04/1992,25/04/1992,D,2,a3,,,,a3,26/04/1992,27/04/1992,N,N
+mult_fix_addr,34,see scenario 17 diagram address period a2,no_imputation,26/04/1992,28/04/1992,26/04/1992,28/04/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,35,see scenario 18 diagram address period a1,no_imputation,29/04/1992,01/05/1992,29/04/1992,01/05/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,36,see scenario 18 diagram address period a2,no_imputation,03/05/1992,05/05/1992,02/05/1992,05/05/1992,G,1,a1,a5,02/05/1992,02/05/1992,,,,N,N
+mult_fix_addr,37,see scenario 19 diagram address period a1,no_imputation,06/05/1992,08/05/1992,06/05/1992,08/05/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,38,see scenario 19 diagram address period a2,no_imputation,09/05/1992,11/05/1992,09/05/1992,11/05/1992,C,0,a3,,,,,,,N,N
+mult_fix_addr,39,see scenario 20 diagram address period a1,no_imputation,12/05/1992,14/05/1992,12/05/1992,13/05/1992,O,1,a4,,,,a4,14/05/1992,14/05/1992,N,N
+mult_fix_addr,40,see scenario 20 diagram address period a2,no_imputation,14/05/1992,16/05/1992,14/05/1992,16/05/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,41,see scenario 21 diagram address period a1,no_imputation,17/05/1992,19/05/1992,17/05/1992,17/05/1992,O,2,a1,,,,a1,18/05/1992,19/05/1992,N,N
+mult_fix_addr,42,see scenario 21 diagram address period a2,no_imputation,18/05/1992,20/05/1992,18/05/1992,20/05/1992,C,0,a2,,,,,,,N,N
+mult_fix_addr,43,see scenario 22 diagram address period a1,no_imputation,21/05/1992,23/05/1992,21/05/1992,20/05/1992,D,3,a3,,,,a3,21/05/1992,23/05/1992,N,N
+mult_fix_addr,44,see scenario 22 diagram address period a2,no_imputation,21/05/1992,23/05/1992,21/05/1992,23/05/1992,C,0,a4,,,,,,,N,N
+mult_fix_addr,45,see scenario 23 diagram address period a2,no_imputation,24/05/1992,24/05/1992,24/05/1992,23/05/1992,D,1,a1,,,,a1,24/05/1992,24/05/1992,N,N
+mult_fix_addr,46,see scenario 23 diagram address period a2,no_imputation,24/05/1992,24/05/1992,24/05/1992,23/05/1992,D,1,a2,,,,a2,24/05/1992,24/05/1992,N,N
+mult_fix_addr,47,see scenario 23 diagram address period a1,no_imputation,24/05/1992,24/05/1992,24/05/1992,24/05/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,48,see scenario 24 diagram address period a1,no_imputation,25/05/1992,25/05/1992,25/05/1992,24/05/1992,D,1,a3,,,,a3,25/05/1992,25/05/1992,N,N
+mult_fix_addr,49,see scenario 24 diagram address period a2,no_imputation,25/05/1992,26/05/1992,25/05/1992,24/05/1992,D,2,a4,,,,a4,25/05/1992,26/05/1992,N,N
+mult_fix_addr,50,see scenario 24 diagram address period a2,no_imputation,25/05/1992,27/05/1992,25/05/1992,27/05/1992,C,0,a5,,,,,,,N,N
+mult_fix_addr,51,see scenario 25 diagram address period a1,no_imputation,28/05/1992,29/05/1992,28/05/1992,29/05/1992,C,0,a1,,,,,,,N,N
+mult_fix_addr,52,see scenario 25 diagram address period a2,no_imputation,01/06/1992,02/06/1992,30/05/1992,31/05/1992,B,4,a2,a1,30/05/1992,31/05/1992,a2,01/06/1992,02/06/1992,N,N
+mult_fix_addr,53,see scenario 25 diagram address period a2,no_imputation,01/06/1992,03/06/1992,01/06/1992,17/11/1993,C,0,a3,,,,,,,N,Y
+mult_no_fix_addr,1,change in T1  no adjustments,no_imputation,01/04/1992,01/05/1992,03/03/1992,01/05/1992,C,0,a1,,,,,,,Y,N
+mult_no_fix_addr,2,,no_imputation,02/05/1992,01/10/1992,02/05/1992,01/05/1992,D,153,a2,,,,a2,02/05/1992,01/10/1992,N,N
+mult_no_fix_addr,3,change in T3. no adjustments,no_imputation,02/05/1992,18/11/2007,02/05/1992,18/11/2007,C,0,a3,,,,,,,N,N
+one_addr,1,lived at one address. all data valid.,no_imputation,07/03/1992,01/01/2015,03/03/1992,01/01/2015,C,0,a1,,,,,,,Y,N
+one_fix_per_stage_addr,1,cause address fix in each life stage,no_imputation,01/04/1992,01/05/1992,03/03/1992,01/05/1992,C,0,a1,,,,,,,Y,N
+one_fix_per_stage_addr,2,shows gap in T1 between a1 and a2,no_imputation,05/05/1992,10/07/1992,02/05/1992,10/07/1992,G,3,a2,a1,02/05/1992,04/05/1992,,,,N,N
+one_fix_per_stage_addr,3,adding a buffer contiguous address,no_imputation,11/07/1992,15/07/1992,11/07/1992,15/07/1992,C,0,a3,,,,,,,N,N
+one_fix_per_stage_addr,4,make an overlap in T2 between a4 and a5,no_imputation,16/07/1992,10/08/1992,16/07/1992,04/08/1992,O,6,a4,,,,a4,05/08/1992,10/08/1992,N,N
+one_fix_per_stage_addr,5,causing addr to adjust for gap and overlap in T3,no_imputation,05/08/1992,01/10/1992,05/08/1992,01/10/1992,C,0,a5,,,,,,,N,N
+one_fix_per_stage_addr,6,causing addr to adjust for gap and overlap in T3,no_imputation,05/10/1992,20/10/1992,02/10/1992,14/10/1992,B,9,a1,a5,02/10/1992,04/10/1992,a1,15/10/1992,20/10/1992,N,N
+one_fix_per_stage_addr,7,deletion in EL,no_imputation,15/10/1992,15/01/1993,15/10/1992,15/01/1993,C,0,a2,,,,,,,N,N
+one_fix_per_stage_addr,8,deletion in EL,no_imputation,16/01/1993,16/02/1993,16/01/1993,15/01/1993,D,32,a3,,,,a3,16/01/1993,16/02/1993,N,N
+one_fix_per_stage_addr,9,deletion in EL,no_imputation,16/01/1993,16/05/1993,16/01/1993,17/11/1993,C,0,a4,,,,,,,N,Y

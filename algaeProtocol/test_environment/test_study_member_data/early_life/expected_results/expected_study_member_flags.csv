@@ -1,0 +1,13 @@
+person_id,comments,absent_during_exp_period,at_1st_addr_conception
+no_yes_answer_format01,handles n as yes-no input and converts it to N,N,N
+no_yes_answer_format02,handles No as yes-no input and converts it to N,N,N
+no_yes_answer_format03,handles no as yes-no input and converts it to N,N,N
+no_yes_answer_format04,handles FALSE as a yes-no input and converts it to N,N,N
+no_yes_answer_format05,handles FALSE as a yes-no input and converts it to N,N,N
+no_yes_answer_format06,handles 0 as a yes-no input and converts it to N,N,N
+no_yes_answer_format07,handles y as yes-no input and converts it to Y,Y,Y
+no_yes_answer_format08,handles Yes as yes-no input and converts it to Y,Y,Y
+no_yes_answer_format09,handles yes as yes-no input and converts it to Y,Y,Y
+no_yes_answer_format10,handles TRUE as yes-no input and converts it to Y,Y,Y
+no_yes_answer_format11,handles true as yes-no input and converts it to Y,Y,Y
+no_yes_answer_format12,handles 1 as yes-no input and converts it to Y,Y,Y

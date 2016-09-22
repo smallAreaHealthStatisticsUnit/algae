@@ -1,0 +1,17 @@
+geocode,comments,has_valid_geocode
+normal_has_valid_geocode,Interprets has_valid_geocode Y as Y,Y
+has_valid_geocode01,Interprets has_valid_geocode N as N,N
+has_valid_geocode02,Interprets has_valid_geocode n as N,N
+has_valid_geocode03,Interprets has_valid_geocode No as N,N
+has_valid_geocode04,Interprets has_valid_geocode NO as N,N
+has_valid_geocode05,Interprets has_valid_geocode no as N,N
+has_valid_geocode06,Interprets has_valid_geocode FALSE as N,N
+has_valid_geocode07,Interprets has_valid_geocode false as N,N
+has_valid_geocode08,Interprets has_valid_geocode 0 as N,N
+has_valid_geocode09,Interprets has_valid_geocode y as Y,Y
+has_valid_geocode10,Interprets has_valid_geocode Yes as Y,Y
+has_valid_geocode11,Interprets has_valid_geocode YES as Y,Y
+has_valid_geocode12,Interprets has_valid_geocode yes as Y,Y
+has_valid_geocode13,Interprets has_valid_geocode TRUE as Y,Y
+has_valid_geocode14,Interprets has_valid_geocode true as Y,Y
+has_valid_geocode15,Interprets has_valid_geocode 1 as Y,Y

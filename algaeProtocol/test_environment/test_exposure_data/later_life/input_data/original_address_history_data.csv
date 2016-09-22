@@ -1,0 +1,17 @@
+person_id,comments,geocode,start_date,end_date
+late_no_moves,no moves.  One address for whole period,a1,10/03/1992,01/01/2015
+late_many_moves,,a1,10/03/1992,18/05/1994
+late_many_moves,,a2,19/05/1994,18/11/1994
+late_many_moves,,a3,19/11/1994,19/02/1995
+late_many_moves,,a4,20/02/1995,20/02/1996
+late_many_moves,,a5,21/02/1996,01/01/2010
+late_many_moves,,a6,02/01/2010,01/01/2015
+late_many_moves_with_err,,a1,10/03/1992,18/08/1994
+late_many_moves_with_err,,a2,19/05/1994,18/11/1994
+late_many_moves_with_err,,a3,18/01/1995,19/02/1995
+late_many_moves_with_err,,a4,19/03/1995,20/05/1996
+late_many_moves_with_err,,a5,21/02/1996,01/01/2010
+late_many_moves_with_err,,a6,01/04/2010,01/01/2015
+late_many_overlaps,,a1,10/03/1992,25/05/1995
+late_many_overlaps,,a2,10/05/1995,20/05/1995
+late_many_overlaps,,a3,15/05/1995,01/01/2015

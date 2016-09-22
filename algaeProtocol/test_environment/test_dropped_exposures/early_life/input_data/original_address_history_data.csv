@@ -1,0 +1,4 @@
+person_id,comments,geocode,start_date,end_date
+early_bad_t1,first address period is OK,a1,03/03/1992,10/03/1992
+early_bad_t1,bad address period lasts 40 days finishes within T1,a6,11/03/1992,19/04/1992
+early_bad_t1,finishes off the rest of T1,a3,25/04/1992,01/01/2015

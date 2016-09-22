@@ -1,0 +1,26 @@
+person_id,ith_residence,comments,geocode,start_date,end_date,early_is_fixed_invalid_geocode,ith_residence_type,final_adjusted_start_date,final_adjusted_end_date
+one_addr_geocode_valid1,1, has valid geocode,a5,03/03/1992,01/01/2015,N,only,03/03/1992,01/01/2015
+one_addr_geocode_invalid1,1,1 address period with geocode is_valid = N (not fixable),a6,03/03/1992,01/01/2015,N,only,03/03/1992,01/01/2015
+one_addr_out_of_bounds,1,1 address period with an out-of-bounds geocode (not fixable),a7,03/03/1992,01/01/2015,N,only,03/03/1992,01/01/2015
+one_addr_blank_geocode,1,1 address period with blank geocode (not fixable),,03/03/1992,01/01/2015,N,only,03/03/1992,01/01/2015
+two_addr_last_invalid_geocode,1,2 address periods and last period has invalid geocode (not fixable),a5,03/03/1992,01/07/1992,N,first,03/03/1992,01/07/1992
+two_addr_last_invalid_geocode,2,2 address periods and last period has invalid geocode (not fixable),a6,02/07/1992,01/01/2015,N,last,02/07/1992,01/01/2015
+two_addr_last_blank_geocode,1,2 address periods and last period has invalid geocode (not fixable),a1,03/03/1992,01/07/1992,N,first,03/03/1992,01/07/1992
+two_addr_last_blank_geocode,2,2 address periods and last period has invalid geocode (not fixable),,02/07/1992,01/01/2015,N,last,02/07/1992,01/01/2015
+two_addr_first_invalid_geocode,1,2 address periods with first having invalid geocode (fixable),a6,03/03/1992,10/03/1992,Y,first,,
+two_addr_first_invalid_geocode,2,2 address periods with first having invalid geocode (fixable),a5,03/03/1992,01/01/2015,N,only,03/03/1992,01/01/2015
+two_addr_first_blank_geocode,1,2 address periods with first having invalid geocode (fixable),,03/03/1992,01/07/1992,Y,first,03/03/1992,01/07/1992
+two_addr_first_blank_geocode,2,2 address periods with first having invalid geocode (fixable),a5,03/03/1992,01/01/2015,Y,only,02/07/1992,01/01/2015
+two_addr_first_invalid_less25,1,invalid period that is 22 of 92 days of T2 (fixable),a6,01/04/1992,22/04/1992,Y,first,,
+two_addr_first_invalid_less25,2,,a5,01/04/1992,01/01/2015,N,only,03/03/1992,01/01/2015
+two_addr_first_invalid_equal25,1,invalid period that is 23 out of 92 days of T2 (not fixable),a6,01/04/1992,24/04/1992,N,first,03/03/1992,24/04/1992
+two_addr_first_invalid_equal25,2,,a5,25/04/1992,01/01/2015,N,last,25/04/1992,01/01/2015
+two_addr_first_invalid_more25,1,invalid period that is 24 out of 92 days of T2 (not fixable),a6,01/04/1992,25/04/1992,N,first,03/03/1992,25/04/1992
+two_addr_first_invalid_more25,2,,a5,26/04/1992,01/01/2015,N,last,26/04/1992,01/01/2015
+two_addr_first_out_of_bounds,1,2 address periods with first having an out-of-bounds geocode (not fixable),a7,03/03/1992,01/07/1992,N,first,03/03/1992,01/07/1992
+two_addr_first_out_of_bounds,2,2 address periods with first having an out-of-bounds geocode (not fixable),a5,02/07/1992,01/01/2015,N,last,02/07/1992,01/01/2015
+three_addr_fixable_geocode,,3 address periods with middle one having invalid geocode and next having valid geocode,a4,03/03/1992,02/07/1992,Y,first,03/03/1992,01/07/1992
+three_addr_fixable_geocode,,3 address periods with middle one having invalid geocode and next having valid geocode,a6,02/07/1992,01/09/1992,Y,middle,,
+three_addr_fixable_geocode,,3 address periods with middle one having invalid geocode and next having valid geocode,a5,02/07/1992,01/01/2015,Y,last,02/07/1992,01/01/2015
+year2_bad_geocode,,2 addr period second with bad geocode beyond early life time frame,a5,03/03/1992,01/01/1994,N,first,03/03/1992,01/01/1994
+year2_bad_geocode,,2 addr period second with bad geocode beyond early life time frame,a6,02/01/1994,01/01/2015,N,last,02/01/1994,01/01/2015

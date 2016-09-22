@@ -1,0 +1,7 @@
+person_id,comments,gestation_age_at_birth,is_gestation_age_imputed,absent_during_exp_period,at_1st_address_conception
+very_mature,very_mature checking that flags are read correctly,43,N,N,Y
+premature_23_weeks,premature_23_weeks checking that flags are read correctly,23,N,Y,N
+premature_25_weeks,premature_25_weeks checking that flags are read correctly,25,N,N,Y
+premature_26_weeks,premature_26_weeks checking that flags are read correctly,26,N,N,Y
+typical_38_weeks,typical_38_weeks checking that flags are read correctly,38,N,N,Y
+imputed_gestation_age,blank gestation age should be filled in by default value 38,38,Y,N,N

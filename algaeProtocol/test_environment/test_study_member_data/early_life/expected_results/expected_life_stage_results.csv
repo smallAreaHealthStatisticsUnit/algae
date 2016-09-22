@@ -1,0 +1,29 @@
+person_id,comments,life_stage,start_date,end_date,life_stage_duration
+very_mature,very mature T1,T1,21/01/1992,21/04/1992,92
+very_mature,very mature T2,T2,22/04/1992,22/07/1992,92
+very_mature,very mature T3,T3,23/07/1992,17/11/1992,118
+very_mature,very mature EL,EL,18/11/1992,17/11/1993,365
+premature_23_weeks,premature_23_weeks T1 should be present,T1,09/06/1992,08/09/1992,92
+premature_23_weeks,premature_23_weeks T2 should be shortened,T2,09/09/1992,17/11/1992,70
+premature_23_weeks,premature_23_weeks T3 should not exist,T3,,,
+premature_23_weeks,premature_23_weeks early life should be handled normally,EL,18/11/1992,17/11/1993,365
+premature_25_weeks,premature_25_weeks T1 should be present,T1,26/05/1992,25/08/1992,92
+premature_25_weeks,premature_25_weeks T2 should be present but shortened,T2,26/08/1992,17/11/1992,84
+premature_25_weeks,premature_25_weeks T3 should not exist,T3,,,
+premature_25_weeks,premature_25_weeks early life should be handled normally,EL,18/11/1992,17/11/1993,365
+premature_26_weeks,premature_26_weeks T1 should be present,T1,19/05/1992,18/08/1992,92
+premature_26_weeks,premature_26_weeks T2 should be shortened,T2,19/08/1992,17/11/1992,91
+premature_26_weeks,premature_26_weeks T3 should not exist,T3,,,
+premature_26_weeks,premature_26_weeks early life should be handled normally,EL,18/11/1992,17/11/1993,365
+typical_38_weeks,typical_38 weeks should have normal T1,T1,25/02/1992,26/05/1992,92
+typical_38_weeks,typical_38 weeks should have normal T2 not shortened,T2,27/05/1992,26/08/1992,92
+typical_38_weeks,typical_38 weeks should have normal T3,T3,27/08/1992,17/11/1992,83
+typical_38_weeks,typical_38 weeks should have normal EL,EL,18/11/1992,17/11/1993,365
+imputed_gestation_age,imputed gestation of 38 weeks should have typical 38 wk T1,T1,25/02/1992,26/05/1992,92
+imputed_gestation_age,imputed gestation of 38 weeks should have typical 38 wk T2,T2,27/05/1992,26/08/1992,92
+imputed_gestation_age,imputed gestation of 38 weeks should have typical 38 wk T3,T3,27/08/1992,17/11/1992,83
+imputed_gestation_age,imputed gestation of 38 weeks should have typical 38 wk T4,EL,18/11/1992,17/11/1993,365
+leap_year_duration,typical_38 weeks should have normal T1,T1,24/02/1991,26/05/1991,92
+leap_year_duration,typical_38 weeks should have normal T2 not shortened,T2,27/05/1991,26/08/1991,92
+leap_year_duration,typical_38 weeks should have normal T3,T3,27/08/1991,17/11/1991,83
+leap_year_duration,duration should have 366 days,EL,18/11/1991,17/11/1992,366
