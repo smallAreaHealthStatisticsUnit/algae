@@ -37,22 +37,31 @@ BEGIN
 	WITH cleaned_addr AS 
 		(SELECT
 			a.person_id,
-			a.geocode,
+			a.geocode,			
+			a.ith_residence,
+			has_valid_geocode,
+			has_name_exposures,
+			has_nox_rd_exposures,
+			has_pm10_gr_exposures,
+			has_pm10_rd_exposures,
+			has_pm10_tot_exposures,			
 			a.fin_adjusted_start_date,
-			a.fin_adjusted_end_date,
-			a.ith_residence
+			a.fin_adjusted_end_date
 		FROM
-			fin_cleaned_addr_periods a,
-			tmp_sensitivity_variables5 b
+			fin_cleaned_addr_periods a
 		WHERE			
-			a.person_id = b.person_id AND 
-			b.has_bad_geocode_within_time_frame = 'N' AND
-			a.fit_type != 'D' AND
-			a.is_fixed_invalid_geocode = 'N'),
+			fit_type != 'D' AND
+			is_fixed_invalid_geocode = 'N'),
 	birth_addr AS
 		(SELECT
 			d.person_id,
-			c.geocode
+			c.geocode,
+			c.has_valid_geocode,
+			c.has_name_exposures,
+			c.has_nox_rd_exposures,
+			c.has_pm10_gr_exposures,
+			c.has_pm10_rd_exposures,
+			c.has_pm10_tot_exposures
 		 FROM
 			cleaned_addr c,
 			staging_study_member_data d
@@ -64,6 +73,12 @@ BEGIN
 		f.ith_life_stage,
 		f.life_stage,
 		e.geocode,
+		e.has_valid_geocode,
+		e.has_name_exposures,
+		e.has_nox_rd_exposures,
+		e.has_pm10_gr_exposures,
+		e.has_pm10_rd_exposures,
+		e.has_pm10_tot_exposures,
 		generate_series(
 			f.start_date, 
 			f.end_date, 
@@ -86,22 +101,218 @@ BEGIN
 			a.person_id,
 			a.ith_life_stage,
 			a.life_stage,
+			CASE
+				WHEN a.has_name_exposures = 'N' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS name_invalid_address_count,
+			CASE
+				WHEN a.has_name_exposures = 'N' AND a.has_valid_geocode = 'Y' THEN
+					1
+				ELSE 
+					0
+			END AS name_oob_count,
+			CASE
+				WHEN a.has_name_exposures = 'Y' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS name_poor_address_count,
+			CASE
+				WHEN a.has_name_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.name IS NULL THEN
+					1
+				ELSE 
+					0
+			END AS name_missing_exp_count,
+			CASE
+				WHEN a.has_name_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.name IS NOT NULL THEN
+					1
+				ELSE 
+					0
+			END AS name_good_address_count,
 			b.name,
+			CASE
+				WHEN a.has_nox_rd_exposures = 'N' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS nox_rd_invalid_address_count,
+			CASE
+				WHEN a.has_nox_rd_exposures = 'N' AND a.has_valid_geocode = 'Y' THEN
+					1
+				ELSE 
+					0
+			END AS nox_rd_oob_count,
+			CASE
+				WHEN a.has_nox_rd_exposures = 'Y' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS nox_rd_poor_address_count,
+			CASE
+				WHEN a.has_nox_rd_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.nox_rd IS NULL THEN
+					1
+				ELSE 
+					0
+			END AS nox_rd_missing_exp_count,
+			CASE
+				WHEN a.has_nox_rd_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.nox_rd IS NOT NULL THEN
+					1
+				ELSE 
+					0
+			END AS nox_rd_good_address_count,
 			b.nox_rd,
-			b.pm10_gr,
+			CASE
+				WHEN a.has_pm10_rd_exposures = 'N' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_rd_invalid_address_count,
+			CASE
+				WHEN a.has_pm10_rd_exposures = 'N' AND a.has_valid_geocode = 'Y' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_rd_oob_count,
+			CASE
+				WHEN a.has_pm10_rd_exposures = 'Y' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_rd_poor_address_count,
+			CASE
+				WHEN a.has_pm10_rd_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.pm10_rd IS NULL THEN
+					1
+				ELSE 
+					0
+			END AS pm10_rd_missing_exp_count,
+			CASE
+				WHEN a.has_pm10_rd_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.pm10_rd IS NOT NULL THEN
+					1
+				ELSE 
+					0
+			END AS pm10_rd_good_address_count,
 			b.pm10_rd,
-			b.pm10_tot
+			CASE
+				WHEN a.has_pm10_gr_exposures = 'N' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_gr_invalid_address_count,
+			CASE
+				WHEN a.has_pm10_gr_exposures = 'N' AND a.has_valid_geocode = 'Y' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_gr_oob_count,
+			CASE
+				WHEN a.has_pm10_gr_exposures = 'Y' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_gr_poor_address_count,
+			CASE
+				WHEN a.has_pm10_gr_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.pm10_gr IS NULL THEN
+					1
+				ELSE 
+					0
+			END AS pm10_gr_missing_exp_count,
+			CASE
+				WHEN a.has_pm10_gr_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.pm10_gr IS NOT NULL THEN
+					1
+				ELSE 
+					0
+			END AS pm10_gr_good_address_count,
+			b.pm10_gr,
+			CASE
+				WHEN a.has_pm10_tot_exposures = 'N' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_tot_invalid_address_count,
+			CASE
+				WHEN a.has_pm10_tot_exposures = 'N' AND a.has_valid_geocode = 'Y' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_tot_oob_count,
+			CASE
+				WHEN a.has_pm10_tot_exposures = 'Y' AND a.has_valid_geocode = 'N' THEN
+					1
+				ELSE 
+					0
+			END AS pm10_tot_poor_address_count,
+			CASE
+				WHEN a.has_pm10_tot_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.pm10_tot IS NULL THEN
+					1
+				ELSE 
+					0
+			END AS pm10_tot_missing_exp_count,
+			CASE
+				WHEN a.has_pm10_tot_exposures = 'Y' AND 
+					 a.has_valid_geocode = 'Y' AND
+					 b.pm10_tot IS NOT NULL THEN
+					1
+				ELSE 
+					0
+			END AS pm10_tot_good_address_count,
+			b.pm10_tot			
 		FROM
-			tmp_no_mob_birth_addr_exp1 a,
+			tmp_no_mob_birth_addr_exp1 a
+		LEFT JOIN
 			fin_daily_exposures b
-		WHERE
-			a.geocode = b.geocode AND 
-			a.date_of_year = b.date_of_year),
+		ON
+			a.geocode = b.geocode AND
+			a.date_of_year = b.date_of_year),		
 	study_members_with_exposure_data2 AS
 		(SELECT
 			person_id,
 			ith_life_stage,
 			life_stage,
+			SUM(name_invalid_address_count) AS name_invalid_address_days,
+			SUM(name_oob_count) AS name_oob_days,
+			SUM(name_poor_address_count) AS name_poor_address_days,
+			SUM(name_missing_exp_count) AS name_missing_exp_days,
+			SUM(name_good_address_count) AS name_good_address_days,		
+			SUM(nox_rd_invalid_address_count) AS nox_rd_invalid_address_days,
+			SUM(nox_rd_oob_count) AS nox_rd_oob_days,
+			SUM(nox_rd_poor_address_count) AS nox_rd_poor_address_days,
+			SUM(nox_rd_missing_exp_count) AS nox_rd_missing_exp_days,
+			SUM(nox_rd_good_address_count) AS nox_rd_good_address_days,	
+			SUM(pm10_rd_invalid_address_count) AS pm10_rd_invalid_address_days,
+			SUM(pm10_rd_oob_count) AS pm10_rd_oob_days,
+			SUM(pm10_rd_poor_address_count) AS pm10_rd_poor_address_days,
+			SUM(pm10_rd_missing_exp_count) AS pm10_rd_missing_exp_days,
+			SUM(pm10_rd_good_address_count) AS pm10_rd_good_address_days,		
+			SUM(pm10_gr_invalid_address_count) AS pm10_gr_invalid_address_days,
+			SUM(pm10_gr_oob_count) AS pm10_gr_oob_days,
+			SUM(pm10_gr_poor_address_count) AS pm10_gr_poor_address_days,
+			SUM(pm10_gr_missing_exp_count) AS pm10_gr_missing_exp_days,
+			SUM(pm10_gr_good_address_count) AS pm10_gr_good_address_days,	
+			SUM(pm10_tot_invalid_address_count) AS pm10_tot_invalid_address_days,
+			SUM(pm10_tot_oob_count) AS pm10_tot_oob_days,
+			SUM(pm10_tot_poor_address_count) AS pm10_tot_poor_address_days,
+			SUM(pm10_tot_missing_exp_count) AS pm10_tot_missing_exp_days,
+			SUM(pm10_tot_good_address_count) AS pm10_tot_good_address_days,
 			SUM(name) AS name_sum,
 			AVG(name) AS name_avg,
 			median(name) AS name_med,
@@ -127,6 +338,31 @@ BEGIN
 		c.person_id,
 		c.ith_life_stage,
 		c.life_stage,
+		COALESCE(d.name_invalid_address_days, 0) AS name_invalid_address_days,
+		COALESCE(d.name_oob_days, 0) AS name_oob_days,
+		COALESCE(d.name_poor_address_days, 0) AS name_poor_address_days,
+		COALESCE(d.name_missing_exp_days, 0) AS name_missing_exp_days,
+		COALESCE(d.name_good_address_days, 0) AS name_good_address_days,		
+		COALESCE(d.nox_rd_invalid_address_days, 0) AS nox_rd_invalid_address_days,
+		COALESCE(d.nox_rd_oob_days, 0) AS nox_rd_oob_days,
+		COALESCE(d.nox_rd_poor_address_days, 0) AS nox_rd_poor_address_days,
+		COALESCE(d.nox_rd_missing_exp_days, 0) AS nox_rd_missing_exp_days,
+		COALESCE(d.nox_rd_good_address_days, 0) AS nox_rd_good_address_days,
+		COALESCE(d.pm10_rd_invalid_address_days, 0) AS pm10_rd_invalid_address_days,
+		COALESCE(d.pm10_rd_oob_days, 0) AS pm10_rd_oob_days,
+		COALESCE(d.pm10_rd_poor_address_days, 0) AS pm10_rd_poor_address_days,
+		COALESCE(d.pm10_rd_missing_exp_days, 0) AS pm10_rd_missing_exp_days,
+		COALESCE(d.pm10_rd_good_address_days, 0) AS pm10_rd_good_address_days,
+		COALESCE(d.pm10_gr_invalid_address_days, 0) AS pm10_gr_invalid_address_days,
+		COALESCE(d.pm10_gr_oob_days, 0) AS pm10_gr_oob_days,
+		COALESCE(d.pm10_gr_poor_address_days, 0) AS pm10_gr_poor_address_days,
+		COALESCE(d.pm10_gr_missing_exp_days, 0) AS pm10_gr_missing_exp_days,
+		COALESCE(d.pm10_gr_good_address_days, 0) AS pm10_gr_good_address_days,
+		COALESCE(d.pm10_tot_invalid_address_days, 0) AS pm10_tot_invalid_address_days,
+		COALESCE(d.pm10_tot_oob_days, 0) AS pm10_tot_oob_days,
+		COALESCE(d.pm10_tot_poor_address_days, 0) AS pm10_tot_poor_address_days,
+		COALESCE(d.pm10_tot_missing_exp_days, 0) AS pm10_tot_missing_exp_days,
+		COALESCE(d.pm10_tot_good_address_days, 0) AS pm10_tot_good_address_days,
 		d.name_sum,
 		d.name_avg,
 		d.name_med,

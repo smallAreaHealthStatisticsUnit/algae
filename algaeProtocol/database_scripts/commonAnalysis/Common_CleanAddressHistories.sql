@@ -423,10 +423,102 @@ BEGIN
 		person_id,
 		ith_residence;
 
+
+	-- Create a table that can tell for each address and each
+	-- pollutant, whether exposures exist
+	DROP TABLE IF EXISTS geocode_exposure_exposures;
+	CREATE TABLE geocode_exposure_exposures AS
+	WITH unique_geocodes AS
+		(SELECT DISTINCT
+			geocode
+		 FROM 
+		 	staging_geocode_data),	
+	name_exposures AS
+		(SELECT DISTINCT
+			geocode
+		 FROM 
+		 	staging_exp_data
+		 WHERE 
+		 	name IS NOT NULL),
+	nox_rd_exposures AS
+		(SELECT DISTINCT
+			geocode
+		 FROM 
+		 	staging_exp_data
+		 WHERE 
+		 	nox_rd IS NOT NULL),
+	pm10_gr_exposures AS
+		(SELECT DISTINCT
+			geocode
+		 FROM 
+		 	staging_exp_data
+		 WHERE 
+		 	pm10_gr IS NOT NULL),
+	pm10_rd_exposures AS
+		(SELECT DISTINCT
+			geocode
+		 FROM 
+		 	staging_exp_data
+		 WHERE 
+		 	pm10_rd IS NOT NULL),
+	pm10_tot_exposures AS
+		(SELECT DISTINCT
+			geocode
+		 FROM 
+		 	staging_exp_data
+		 WHERE 
+		 	pm10_tot IS NOT NULL)
+	SELECT
+		unique_geocodes.geocode,
+		CASE
+			WHEN name_exposures.geocode IS NOT NULL THEN 
+				'Y'
+			ELSE
+				'N'
+		END has_name_exposures,
+		CASE
+			WHEN nox_rd_exposures.geocode IS NOT NULL THEN 
+				'Y'
+			ELSE
+				'N'
+		END has_nox_rd_exposures,
+		CASE
+			WHEN pm10_gr_exposures.geocode IS NOT NULL THEN 
+				'Y'
+			ELSE
+				'N'
+		END has_pm10_gr_exposures,		
+		CASE
+			WHEN pm10_rd_exposures.geocode IS NOT NULL THEN 
+				'Y'
+			ELSE
+				'N'
+		END has_pm10_rd_exposures,
+		CASE
+			WHEN pm10_tot_exposures.geocode IS NOT NULL THEN 
+				'Y'
+			ELSE
+				'N'
+		END has_pm10_tot_exposures
+	FROM
+		unique_geocodes
+	LEFT JOIN name_exposures
+		ON unique_geocodes.geocode = name_exposures.geocode
+	LEFT JOIN nox_rd_exposures
+		ON unique_geocodes.geocode = nox_rd_exposures.geocode 	
+	LEFT JOIN pm10_gr_exposures
+		ON unique_geocodes.geocode = pm10_gr_exposures.geocode 	
+	LEFT JOIN pm10_rd_exposures
+		ON unique_geocodes.geocode = pm10_rd_exposures.geocode 	
+	LEFT JOIN pm10_tot_exposures
+		ON unique_geocodes.geocode = pm10_tot_exposures.geocode; 	
+
 	ALTER TABLE tmp_addr_period_geocode_validity ADD PRIMARY KEY (person_id, ith_residence);
 			
 	--Next, for each address period, we want to identify any geocode which has no associated
 	--exposure values.
+
+
 	DROP TABLE IF EXISTS tmp_addr_period_geocodes_with_exp;
 	CREATE TABLE tmp_addr_period_geocodes_with_exp AS
 	WITH geocodes_with_exposures AS
@@ -446,25 +538,23 @@ BEGIN
 		 ON
 			a.geocode = b.geocode)
 	SELECT
-		person_id,
-		ith_residence,
-		CASE
-			WHEN exp_geocode IS NULL THEN
-				'N' -- geocode in address period has no corresponding geocode in exposure values
-			ELSE
-				'Y'
-		END AS has_exposures
+		a.person_id,
+		a.ith_residence,
+		b.has_name_exposures,
+		b.has_nox_rd_exposures,
+		b.has_pm10_gr_exposures,
+		b.has_pm10_rd_exposures,
+		b.has_pm10_tot_exposures
 	FROM
-		addr_with_exp
+		tmp_addr_periods4 a,
+		geocode_exposure_exposures b
+	WHERE
+		a.geocode = b.geocode
 	ORDER BY
 		person_id,
 		ith_residence;
-
 	ALTER TABLE tmp_addr_period_geocodes_with_exp ADD PRIMARY KEY (person_id, ith_residence);
 	
-	--Establish fields is_valid, has_exposures and add a third field:
-	--If the geocode is valid but has no exposures, we assume it is out-of-bounds.  In other words it is
-	--not in the exposure area.
  	DROP TABLE IF EXISTS tmp_addr_periods5;
 	CREATE TABLE tmp_addr_periods5 AS		
 	SELECT
@@ -478,13 +568,11 @@ BEGIN
 		a.duration,
 		a.ith_residence_type,
 		b.has_valid_geocode,
-		c.has_exposures,
-		CASE
-		WHEN b.has_valid_geocode  ='Y' AND c.has_exposures = 'N' THEN
-			'Y'
-		ELSE
-			'N'
-		END AS is_out_of_bounds -- note: we can't fix address periods with out-of-bounds geocodes
+		c.has_name_exposures,
+		c.has_nox_rd_exposures,
+		c.has_pm10_gr_exposures,
+		c.has_pm10_rd_exposures,
+		c.has_pm10_tot_exposures		
 	FROM
 		tmp_addr_periods4 a,
 		tmp_addr_period_geocode_validity b,
@@ -633,8 +721,11 @@ BEGIN
 			a.ith_residence_type,
 			a.geocode,
 			a.has_valid_geocode,
-			a.has_exposures,
-			a.is_out_of_bounds,
+			a.has_name_exposures,
+			a.has_nox_rd_exposures,
+			a.has_pm10_gr_exposures,
+			a.has_pm10_rd_exposures,
+			a.has_pm10_tot_exposures,
 			b.maximum_life_stage_overlap,
 			CASE
 				WHEN a.has_valid_geocode = 'N' AND 
@@ -701,8 +792,11 @@ BEGIN
 		END AS duration, -- recalculate duration
 		ith_residence_type,
 		has_valid_geocode,
-		has_exposures,
-		is_out_of_bounds,
+		has_name_exposures,
+		has_nox_rd_exposures,
+		has_pm10_gr_exposures,
+		has_pm10_rd_exposures,
+		has_pm10_tot_exposures,		
 		maximum_life_stage_overlap,		
 		is_fixable_invalid_geocode AS is_fixed_invalid_geocode
 	FROM
@@ -780,8 +874,11 @@ BEGIN
 				a.ith_residence_type
 		END AS ith_residence_type,
 		a.has_valid_geocode,
-		a.has_exposures,
-		a.is_out_of_bounds,
+		a.has_name_exposures,
+		a.has_nox_rd_exposures,
+		a.has_pm10_gr_exposures,
+		a.has_pm10_rd_exposures,
+		a.has_pm10_tot_exposures,		
 		a.maximum_life_stage_overlap,
 		a.is_fixed_invalid_geocode
 	FROM
@@ -916,8 +1013,11 @@ BEGIN
 		a.duration,		
 		a.ith_residence_type,
 		a.has_valid_geocode,
-		a.has_exposures,
-		a.is_out_of_bounds,
+		a.has_name_exposures,
+		a.has_nox_rd_exposures,
+		a.has_pm10_gr_exposures,
+		a.has_pm10_rd_exposures,
+		a.has_pm10_tot_exposures,		
 		a.maximum_life_stage_overlap,		   
 		a.is_fixed_invalid_geocode,
 		b.fit_extent
@@ -1073,8 +1173,11 @@ BEGIN
 		a.duration,		
 		a.ith_residence_type,
 		a.has_valid_geocode,
-		a.has_exposures,
-		a.is_out_of_bounds,
+		a.has_name_exposures,
+		a.has_nox_rd_exposures,
+		a.has_pm10_gr_exposures,
+		a.has_pm10_rd_exposures,
+		a.has_pm10_tot_exposures,		
 		a.maximum_life_stage_overlap,		
 		a.is_fixed_invalid_geocode,
 		a.fit_extent,
@@ -1216,8 +1319,11 @@ BEGIN
 		a.duration,	   	
 		a.ith_residence_type,
 		a.has_valid_geocode,
-		a.has_exposures,
-		a.is_out_of_bounds,
+		a.has_name_exposures,
+		a.has_nox_rd_exposures,
+		a.has_pm10_gr_exposures,
+		a.has_pm10_rd_exposures,
+		a.has_pm10_tot_exposures,		
 		a.maximum_life_stage_overlap,
 		a.is_fixed_invalid_geocode,
 		a.fit_extent,
@@ -1290,8 +1396,11 @@ BEGIN
 		a.duration,
 		a.ith_residence_type,
 		a.has_valid_geocode,
-		a.has_exposures,
-		a.is_out_of_bounds,
+		a.has_name_exposures,
+		a.has_nox_rd_exposures,
+		a.has_pm10_gr_exposures,
+		a.has_pm10_rd_exposures,
+		a.has_pm10_tot_exposures,		
 		a.maximum_life_stage_overlap,
 		a.is_fixed_invalid_geocode,
 		a.fit_extent,
@@ -1425,8 +1534,11 @@ BEGIN
 		e.duration,
 		e.ith_residence_type,
 		e.has_valid_geocode,
-		e.has_exposures,
-		e.is_out_of_bounds,
+		e.has_name_exposures,
+		e.has_nox_rd_exposures,
+		e.has_pm10_gr_exposures,
+		e.has_pm10_rd_exposures,
+		e.has_pm10_tot_exposures,		
 		e.maximum_life_stage_overlap,
 		e.is_fixed_invalid_geocode,
 		e.fit_extent,
@@ -1546,8 +1658,11 @@ BEGIN
 		c.duration,
 		c.ith_residence_type,
 		c.has_valid_geocode,
-		c.has_exposures,
-		c.is_out_of_bounds,
+		c.has_name_exposures,
+		c.has_nox_rd_exposures,
+		c.has_pm10_gr_exposures,
+		c.has_pm10_rd_exposures,
+		c.has_pm10_tot_exposures,
 		c.maximum_life_stage_overlap,
 		c.is_fixed_invalid_geocode,
 		c.fit_extent,
@@ -1581,10 +1696,6 @@ BEGIN
    	--DROP INDEX IF EXISTS ind_tmp_addr_periods13_1;
 	--CREATE INDEX ind_tmp_addr_periods13_1 ON tmp_addr_periods13(is_fixed_invalid_geocode);
    	--DROP INDEX IF EXISTS ind_tmp_addr_periods13_2;
-	--CREATE INDEX ind_tmp_addr_periods13_2 ON tmp_addr_periods13(has_exposures);
-   	--DROP INDEX IF EXISTS ind_tmp_addr_periods13_3;
-	--CREATE INDEX ind_tmp_addr_periods13_3 ON tmp_addr_periods13(is_out_of_bounds);
-   	--DROP INDEX IF EXISTS ind_tmp_addr_periods13_4;
 	--CREATE INDEX ind_tmp_addr_periods13_4 ON tmp_addr_periods13(has_valid_geocode);
 
 	DROP TABLE IF EXISTS fin_cleaned_addr_periods;
@@ -1600,8 +1711,11 @@ BEGIN
 		duration,
 		ith_residence_type,
 		has_valid_geocode,
-		has_exposures,
-		is_out_of_bounds,
+		has_name_exposures,		
+		has_nox_rd_exposures,
+		has_pm10_gr_exposures,
+		has_pm10_rd_exposures,
+		has_pm10_tot_exposures,		
 		maximum_life_stage_overlap,
 		is_fixed_invalid_geocode,
 		fit_extent,
@@ -1622,24 +1736,12 @@ BEGIN
 		fin_adjusted_end_date::date,
 		imputed_last_end,
 		start_date_days_from_conception,
-		is_within_exposure_time_frame,
-		CASE
-			WHEN is_within_exposure_time_frame = 'Y' AND 
-				is_fixed_invalid_geocode = 'N' AND
-				(has_exposures = 'N' OR
-				 is_out_of_bounds = 'Y' OR 
-				 has_valid_geocode = 'N') THEN
-			'Y'
-		ELSE
-			'N'
-		END AS has_bad_geocode_within_time_frame
+		is_within_exposure_time_frame
 	FROM
 		tmp_addr_periods13 c
 	ORDER BY
 		person_id,
 		ith_residence;
-
-		
 
 	ALTER TABLE fin_cleaned_addr_periods ADD PRIMARY KEY (person_id, ith_residence);
 
@@ -1820,49 +1922,6 @@ BEGIN
 	DROP TABLE IF EXISTS tmp_addr_period_geocodes_with_exp;
 END;
 $$   LANGUAGE plpgsql;
-
-
-
-CREATE OR REPLACE FUNCTION comm_assess_bad_addr_fraction()
-	RETURNS void AS 
-$$
-DECLARE
-
-BEGIN
-
-	DROP TABLE IF EXISTS tmp_bad_addr_fraction;
-	CREATE TABLE tmp_bad_addr_fraction AS
-	WITH bad_geocode_periods AS
-		(SELECT
-			person_id,
-			geocode,
-			fin_adjusted_start_date AS start_date,
-			fin_adjusted_end_date AS end_date
-		 FROM
-		 	fin_cleaned_addr_periods
-		 WHERE
-		 	has_bad_geocode_within_time_frame='Y')
-	SELECT
-		a.person_id,
-		a.geocode,
-		b.ith_life_stage,
-		b.life_stage,
-		calculate_days_overlap(a.start_date, a.end_date, b.start_date, b.end_date) AS days_overlap,
-		b.life_stage_duration
-	FROM
-		bad_geocode_periods a,
-		fin_general_life_stage_data b
-	WHERE
-		a.person_id = b.person_id;
-
-END;
-$$   LANGUAGE plpgsql;
-
-
-
-
-
-
 
 
 /**

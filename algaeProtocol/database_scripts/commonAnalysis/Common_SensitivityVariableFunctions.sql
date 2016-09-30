@@ -137,18 +137,6 @@ BEGIN
 			person_id,
 			ith_residence,
 			CASE
-				WHEN is_out_of_bounds = 'Y' THEN
-					1
-				ELSE
-					0
-			END is_out_of_bounds_score,
-			CASE
-				WHEN has_valid_geocode = 'N' THEN
-					1
-				ELSE
-					0
-			END AS invalid_geocode_score,
-			CASE
 				WHEN is_fixed_invalid_geocode = 'Y' THEN
 					1
 				ELSE
@@ -161,8 +149,6 @@ BEGIN
 	relevant_addr_period_geocode_scores2	AS
 		 (SELECT
 		 	person_id,
-		 	SUM(is_out_of_bounds_score) AS out_of_bounds_geocodes, -- valid but no exposures
-		 	SUM(invalid_geocode_score) AS invalid_geocodes, --either blank or marked invalid
 		 	SUM(fixed_invalid_geocode_score) AS fixed_geocodes
 		 FROM
 		 	relevant_addr_period_geocode_scores1
@@ -174,8 +160,6 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,
-		COALESCE(b.out_of_bounds_geocodes, 0) AS out_of_bounds_geocodes,
-		COALESCE(b.invalid_geocodes, 0) AS invalid_geocodes,
 		COALESCE(b.fixed_geocodes, 0) AS fixed_geocodes
 	FROM
 		tmp_sensitivity_variables1 a
@@ -281,8 +265,6 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,		
-		a.out_of_bounds_geocodes,
-		a.invalid_geocodes,
 		a.fixed_geocodes,
 		COALESCE(b.total_addr_periods, 0) AS total_addr_periods	--some may be null
 	FROM
@@ -395,8 +377,6 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,		
-		a.out_of_bounds_geocodes,
-		a.invalid_geocodes,
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		COALESCE(b.over_laps, 0) AS over_laps,
@@ -422,36 +402,12 @@ BEGIN
 	-- Check if study member has bad geocode within their exposure time frame
 	DROP TABLE IF EXISTS tmp_sensitivity_variables5;
 	CREATE TABLE tmp_sensitivity_variables5 AS
-	WITH bad_geocode_scores1 AS
-		(SELECT
-			person_id,
-			CASE
-				WHEN has_bad_geocode_within_time_frame = 'Y' THEN
-					1
-				ELSE
-					0
-			END AS score			
-		 FROM
-		 	fin_cleaned_addr_periods
-		 WHERE
-			is_within_exposure_time_frame = 'Y' AND
-		 	is_fixed_invalid_geocode = 'N'),
-	bad_geocode_scores2 AS
-		(SELECT
-			person_id,
-			SUM(score) AS total_bad_geocodes_within_time_frame
-		 FROM
-		 	bad_geocode_scores1
-		 GROUP BY
-		 	person_id)
 	SELECT
 		a.person_id,
 		a.at_1st_addr_conception,
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,		
-		a.out_of_bounds_geocodes,
-		a.invalid_geocodes,
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		a.over_laps,
@@ -462,25 +418,12 @@ BEGIN
 		a.imp_blank_end_dates,
 		a.imp_blank_both_dates,
 		a.imp_last_dates,
-		a.days_changed,
-		CASE
-			WHEN COALESCE(b.total_bad_geocodes_within_time_frame, 0) > 0 THEN
-				'Y'
-			ELSE
-				'N'
-		END AS has_bad_geocode_within_time_frame
+		a.days_changed
 	FROM		 	
-		tmp_sensitivity_variables4 a
-	LEFT JOIN
-		bad_geocode_scores2 b
-	ON
-		a.person_id = b.person_id
-	ORDER BY
-		a.person_id;
+		tmp_sensitivity_variables4 a;
 	ALTER TABLE tmp_sensitivity_variables5 ADD PRIMARY KEY (person_id);
 
    	DROP INDEX IF EXISTS ind_tmp_sensitivity_variables5;
-	CREATE INDEX  ind_tmp_sensitivity_variables5 ON tmp_sensitivity_variables5(has_bad_geocode_within_time_frame);
 	
 END;
 $$   LANGUAGE plpgsql;
@@ -538,8 +481,6 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,		
-		a.out_of_bounds_geocodes,
-		a.invalid_geocodes,
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		a.over_laps,
@@ -551,7 +492,6 @@ BEGIN
 		a.imp_blank_both_dates,
 		a.imp_last_dates,
 		a.days_changed,
-		a.has_bad_geocode_within_time_frame,
 		b.total_contention_days
 	FROM
 		tmp_sensitivity_variables5 a
@@ -613,8 +553,6 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,		
-		a.out_of_bounds_geocodes,
-		a.invalid_geocodes,
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		a.over_laps,
@@ -626,7 +564,6 @@ BEGIN
 		a.imp_blank_both_dates,
 		a.imp_last_dates,
 		a.days_changed,
-		a.has_bad_geocode_within_time_frame,
 		a.total_contention_days,
 		b.missing_days AS missing_exposure_days
 	FROM

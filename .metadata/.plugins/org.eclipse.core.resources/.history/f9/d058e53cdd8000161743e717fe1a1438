@@ -1,6 +1,0 @@
-person_id,comments,missing_exposure_days
-early_no_moves,has no missing exposures,0
-early_many_moves,has no missing exposures,0
-early_many_moves_with_err,has no missing exposures,0
-early_many_overlaps,has no missing exposures,0
-missing_exposure_days,missing first 10 daily exposures,10

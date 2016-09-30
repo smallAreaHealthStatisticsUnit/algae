@@ -98,12 +98,9 @@ BEGIN
 		e.coa2011
 	FROM
 		locations_on_life_stage_start_dates c,
-		tmp_sensitivity_variables6 d,
 		staging_geocode_data e
 	WHERE
-		c.person_id = d.person_id AND 
-		c.geocode = e.geocode AND 
-		d.has_bad_geocode_within_time_frame = 'N'
+		c.geocode = e.geocode 
 	ORDER BY
 		c.person_id,
 		c.ith_life_stage;
@@ -146,15 +143,12 @@ BEGIN
 		b.coa2011
 	 FROM
 	 	fin_cleaned_addr_periods a,
-		staging_geocode_data b,
-		tmp_sensitivity_variables6 c
+		staging_geocode_data b
 	WHERE
-		a.person_id = c.person_id AND
 		a.geocode = b.geocode AND 
 		a.is_within_exposure_time_frame = 'Y' AND -- make sure period is relevant to exp time frame
 		a.fit_type != 'D' AND -- ignore deleted periods
 		a.is_fixed_invalid_geocode = 'N' AND --ignore periods that have been 'fixed' and omitted
-		c.has_bad_geocode_within_time_frame = 'N' AND --ignore someone who has any bad geocode within exp
 		(a.ith_residence_type = 'middle' OR
 		 a.ith_residence_type = 'last') -- moves begin with the start date of addr 2
 	 ORDER BY 

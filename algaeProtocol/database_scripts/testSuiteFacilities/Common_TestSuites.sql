@@ -1324,16 +1324,14 @@ CREATE OR REPLACE FUNCTION test_early_dropped_exposures(test_directory TEXT)
 $$
 DECLARE
 	output_directory TEXT;
-	test_suite_directory TEXT;
-	
+	test_suite_directory TEXT;	
 	expected_results_directory TEXT;
 
-	early_cln_expected_results_file TEXT;
-	early_uncln_expected_results_file TEXT;
-	early_stg_mob_expected_results_file TEXT;
-	early_no_mob_birth_addr_expected_results_file TEXT;
-	early_exp_sens_expected_results_file TEXT;
-	
+	early_cln_exp_dq_results_file TEXT;	
+	early_uncln_exp_dq_results_file TEXT;
+	early_stg_exp_dq_results_file TEXT;
+	early_birth_addr_exp_dq_results_file TEXT;
+
 	number_of_mismatches INT;
 
 BEGIN
@@ -1349,50 +1347,431 @@ BEGIN
 	-- =================================================
 	-- Test sensitivity variables
 	-- =================================================	
+	
+	expected_results_directory 
+		:= test_directory || '\dropped_exposures\early_life\expected_results';
+
+
+	early_cln_exp_dq_results_file :=
+		expected_results_directory || '\early_cln_exp_dq_results.csv';
+
+	DROP TABLE IF EXISTS test_early_cln_exp_dq_results;
+	CREATE TABLE test_early_cln_exp_dq_results (
+	   person_id TEXT,
+	   comments TEXT, -- comment field, often used in testing
+	   ith_life_stage INT,
+	   life_stage TEXT,
+	   inv_addr_days INT,
+	   oob_addr_days INT,
+	   poor_match_days INT,
+	   missing_days INT,
+	   good_match_days INT
+	);
+
+	EXECUTE format ('
+	COPY test_early_cln_exp_dq_results (	
+		person_id,
+		comments, -- comment field, often used in testing
+		ith_life_stage,
+		life_stage,
+		inv_addr_days,
+		oob_addr_days,
+		poor_match_days,
+		missing_days,
+		good_match_days) 
+	FROM 
+		%L
+	(FORMAT CSV, HEADER)', early_cln_exp_dq_results_file);
+
+
+	early_uncln_exp_dq_results_file :=
+		expected_results_directory || '\early_uncln_exp_dq_results.csv';
+
+	DROP TABLE IF EXISTS test_early_uncln_exp_dq_results;
+	CREATE TABLE test_early_uncln_exp_dq_results (
+	   person_id TEXT,
+	   comments TEXT, -- comment field, often used in testing
+	   ith_life_stage INT,
+	   life_stage TEXT,
+	   inv_addr_days INT,
+	   oob_addr_days INT,
+	   poor_match_days INT,
+	   missing_days INT,
+	   good_match_days INT
+	);
+
+	EXECUTE format ('
+	COPY test_early_uncln_exp_dq_results (	
+		person_id,
+		comments, -- comment field, often used in testing
+		ith_life_stage,
+		life_stage,
+		inv_addr_days,
+		oob_addr_days,
+		poor_match_days,
+		missing_days,
+		good_match_days) 
+	FROM 
+		%L
+	(FORMAT CSV, HEADER)', early_uncln_exp_dq_results_file);
+
+	early_stg_exp_dq_results_file :=
+		expected_results_directory || '\early_stg_exp_dq_results.csv';
+
+	DROP TABLE IF EXISTS test_early_stg_exp_dq_results;
+	CREATE TABLE test_early_stg_exp_dq_results (
+	   person_id TEXT,
+	   comments TEXT, -- comment field, often used in testing
+	   ith_life_stage INT,
+	   life_stage TEXT,
+	   inv_addr_days INT,
+	   oob_addr_days INT,
+	   poor_match_days INT,
+	   missing_days INT,
+	   good_match_days INT
+	);
+
+	EXECUTE format ('
+	COPY test_early_stg_exp_dq_results (	
+		person_id,
+		comments, -- comment field, often used in testing
+		ith_life_stage,
+		life_stage,
+		inv_addr_days,
+		oob_addr_days,
+		poor_match_days,
+		missing_days,
+		good_match_days) 
+	FROM 
+		%L
+	(FORMAT CSV, HEADER)', early_stg_exp_dq_results_file);
+
+
+	early_birth_addr_exp_dq_results_file :=
+		expected_results_directory || '\early_birth_addr_exp_dq_results.csv';
+
+	DROP TABLE IF EXISTS test_early_birth_addr_exp_dq_results;
+	CREATE TABLE test_early_birth_addr_exp_dq_results (
+	   person_id TEXT,
+	   comments TEXT, -- comment field, often used in testing
+	   ith_life_stage INT,
+	   life_stage TEXT,
+	   inv_addr_days INT,
+	   oob_addr_days INT,
+	   poor_match_days INT,
+	   missing_days INT,
+	   good_match_days INT
+	);
+
+	EXECUTE format ('
+	COPY test_early_birth_addr_exp_dq_results (	
+		person_id,
+		comments, -- comment field, often used in testing
+		ith_life_stage,
+		life_stage,
+		inv_addr_days,
+		oob_addr_days,
+		poor_match_days,
+		missing_days,
+		good_match_days) 
+	FROM 
+		%L
+	(FORMAT CSV, HEADER)', early_birth_addr_exp_dq_results_file);
+
+	DROP TABLE IF EXISTS results_early_uncln_exp_dq_results;
+	CREATE TABLE results_early_uncln_exp_dq_results AS		 	
+	WITH expected_results AS
+		(SELECT
+			person_id,
+			comments,
+			ith_life_stage,
+			life_stage,
+			inv_addr_days AS pm10_tot_invalid_address_days,
+			oob_addr_days AS pm10_tot_oob_days,
+			poor_match_days AS pm10_tot_poor_address_days,
+			missing_days AS pm10_tot_missing_exp_days,
+			good_match_days AS pm10_tot_good_address_days
+		 FROM
+		 	test_early_uncln_exp_dq_results),
+	actual_results AS 
+		(SELECT
+			person_id,
+			ith_life_stage,
+			life_stage,
+			pm10_tot_invalid_address_days,
+			pm10_tot_oob_days,
+			pm10_tot_poor_address_days,
+			pm10_tot_missing_exp_days,
+			pm10_tot_good_address_days
+		 FROM
+		 	fin_mob_uncln_exp)
+	SELECT
+		a.person_id,
+		a.comments,
+		a.ith_life_stage,
+		a.life_stage,		
+		CASE
+			WHEN a.pm10_tot_invalid_address_days = b.pm10_tot_invalid_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_invalid_count_correct,
+		CASE
+			WHEN a.pm10_tot_oob_days = b.pm10_tot_oob_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_oob_count_correct,
+		CASE
+			WHEN a.pm10_tot_poor_address_days = b.pm10_tot_poor_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_poor_count_correct,
+		CASE
+			WHEN a.pm10_tot_missing_exp_days = b.pm10_tot_missing_exp_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_missing_count_correct,
+		CASE
+			WHEN a.pm10_tot_good_address_days = b.pm10_tot_good_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_good_count_correct
+	FROM
+		expected_results a,
+		actual_results b
+	WHERE
+		a.person_id = b.person_id AND
+		a.ith_life_stage = b.ith_life_stage
+	ORDER BY
+		a.person_id,
+		a.ith_life_stage; 	
+	
+	INSERT INTO tmp_all_test_case_results 
+	SELECT
+		person_id AS test_case_name,
+		'Dropped Exposures: Uncleaned' AS test_area,
+		comments AS test_case_description,
+		CASE
+			WHEN is_invalid_count_correct = FALSE OR
+				is_oob_count_correct = FALSE OR
+				is_poor_count_correct = FALSE OR
+				is_missing_count_correct = FALSE OR
+				is_good_count_correct = FALSE THEN 
+				'FAIL'
+			ELSE
+				'PASS'
+		END AS pass_or_fail
+	FROM
+		results_early_uncln_exp_dq_results
+	ORDER BY
+		person_id,
+		ith_life_stage;
+
+
+	DROP TABLE IF EXISTS results_early_stg_exp_dq_results;
+	CREATE TABLE results_early_stg_exp_dq_results AS		 	
+	WITH expected_results AS
+		(SELECT
+			person_id,
+			comments,
+			ith_life_stage,
+			life_stage,
+			inv_addr_days AS pm10_tot_invalid_address_days,
+			oob_addr_days AS pm10_tot_oob_days,
+			poor_match_days AS pm10_tot_poor_address_days,
+			missing_days AS pm10_tot_missing_exp_days,
+			good_match_days AS pm10_tot_good_address_days
+		 FROM
+		 	test_early_stg_exp_dq_results),
+	actual_results AS 
+		(SELECT
+			person_id,
+			ith_life_stage,
+			life_stage,
+			pm10_tot_invalid_address_days,
+			pm10_tot_oob_days,
+			pm10_tot_poor_address_days,
+			pm10_tot_missing_exp_days,
+			pm10_tot_good_address_days
+		 FROM
+		 	fin_stg_mob_exp)
+	SELECT
+		a.person_id,
+		a.comments,
+		a.ith_life_stage,
+		a.life_stage,		
+		CASE
+			WHEN a.pm10_tot_invalid_address_days = b.pm10_tot_invalid_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_invalid_count_correct,
+		CASE
+			WHEN a.pm10_tot_oob_days = b.pm10_tot_oob_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_oob_count_correct,
+		CASE
+			WHEN a.pm10_tot_poor_address_days = b.pm10_tot_poor_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_poor_count_correct,
+		CASE
+			WHEN a.pm10_tot_missing_exp_days = b.pm10_tot_missing_exp_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_missing_count_correct,
+		CASE
+			WHEN a.pm10_tot_good_address_days = b.pm10_tot_good_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_good_count_correct
+	FROM
+		expected_results a,
+		actual_results b
+	WHERE
+		a.person_id = b.person_id AND
+		a.ith_life_stage = b.ith_life_stage
+	ORDER BY
+		a.person_id,
+		a.ith_life_stage; 	
+	
+	INSERT INTO tmp_all_test_case_results 
+	SELECT
+		person_id AS test_case_name,
+		'Dropped Exposures: Life Stage' AS test_area,
+		comments AS test_case_description,
+		CASE
+			WHEN is_invalid_count_correct = FALSE OR
+				is_oob_count_correct = FALSE OR
+				is_poor_count_correct = FALSE OR
+				is_missing_count_correct = FALSE OR
+				is_good_count_correct = FALSE THEN 
+				'FAIL'
+			ELSE
+				'PASS'
+		END AS pass_or_fail
+	FROM
+		results_early_stg_exp_dq_results
+	ORDER BY
+		person_id,
+		ith_life_stage;
+
+
+
+
+	DROP TABLE IF EXISTS results_early_birth_addr_exp_dq_results;
+	CREATE TABLE results_early_birth_addr_exp_dq_results AS		 	
+	WITH expected_results AS
+		(SELECT
+			person_id,
+			comments,
+			ith_life_stage,
+			life_stage,
+			inv_addr_days AS pm10_tot_invalid_address_days,
+			oob_addr_days AS pm10_tot_oob_days,
+			poor_match_days AS pm10_tot_poor_address_days,
+			missing_days AS pm10_tot_missing_exp_days,
+			good_match_days AS pm10_tot_good_address_days
+		 FROM
+		 	test_early_birth_addr_exp_dq_results),
+	actual_results AS 
+		(SELECT
+			person_id,
+			ith_life_stage,
+			life_stage,
+			pm10_tot_invalid_address_days,
+			pm10_tot_oob_days,
+			pm10_tot_poor_address_days,
+			pm10_tot_missing_exp_days,
+			pm10_tot_good_address_days
+		 FROM
+		 	fin_no_mob_birth_addr_exp)
+	SELECT
+		a.person_id,
+		a.comments,
+		a.ith_life_stage,
+		a.life_stage,		
+		CASE
+			WHEN a.pm10_tot_invalid_address_days = b.pm10_tot_invalid_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_invalid_count_correct,
+		CASE
+			WHEN a.pm10_tot_oob_days = b.pm10_tot_oob_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_oob_count_correct,
+		CASE
+			WHEN a.pm10_tot_poor_address_days = b.pm10_tot_poor_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_poor_count_correct,
+		CASE
+			WHEN a.pm10_tot_missing_exp_days = b.pm10_tot_missing_exp_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_missing_count_correct,
+		CASE
+			WHEN a.pm10_tot_good_address_days = b.pm10_tot_good_address_days THEN
+				TRUE
+			ELSE
+				FALSE
+		END AS is_good_count_correct
+	FROM
+		expected_results a,
+		actual_results b
+	WHERE
+		a.person_id = b.person_id AND
+		a.ith_life_stage = b.ith_life_stage
+	ORDER BY
+		a.person_id,
+		a.ith_life_stage; 	
+	
+	INSERT INTO tmp_all_test_case_results 
+	SELECT
+		person_id AS test_case_name,
+		'Dropped Exposures: Birth Address' AS test_area,
+		comments AS test_case_description,
+		CASE
+			WHEN is_invalid_count_correct = FALSE OR
+				is_oob_count_correct = FALSE OR
+				is_poor_count_correct = FALSE OR
+				is_missing_count_correct = FALSE OR
+				is_good_count_correct = FALSE THEN 
+				'FAIL'
+			ELSE
+				'PASS'
+		END AS pass_or_fail
+	FROM
+		results_early_birth_addr_exp_dq_results
+	ORDER BY
+		person_id,
+		ith_life_stage;
+
+
+
+
+
+
+
+
+	
 END;
 
 $$   LANGUAGE plpgsql;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 CREATE OR REPLACE FUNCTION test_early_exposure_data(test_directory TEXT)
@@ -1425,6 +1804,7 @@ BEGIN
 	-- =================================================
 	-- Test sensitivity variables
 	-- =================================================	
+
 	expected_results_directory 
 		:= test_directory || '\exposure_data\early_life\expected_results';
 
@@ -2371,15 +2751,15 @@ BEGIN
 
 	RAISE NOTICE 'Test directory ==%==', test_directory;
 	
-	--PERFORM test_preprocessing(test_directory);
-	--PERFORM test_study_member_data(test_directory);
-	--PERFORM test_geocode_data(test_directory);
-	--PERFORM test_address_histories(test_directory);
+	PERFORM test_preprocessing(test_directory);
+	PERFORM test_study_member_data(test_directory);
+	PERFORM test_geocode_data(test_directory);
+	PERFORM test_address_histories(test_directory);
 	
 	PERFORM test_early_dropped_exposures(test_directory);
 	      
-	--PERFORM test_early_exposure_data(test_directory);
-	--PERFORM test_later_exposure_data(test_directory);
+	PERFORM test_early_exposure_data(test_directory);
+	PERFORM test_later_exposure_data(test_directory);
 	
 	DROP TABLE IF EXISTS results_test_suites;
 	CREATE TABLE results_test_suites AS

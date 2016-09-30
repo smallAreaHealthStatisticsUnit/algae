@@ -1,5 +1,0 @@
-person_id,comments,birth_date,best_gest,absent_during_pregnancy,at_1st_address_conception
-late_no_moves,occupied one address.  No exposure measurement error.,18/11/1992,37,N,Y
-late_many_moves,has lived at three address periods. All periods exhibit perfect fit.,18/11/1992,37,N,Y
-late_many_moves_with_err,has lived at three address periods.  2 day gaps and overlaps,18/11/1992,37,N,Y
-late_many_overlaps,multiple overlaps affect the same day,18/11/1992,37,N,Y
