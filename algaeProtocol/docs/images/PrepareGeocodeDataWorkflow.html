@@ -1,0 +1,144 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ALGAE Protocol: Preparing Geocode Data</title>
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+							
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+													<a href="./PrepareAddressHistoryData.html">Prepare address histories</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortExposureData.html">Prepare cohort exposure data</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortGeocodeData.html">Prepare cohort geocode data</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortStudyMemberDataWorkflow.html">Prepare study member data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ExamineResults.html">Examine Results</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">Adapt</a>
+							<ul class="sub_menu">
+								<li>
+									<a href="./ChangeLifeStages.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./ChangePollutants.html">Change pollutants</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEDataDictionary.html">ALGAE Data Dictionary</a>
+								</li>
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+
+<h1>Creating the <code>original_geocode_data</code> table</h1>			
+<h2>Purpose</h2>
+This table contains geographical covariate identifiers and a data quality indicator 
+for each geocoded residential address.  The covariate identifiers will be codes that
+identify administrative areas that contain the residential address.  For example,
+22 Pine Street will be within a super output area, which will be within an output
+area, which will be within a district, which could be within a region.  These codes
+provide 'hooks' in the data for epidemiologists, so they can link exposure locations
+to area-based information such as socio-economic status, smoking habits and educational
+level.
+
+<p>
+The table also contains a simple flag <code>has_valid_geocode</code>, which may hide 
+various data quality indicators that are specific to a cohort, or to software they 
+use to match residential address histories to geographical map coordinates.
+</p>
+
+<h2>Suggested Approach</h2>
+
+<figure class="explanation_figure">
+<img src="./images/PrepareGeocodeDataWorkflow.jpg">
+<figcaption>Preparing the geocode data.</figcaption>  
+</figure>
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

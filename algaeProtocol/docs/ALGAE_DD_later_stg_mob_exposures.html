@@ -1,0 +1,402 @@
+<DOCTYPE html>
+<html>
+	<head>	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Data Dictionary: Later life exposures, using life stage mobility assessment</title>
+ 	 	<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing later life exposures in longitudinal cohorts.  
+		This page is the part of the data dictionary for variables algae3700-algae3716.  They describe 
+		pollution exposures for the later life analysis that have been produced using the life stage mobility 
+		assessment.">
+		<meta name="author" content="Kevin Garwood">		
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+							
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+								<li>
+									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
+								</li>
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>																							
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							Adapt
+							<ul class="sub_menu">
+								<li>
+									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+			
+<h1>ALGAE Data Dictionary: Later life exposures, using life stage mobility assessment
+ (algae3700-algae3716)</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<h2>Context of Variables</h2>
+These later life exposure values are based on the 
+<a href="./ALGAETerminology.html#life_stage_mobility_assessment">life stage mobility 
+assessment</a> method.  The assessment uses the location study members occupied on the
+first day of each life stage to represent their location for all of that life stage. It ignores
+exposure contributions for all other locations study members may have used during their
+exposure period.
+
+<p>
+Cumulative, average and median exposures are calculated for each pollutant 
+(<a href="./ALGAETerminology.html#name">NAME</a>, 
+<a href="./ALGAETerminology.html#nox_rd">NOX_rd</a>, 
+<a href="./ALGAETerminology.html#pm10_rd">PM10_rd</a>, 
+<a href="./ALGAETerminology.html#pm10_gr">PM10_gr</a>, 
+<a href="./ALGAETerminology.html#pm10_tot">PM10_tot</a>) 
+
+for each life stage (T1, T2, T3, EL) for each person.
+</p>
+
+<h2>Location of Result File</h2>
+You will find these variables in a file having a name that fits the form:
+
+<pre>
+res_later_stg_mob_exp_[Date stamp].csv
+</pre>
+
+which will be found in the directory:
+
+<pre>
+later_life/results/exposure_data/mobility_life_stage
+</pre>
+
+or
+
+<pre>
+later_life/results/exposure_data/mobility_life_stage
+</pre>
+
+
+
+<h2>Example Result File</h2>
+See <a href="./example_results/res_later_stg_mob_exp_2016-Jan-04-10-14.csv">here</a>.
+
+<h2>Variable Naming Conventions</h2>
+It may be quicker to understand the variables through naming conventions rather than looking
+at specific table entries. The basic format of variables in this section follows this
+pattern:
+
+<pre>
+	algae37[0-16]_[pollution type]_[aggregate value]
+</pre>
+
+<p>
+In this pattern:
+<ul>
+<li>
+<b>algae37</b>: indicates that they refer to exposure values for later life that are based
+only on the locations that study members occupied on the first day of each life stage.
+</li>
+<li>
+<b>pollution_type</b>: will be name, nox_rd, pm10_tot, pm10_rd, pm10_gr
+</li>
+<li>
+<b>aggregate value</b>: sum for cumulative value, avg for average value and med for median value.
+</li>
+</ul>
+
+<p>
+The pollutant codes have the following meanings:
+<ul>
+<li>
+<b>name</b>: high level pollution that comes from outside the exposure area
+</li>
+<li>
+<b>nox_rd</b>: Nitrogen oxide pollution coming from roads
+</li>
+<li>
+<b>pm10_rd</b>: PM10 particulate matter coming from roads.
+</li>
+<li>
+<b>pm10_gr</b>: PM10 particulate matter coming from sources other than roads.
+</li>
+<li>
+<b>pm10_tot</b>: PM10 particulate matter coming from either roads or other sources.
+</li>
+</ul>
+
+<h2>Variable Dictionary</h2>
+
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<th>
+Variable
+</th>
+<th>
+Description
+</th>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3700_person_id
+</td>
+<td class="data_dictionary_var_description">
+An anonymised or pseudonymised identifier which represents a study member.  ALGAE uses this
+variable to link data together for a given study member.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3701_life_stage
+</td>
+<td class="data_dictionary_var_description">
+The name of a life stage.  For example, "T1" may be the name of the Trimester 1 life stage.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3702_name_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure of NAME for the given <code>life_stage</code>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3703_name_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3704_name_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3705_nox_rd_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure of NOX (road sources) for a given <code>life_stage</code>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3706_nox_rd_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure of NOX (road sources) for a given <code>life_stage</code>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3707_nox_rd_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for NOX (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3708_pm10_gr_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3709_pm10_gr_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3710_pm10_gr_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3711_pm10_rd_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3712_pm10_rd_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3713_pm10_rd_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3714_pm10_tot_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3715_pm10_tot_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3716_pm10_tot_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+</table>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

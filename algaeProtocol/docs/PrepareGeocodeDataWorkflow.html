@@ -1,0 +1,1731 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Preparing Geocode Data</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page provides a step-by-step guide for how researchers can use cohort-specific data to produce the 
+		generic geocode data table that is required by the protocol.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+							
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+								<li>
+									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
+								</li>
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+									<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>																						
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							Adapt
+							<ul class="sub_menu">
+								<li>
+									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+
+<h1>
+Data loading part 2: Prepare the geocode data
+</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./PrepareCohortDataWorkflow.html" class="link_button">Overview</a>
+</td>
+<td>
+<a href="./PrepareCohortStudyMemberDataWorkflow.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./PrepareAddressHistoryDataWorkflow.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+<img src="./images/DataLoadingProgressStep2.jpg" width=800>
+</p>
+
+
+
+<h2>Purpose</h2>
+This table contains geographical covariate identifiers and a data quality indicator 
+for each geocoded residential address.  The covariate identifiers will be codes that
+identify administrative areas that contain the residential address.  For example,
+22 Pine Street will be within a super output area, which will be within an output
+area, which will be within a district, which could be within a region.  These codes
+provide 'hooks' in the data for epidemiologists, so they can link exposure locations
+to area-based information such as socio-economic status, smoking habits and educational
+level.
+
+<p>
+The table also contains a simple flag <code>has_valid_geocode</code>, which may hide 
+various data quality indicators that are specific to a cohort, or to software they 
+use to match residential address histories to geographical map coordinates.
+</p>
+
+<h2>Location of Original Data File</h2>
+You will need to create a file that has this name
+
+<pre>
+original_geocode_data.csv
+</pre>
+
+
+which must be located in:
+
+<pre>
+early_life/input_data
+</pre>
+
+or
+
+<pre>
+later_life/input_data
+</pre>
+
+<h2>Example Original Data File</h2>
+See <a href="./example_original_data/original_geocode_data.csv">here</a>.
+
+
+<h2>Suggested Approach</h2>
+The typical steps used to produce <code>original_geocode_data</code> are shown in the
+diagram and described in the following steps.  We would recommend that you create
+the table using a succession of temporary tables rather than changing a single table.
+This is because you will need to re-use field values you make in this process to 
+create the other original data tables
+
+<p>
+The <code>geocode</code> field is used to link <code>original_geocode_data</code>, 
+<code>original_address_history_data</code> and <code>original_exposure_data</code> tables
+together.  The map coordinates that are generated through the geocoding activity will be
+needed to produce exposure values for each geocode.
+</p>
+
+<figure class="explanation_figure">
+<img src="./images/PrepareGeocodeDataWorkflow.jpg">
+<figcaption>Preparing the geocode data.</figcaption>  
+</figure>
+
+<h3>Step 1: Gather all cohort residential addresses</h3>
+We assume that you will have or will be able to produce an administrative data table
+that contains a chronology of residential addresses for each study member.  Create
+unique identifiers for each address record. The identifiers will be used to 
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>person_id</th>
+<th>time_stamp</th>
+<th>addr_line1</th>
+<th>addr_line2</th>
+<th>city</th>
+<th>post_code</th>
+<th>phone</th>
+</tr>
+
+<tr>
+<td>
+12344
+</td>
+<td>
+04-05-1995
+</td>
+<td>
+22 Pine St
+</td>
+<td>
+</td>
+<td>
+Garwoodville
+</td>
+<td>
+N2 7HK
+</td>
+<td>
+065 175 83945
+</td>
+</tr>
+
+<tr class="dense_data_table_even_row">
+<td>
+12344
+</td>
+<td>
+22-08-1996
+</td>
+<td>
+Flat 2
+</td>
+<td>
+32 Walnut Drive
+</td>
+<td>
+Fecht Bay
+</td>
+<td>
+N03 5XY
+</td>
+<td>
+065 175 83945
+</td>
+</tr>
+
+<tr>
+<td>
+12344
+</td>
+<td>
+04-05-1995
+</td>
+<td>
+22 PINE STREET
+</td>
+<td>
+</td>
+<td>
+GARWOODVILLE
+</td>
+<td>
+N2
+</td>
+<td>
+065 301 90937
+</td>
+</tr>
+
+
+<tr class="dense_data_table_even_row">
+<td>
+55556
+</td>
+<td>
+06-06-1995
+</td>
+<td>
+Flat 5
+</td>
+<td>
+32 Walnut Dr.
+</td>
+<td>
+Fecht Bay
+</td>
+<td>
+N03 5XY
+</td>
+<td>
+065 301 90937
+</td>
+</tr>
+
+<tr>
+<td>
+55556
+</td>
+<td>
+06-06-1995
+</td>
+<td>
+335 Hoover Pt.
+</td>
+<td>
+</td>
+<td>
+St. Gulliver's Way
+</td>
+<td>
+P3 4WJ
+</td>
+<td>
+065 301 90937
+</td>
+</tr>
+
+
+<tr class="dense_data_table_even_row">
+<td>
+58803
+</td>
+<td>
+05-06-1995
+</td>
+<td>
+16 quire-Ave.
+</td>
+<td>
+</td>
+<td>
+Hansell-upon-Gretal
+</td>
+<td>
+U8 3WR
+</td>
+<td>
+065 767 56532
+</td>
+</tr>
+
+<tr>
+<td>
+58803
+</td>
+<td>
+10-10-1997
+</td>
+<td>
+Main St.
+</td>
+<td>
+</td>
+<td>
+Pearsontown
+</td>
+<td>
+X21 2HT
+</td>
+<td>
+065 767 56532
+</td>
+</tr>
+</table>
+<caption>
+<b>Table Geocoding-1.</b>  A typical table in an administrative Contacts Database used to
+audit current address details of cohort members
+</caption>
+
+
+<p>
+First, we try to isolate just the postal address data.  In the example table, we would ignore
+phone number because ALGAE does not need it.  For the purpose of geocoding, we need neither
+person_id nor time_stamp fields.  However, we will want to preserve the link between geocodes
+and address periods.  
+
+<p>
+Our geocoding scheme must accommodate cases where the same geocode is
+used by multiple people at different times, and when the same location may be represented in
+several slightly different addresses.  In order to minimise the amount of extraneous information
+used for geocoding, we can add an identifier field for each address period.
+</p>
+
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>person_id</th>
+<th>time_stamp</th>
+<th>location_id</th>
+</tr>
+
+<tr>
+<td>
+12344
+</td>
+<td>
+04-05-1995
+</td>
+<td>
+1
+</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+12344
+</td>
+<td>
+22-08-1996
+</td>
+<td>
+2
+</td>
+</tr>
+
+<tr>
+<td>
+12344
+</td>
+<td>
+04-05-1995
+</td>
+<td>
+3
+</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+55556
+</td>
+<td>
+06-06-1995
+</td>
+<td>
+4
+</td>
+</tr>
+
+<tr>
+<td>
+55556
+</td>
+<td>
+06-06-1995
+</td>
+<td>
+5
+</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+58803
+</td>
+<td>
+05-06-1995
+</td>
+<td>
+6
+</td>
+</tr>
+
+<tr>
+<td>
+58803
+</td>
+<td>
+10-10-1997
+</td>
+<td>
+7
+</td>
+</tr>
+</table>
+<caption>
+<b>Table Geocoding-2</b>: Preserving fields that would link a geocode to a given person for a given time.
+</caption>
+
+<p>
+</p>
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>location_id</th>
+<th>addr_line1</th>
+<th>addr_line2</th>
+<th>city</th>
+<th>post_code</th>
+</tr>
+
+<tr>
+<td>
+1
+</td>
+<td>
+22 Pine St
+</td>
+<td>
+</td>
+<td>
+Garwoodville
+</td>
+<td>
+N2 7HK
+</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+2
+</td>
+<td>
+Flat 2
+</td>
+<td>
+32 Walnut Drive
+</td>
+<td>
+Fecht Bay
+</td>
+<td>
+N03 5XY
+</td>
+</tr>
+
+<tr>
+<td>
+3
+</td>
+<td>
+22 PINE STREET
+</td>
+<td>
+</td>
+<td>
+GARWOODVILLE
+</td>
+<td>
+N2
+</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+4
+</td>
+<td>
+Flat 5
+</td>
+<td>
+32 Walnut Dr.
+</td>
+<td>
+Fecht Bay
+</td>
+<td>
+N03 5XY
+</td>
+</tr>
+
+<tr>
+<td>
+5
+</td>
+<td>
+335 Hoover Pt.
+</td>
+<td>
+</td>
+<td>
+St. Gulliver's Way
+</td>
+<td>
+P3 4WJ
+</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+6
+</td>
+<td>
+16 quire-Ave.
+</td>
+<td>
+</td>
+<td>
+Hansell-upon-Gretal
+</td>
+<td>
+U8 3WR
+</td>
+</tr>
+
+<tr>
+<td>
+7
+</td>
+<td>
+Main St.
+</td>
+<td>
+</td>
+<td>
+Pearsontown
+</td>
+<td>
+X21 2HT
+</td>
+</tr>
+</table>
+<caption>
+<b>Table-Geocoding3</b>: This table preserves the information we want to use for 
+geocoding.  It also contains the field <code>location_id</code>, which allows us
+to link geocodes we produce back to the address periods.
+</caption>
+
+<h3>Step 2: Express Addresses in a Canonical Format</h3>
+In this step, we standardise the format of residential addresses by combining all address
+fields into a single field value.  We also standardise how we represent punctuation marks
+and common phrases such as avenue, street, place, point, road etc.
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>location_id</th>
+<th>canonical_address</th>
+</tr>
+
+<tr>
+<td>
+1
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2 7HK
+</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+2
+</td>
+<td>
+FLAT 2, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+</tr>
+
+<tr>
+<td>
+3
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2
+</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+4
+</td>
+<td>
+FLAT 5, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+</tr>
+
+<tr>
+<td>
+5
+</td>
+<td>
+335 HOOVER PT, ST GULLIVERS WAY, P3 4WJ
+</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+6
+</td>
+<td>
+16 QUIRE-AVE., HANSELLUPONGRETAL, U8 3WR
+</td>
+</tr>
+
+<tr>
+<td>
+7
+</td>
+<td>
+MAIN ST, PEARSONTOWN, X21 2HT
+</td>
+</tr>
+</table>
+
+<caption>
+<b>Table Geocoding4</b>.  The individual components that make up a postal address are combined
+into a single field and formatted to make them amenable to be matched by geocoding
+software.
+</caption>
+
+<h3>Step 3: Use geocoding software to produce map coordinates </h3>
+In this step, you will create the <code>geocode</code> and <code>version</code>
+fields that are expected by the <code>original_geocode_data</code> table.
+
+<p>
+We expect that projects will use software to help automatically match
+residential addresses with map coordinates.  Because the behaviour of geocoding
+applications can vary, we strongly recommend that you populate the
+required <code>version</code> field with the name and version of your
+software.  
+</p>
+
+<p>
+The software will generate x and y coordinates for each address.  For the purposes
+of these examples, we will assume that you will generate geocode values by 
+concatenating map coordinates together.  However, some cohorts may be concerned
+about including sensitive location data in this field (See General Advice).
+</p>  
+
+<p>
+The software will likely produce data fields that indicate the quality of a match or 
+reasons why the software had trouble processing it.  Initially, you may 
+want to preserve these fields in order to help trouble shoot cases where the 
+software fails to produce a match.
+</p>
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>location_id</th>
+<th>canonical_address</th>
+<th>x</th>
+<th>y</th>
+<th>geocode</th>
+<th>version</th>
+<th>match</th>
+<th>match_cause</th>
+</tr>
+
+<tr>
+<td>
+1
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2 7HK
+</td>
+<td>37.422036</td>
+<td>122.084124</td>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+2
+</td>
+<td>
+FLAT 2, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+<td>37.424130</td>
+<td>122.081221</td>
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+3
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2
+</td>
+<td>37.422036</td>
+<td>122.084124</td>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td>80%</td>
+<td>Incomplete post code</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+4
+</td>
+<td>
+FLAT 5, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+<td>37.424130</td>
+<td>122.081221</td>
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+5
+</td>
+<td>
+335 HOOVER PT, ST GULLIVERS WAY, P3 4WJ
+</td>
+<td>37.424132</td>
+<td>122.081333</td>
+<td>37.424132-122.081333</td>
+<td>geoMapperv1.2</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+6
+</td>
+<td>
+16 QUIRE-AVE., HANSELLUPONGRETAL, U8 3WR
+</td>
+<td></td>
+<td></td>
+<td></td>
+<td>geoMapperv1.2</td>
+<td>0%</td>
+<td>Unknown street</td>
+</tr>
+
+<tr>
+<td>
+7
+</td>
+<td>
+MAIN ST, PEARSONTOWN, X21 2HT
+</td>
+<td>37.424133</td>
+<td>122.081440</td>
+<td>37.424133-122.081440</td>
+<td>geoMapperv1.2</td>
+<td>30%</td>
+<td>Missing street number</td>
+</tr>
+</table>
+<caption>
+<b>Table Geocoding5</b>.  The geocoding software will generate map coordinates and data quality
+fields.
+</caption>
+
+
+<h3>Step 4: Allow for manual geocoding efforts</h3>
+Undoubtedly the geocoding software will fail to match some geocodes (see General Advice
+section).  We expect that you will do geocoding as an iterative activity that may involve
+manually matching canonical addresses with map coordinates.  It may also involve editing
+canonical addresses and running the geocoding software again.  Your <code>version</code>
+field should include enough information to describe which method and iteration was 
+used to geocode failed matches.
+
+<p>
+ALGAE expects that a <code>comments</code> field will be present in the 
+<code>original_geocode_data</code> table.  Although you can leave this field blank,
+you may want to include other useful information in it.  For example, you could record
+how you manually fixed a canonical address that resulted in a failed match.  You may
+also want to preserve diagnostic information about a geocode that was generated by
+the geocoding software you used.  How you populate this field will depend on what you
+think is important to record or what information about locations you're comfortable to
+retain in the final version of the table.
+</p>
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>location_id</th>
+<th>canonical_address</th>
+<th>x</th>
+<th>y</th>
+<th>geocode</th>
+<th>version</th>
+<th>comments</th>
+<th>match</th>
+<th>match_cause</th>
+</tr>
+
+<tr>
+<td>
+1
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2 7HK
+</td>
+<td>37.422036</td>
+<td>122.084124</td>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td>
+</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+2
+</td>
+<td>
+FLAT 2, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+<td>37.424130</td>
+<td>122.081221</td>
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td>
+</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+3
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2
+</td>
+<td>37.422036</td>
+<td>122.084124</td>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td>
+</td>
+<td>80%</td>
+<td>Incomplete post code</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+4
+</td>
+<td>
+FLAT 5, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+<td>37.424130</td>
+<td>122.081221</td>
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td>
+</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+5
+</td>
+<td>
+335 HOOVER PT, ST GULLIVERS WAY, P3 4WJ
+</td>
+<td>37.424132</td>
+<td>122.081333</td>
+<td>37.424132-122.081333</td>
+<td>geoMapperv1.2</td>
+<td>
+</td>
+<td>100%</td>
+<td></td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+6
+</td>
+<td>
+16 CHOIR AVE, HANSELLUPONGRETAL, U8 3WR
+</td>
+<td>
+37.424132
+</td>
+<td>
+122.081310
+</td>
+<td>37.424132-122.081310</td>
+<td>klg_28122015</td>
+<td>
+removed hyphen
+</td>
+<td>100%</td>
+<td>Unknown street</td>
+</tr>
+
+<tr>
+<td>
+7
+</td>
+<td>
+MAIN ST, PEARSONTOWN, X21 2HT
+</td>
+<td>
+37.424133
+</td>
+<td>
+122.081440
+</td>
+<td>37.424133-122.081440</td>
+<td>geoMapperv1.2</td>
+<td>
+</td>
+<td>30%</td>
+<td>Missing street number</td>
+</tr>
+</table>
+<caption>
+<b>Table Geocoding6</b>.  The <code>version</code> and <code>comments</code> fields can contain
+information about how matches were fixed so they could yield map coordinates.
+</caption>
+
+<h3>Step 5: Decide how to derive values for <code>has_valid_geocode</code> field</h3>
+In this step you will derive the <code>has_valid_geocode</code> field that must appear
+in the <code>original_geocode_data</code> table. You may have to decide how a collection
+of data quality fields generated by the geocoding software would map to a "Yes/No" result.
+
+<p>
+For example, in the example data set, you may decide that if an address was manually 
+geocoded or if the quality of an automated match is above 50%, then the result is "Y".
+Otherwise the value would be "N".
+</p>
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>location_id</th>
+<th>canonical_address</th>
+<th>x</th>
+<th>y</th>
+<th>geocode</th>
+<th>version</th>
+<th>comments</th>
+<th>has_valid_geocode</th>
+</tr>
+
+<tr>
+<td>
+1
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2 7HK
+</td>
+<td>37.422036</td>
+<td>122.084124</td>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>Y</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>
+2
+</td>
+<td>
+FLAT 2, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+<td>37.424130</td>
+<td>122.081221</td>
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>Y</td>
+</tr>
+
+<tr>
+<td>
+3
+</td>
+<td>
+22 PINE ST, GARWOODVILLE, N2
+</td>
+<td>37.422036</td>
+<td>122.084124</td>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>Y</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+4
+</td>
+<td>
+FLAT 5, 32 WALNUT DR, FECHT BAY, N03 5XY
+</td>
+<td>37.424130</td>
+<td>122.081221</td>
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>Y</td>
+</tr>
+
+<tr>
+<td>
+5
+</td>
+<td>
+335 HOOVER PT, ST GULLIVERS WAY, P3 4WJ
+</td>
+<td>37.424132</td>
+<td>122.081333</td>
+<td>37.424132-122.081333</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>Y</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>
+6
+</td>
+<td>
+16 CHOIR AVE, HANSELLUPONGRETAL, U8 3WR
+</td>
+<td>
+37.424132
+</td>
+<td>
+122.081310
+</td>
+<td>37.424132-122.081310</td>
+<td>klg_28122015</td>
+<td>removed hyphen</td>
+<td>Y</td>
+</tr>
+
+<tr>
+<td>
+7
+</td>
+<td>
+MAIN ST, PEARSONTOWN, X21 2HT
+</td>
+<td>37.424133</td>
+<td>122.081440</td>
+<td>37.424133-122.081440</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>N</td>
+</tr>
+</table>
+<caption>
+<b>Table Geocoding6</b>.  The table shows how data quality fields produced by geocoding passes
+have been combined to produce a "Yes/No" value for <code>has_valid_geocode</code>.
+</caption>
+
+
+<h3>Step 6: Add geographical covariate data fields</h3>
+You will need a means of using map coordinates to identify administrative areas 
+that contain each geocoded address.  The default version of ALGAE uses
+<code>ed91</code>, <code>oa2001</code>, and <code>coa2011</code> to represent 
+administrative areas.  If you want to use different kinds of administrative fields, 
+please see the section <a href="#">Change covariates</a>.
+
+<h3>Step 7: Link geocodes back to address period data</h3>
+In order to ensure that the geocode values in the <code>original_geocode_data</code>
+correspond with geocode values in the <code>original_address_history_data</code>, you
+need to link the geocodes we have created between the two tables. In the example,
+you would use <code>location_id</code> as a linking field.
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>person_id</th>
+<th>time_stamp</th>
+<th>geocode</th>
+</tr>
+
+<tr>
+<td>
+12344
+</td>
+<td>
+04-05-1995
+</td>
+<td>
+37.422036-122.084124
+</td>
+</tr>
+
+<tr class="dense_data_table_even_row">
+<td>
+12344
+</td>
+<td>
+22-08-1996
+</td>
+<td>
+37.424130-122.081221
+</td>
+</tr>
+
+<tr>
+<td>
+12344
+</td>
+<td>
+04-05-1995
+</td>
+<td>
+37.422036-122.084124
+</td>
+</tr>
+
+<tr class="dense_data_table_even_row">
+<td>
+55556
+</td>
+<td>
+06-06-1995
+</td>
+<td>
+37.424130-122.081221
+</td>
+</tr>
+
+<tr>
+<td>
+55556
+</td>
+<td>
+06-06-1995
+</td>
+<td>
+37.424132-122.081333
+</td>
+</tr>
+
+<tr class="dense_data_table_even_row">
+<td>
+58803
+</td>
+<td>
+05-06-1995
+</td>
+<td>
+37.424132-122.081310
+</td>
+</tr>
+
+<tr>
+<td>
+58803
+</td>
+<td>
+10-10-1997
+</td>
+<td>
+37.424133-122.081440
+</td>
+</tr>
+</table>
+<caption>
+<b>Table Geocoding7</b>.  The <code>location_id</code> field is used to ensure that
+the geocodes used in both <code>original_geocode_data</code> and 
+<code>original_address_history_data</code> can be linked.
+</caption>
+
+<h3>Step 8: Eliminate extraneous fields</h3>
+
+<table class="dense_data_table">
+<tr class="dense_data_table_header">
+<th>geocode</th>
+<th>version</th>
+<th>comments</th>
+<th>ed91</th>
+<th>oa2001</th>
+<th>coa2011</th>
+<th>has_valid_geocode</th>
+</tr>
+
+<tr>
+<td>37.422036-122.084124</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>ED91-1</td>
+<td>OA2001-1</td>
+<td>COA2011-1</td>
+<td>Y</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>ED91-1</td>
+<td>OA2001-2</td>
+<td>COA2011-2</td>
+<td>Y</td>
+</tr>
+
+<tr>
+<td>
+37.422036-122.084124
+</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>ED91-1</td>
+<td>OA2001-1</td>
+<td>COA2011-1</td>
+<td>Y</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>37.424130-122.081221</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>ED91-1</td>
+<td>OA2001-2</td>
+<td>COA2011-2</td>
+<td>Y</td>
+</tr>
+
+<tr>
+<td>37.424132-122.081333</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>ED91-2</td>
+<td>OA2001-3</td>
+<td>COA2011-3</td>
+<td>Y</td>
+</tr>
+
+
+<tr class="generic_data_table_even_row">
+<td>37.424132-122.081310</td>
+<td>klg_28122015</td>
+<td>removed hyphen</td>
+<td>ED91-2</td>
+<td>OA2001-4</td>
+<td>COA2011-4</td>
+<td>Y</td>
+</tr>
+
+<tr>
+<td>37.424133-122.081440</td>
+<td>geoMapperv1.2</td>
+<td></td>
+<td>ED91-2</td>
+<td>OA2001-5</td>
+<td>COA2011-5</td>
+<td>N</td>
+</tr>
+</table>
+
+<caption>
+<b>Table Geocoding8</b>.  The final version of <code>original_geocode_data</code>.  The
+final table will contain only the fields which are necessary and sufficient for ALGAE
+to produce results.
+</caption>
+
+
+<p>
+Some projects may want to retain location information in the geocodes, whereas others may
+want to anonymise them to help minimise risks of identifying study members in data sets
+that may be maintained off-site from the cohort's facilities.  Although anonymising 
+geocodes can help minimise identifiability, it can also remove information that can
+be used to determine 
+
+
+<h3>General Advice</h3>
+<h4>Decide whether you want to anonymise geocodes</h4>
+Although ALGAE uses geocode values to link the input tables together, it does not include 
+geocodes in any of the result tables it produces.  The only location data that are 
+included in results are the covariate identifiers that describe administrative areas
+that contain each geocode.  However, we assume that an administrative area will be large
+enough to minimise the likelihood of identifying a specific residential address used by
+a given study member.
+
+<p>
+Depending on how cohort facilities and off-site research partners divide the work of 
+producing the original data tables, the project members may want the geocode values to 
+be anonymised to minimise the identifiability of location data.  Should you decide to 
+anonymise geocode data, take special care to ensure that geocode values in corresponding 
+tables are also anonymised in the same way.  
+</p>
+
+<h4>Expect to do geocoding in multiple passes </h4>
+The residential addresses that you use will likely have been manually entered into some
+administrative software system.  It is likely that geocoding software will fail to match
+some of them with map coordinates.  If such an address is used by study members for a 
+significant part of their exposure periods, then a failed match will mean they may be
+excluded from calculations that produce exposure results.
+
+<p>
+In order to ensure that the most study members have exposure results, you may spend a lot
+of effort doing geocoding.  Typically your work will either mean you correct addresses
+and re-run the software or that you interpret incorrect addresses and use your judgement
+to match them with appropriate map coordinates.  We suggest you assume you will need to
+finish geocoding in multiple passes, and that in each pass you will make use of the 
+<code>version</code> and <code>comments</code> fields to record how coordinates were
+derived.
+</p>
+
+<h4>Understand why geocoding may fail for some addressses</h4>
+
+<p>
+There are many reasons why an address may result in an invalid geocode.  Some of these include:
+<p>
+
+<p>
+<b>typographical errors.</b>  If residential addresses are typed manually, they may 
+contain mistakes that result in a non-existent address.
+</p>
+
+<p>
+<b>incomplete addresses.</b> If an address is missing a street number, the software 
+may either fail to provide a match, or provide a guess that is of such poor quality 
+that it is not appropriate to use in a given study.
+</p>
+
+<p>
+<b>deprecated addresses.</b>  Over time, some street names may change and post codes 
+may be retired, or reflect a change in the scope of area they cover.  If the software 
+is unable to recognise outdated addresses, it may fail to produce a match.
+</p>
+
+<p>
+<b>new addresses.</b>  The software may be referencing an outdated collection of 
+addresses that may not include addresses from newly built residential areas.  
+</p>
+
+<p>
+<b>incomplete address database.</b>  The geocoding software may be using a database 
+that simply doesn't contain all the addresses it should have.
+</p>
+
+<p>
+<b>parsing errors.</b>  The software may interpret characters which it uses as 
+delimiters.  For example, the presence of a comma may cause the software to break an 
+address into an incorrect number of address components.  As another example, it may 
+interpret the forward slash in 'c/o' as a signal to perform some kind of pre-processing.
+</p>
+
+<p>
+<b>abbreviations.</b>  An address may be correctly specified but contain abbreviations 
+that are not understood by the software.  For example, if the software is designed to 
+suit US addresses, it may understand "ct." means court but may not understand the 
+Canadian version which uses "crt".  
+</p>
+
+<p>
+<b>centroid errors.</b>  The software, in its attempts to find the centre for a postal 
+code area, may provide coordinates that would not make sense on a map.  For example, 
+the software could determine that the centre of a postal code area that covers a cove 
+may actually be on water.  Other calculations could place the centre of a post code in 
+at the top of a mountain or in the middle of an industrial area that has no residents.
+</p>
+
+<p>
+There are certain classes of errors that neither automated nor manual geocoding approaches 
+would likely identify.  For example, an address may contain a topographical error that 
+still results in a valid geocode.  Suppose that an address is written as 22 Pine Street 
+when it should be 222 Pine Street, and the street is long enough to accommodate both 
+addresses.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Table Properties</h2>
+You need to produce a CSV file called <code>original_geocode_data</code>.  It must
+have the following fields:
+
+<table class="original_data_table">
+<tr class="generic_data_table_header">
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+<th>Properties</th>
+<th>Examples</th>
+</tr>
+
+<tr>
+<td class="original_data_table_field_name">
+geocode
+</td>
+<td class="original_data_table_description">
+Represents the location of a residential address.  For ALGAE, the geocode is treated
+as just an identifier and the protocol attaches no meaning to the code.
+</td>
+<td class="original_data_table_is_required">
+Yes
+</td>
+<td class="original_data_table_properties">
+Any text
+</td>
+
+<td class="original_data_table_example">
+37.422036-122.084124
+<br>
+x4353bi838 (anonymised)
+</td>
+</tr>
+
+<tr class="original_data_table_even_row">
+<td class="original_data_field_name">
+version
+</td>
+<td class="original_data_table_description">
+Describes some aspect of an attempt to geocode the residential address histories.  
+Version may refer to the name and version of a software application that was used
+to associate residential addresses with map coordinates.  
+
+<p>
+It may also describe the institution that did the work, a specific technique 
+for mapping addresses to coordinates, or whether the geocoding was done manually 
+or through software.  
+</p>
+
+<p>
+The field is intended to help scientists decide whether geocodes produced in a certain 
+way should be filtered or not.
+</p>
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+Any text
+</td>
+<td class="original_data_table_example">
+my_geocoding_program-v1.1
+<br>
+Imperial_Manual_pass4
+<br>
+your_cohort-02122015
+
+</td>
+</tr>
+
+<tr>
+<td class="original_data_table_field_name">
+comments
+</td>
+<td class="original_data_table_description">
+Any other information that exposure scientists want to provide about a geocode
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+Any text
+</td>
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+<tr class="original_data_table_even_row">
+<td class="original_data_field_name">
+ed91
+</td>
+<td class="original_data_table_description">
+UK district, based on the 1991 census.  This is an administrative area that
+scientists can use to link a geographic location to covariates that describe
+properties of the area that could account for associations between pollutants
+and health outcomes.
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+Any text, but for future data linking activities you will want to 
+ensure codes follow their appropriate naming conventions
+</td>
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+
+<tr>
+<td class="original_data_table_field_name">
+oa2001
+</td>
+<td class="original_data_table_description">
+UK output area, based on the 1991 census.  An output area is the lowest 
+geographical level at which census estimates are provided.  It is used in
+the same way as ED91.
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+Any text, but for future data linking activities you will want to 
+ensure codes follow their appropriate naming conventions
+</td>
+
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+<tr class="original_data_table_even_row">
+<td class="original_data_field_name">
+coa2011
+</td>
+<td class="original_data_table_description">
+UK census output area, based on the 2011 census.  An output area is the lowest 
+geographical level at which census estimates are provided.  It is used in
+the same way as ED91.
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+Any text, but for future data linking activities you will want to 
+ensure codes follow their appropriate naming conventions
+</td>
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+<tr>
+<td class="original_data_table_field_name">
+has_valid_geocode
+</td>
+<td class="original_data_table_description">
+Indicates whether a geocode should be considered valid or not.  This flag would 
+typically be derived from various data quality flags that a geocoding application
+would generate.  An application may either completely fail to generate a map location
+or the value it does produce is a vague guess based on partial addresses. 
+
+<p>
+ALGAE doesn't care why a geocode is or is not valid, but it uses the flag to help 
+determine whether it can generate exposure values for a study member.
+</p>
+</td>
+<td class="original_data_table_is_required">
+Yes
+</td>
+<td class="original_data_table_properties">
+One of the following ways to represent no or yes:
+<p></p>
+<br>
+N
+<br>
+n
+<br>
+no
+<br>
+NO
+<br>
+FALSE
+<br>
+false
+<br>
+No
+</td>
+
+<td class="original_data_table_example">
+Yes
+</td>
+</tr>
+
+</table>
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

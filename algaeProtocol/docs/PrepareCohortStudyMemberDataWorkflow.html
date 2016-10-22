@@ -1,0 +1,539 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Creating the original_study_member_data table</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page provides a step-by-step guide for how researchers can use cohort-specific data to produce the generic study 
+		member data table that is required by the protocol.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+								<li>
+									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
+								</li>
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>																						
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							Adapt
+							<ul class="sub_menu">
+								<li>
+									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+			
+<h1>
+Data loading part 1: Prepare study member data
+</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./PrepareCohortDataWorkflow.html" class="link_button">Overview</a>
+</td>
+<td>
+<a href="./PrepareGeocodeDataWorkflow.html" class="link_button">Next</a>
+</td>
+
+</tr>
+</table>
+</p>
+
+<p>
+<img src="./images/DataLoadingProgressStep1.jpg" width=800>
+</p>
+
+
+
+<h2>Purpose</h2>
+The data in this table are used for two main tasks:
+<ul>
+<li>
+to calculate the time boundaries for life stages
+</li>
+<li>
+to use the responses from cohort questionnaire variables to determine how certain
+we can be about assumptions we make about the residential address histories.
+</li>
+</ul>
+
+<p>
+Please see <a href="#">Life stage calculations</a> to understand how <code>birth_date</code>
+and <code>estimated_gestation_age</code> are used to calculate life stage data.
+</p>
+
+<p>
+We need to have a field <code>absent_during_exp_period</code> which indicates whether study 
+members spent significant amounts of time located at residential addresses that are not listed
+in their address histories.  We also need a field <code>at_1st_addr_conception</code> to tell
+us whether study members were definitely at their first address during conception.
+</p>
+
+<h2>Location of Original Data File</h2>
+You will need to create a file that has this name
+
+<pre>
+original_study_member_data.csv
+</pre>
+
+
+which must be located in:
+
+<pre>
+early_life/input_data
+</pre>
+
+or
+
+<pre>
+later_life/input_data
+</pre>
+
+<h2>Example Original Data File</h2>
+See <a href="./example_original_data/original_exposure_data.csv">here</a>.
+
+
+<h2>Suggested Approach</h2>
+<figure class="explanation_figure">
+<img src="./images/PrepareStudyMemberDataWorkflow.jpg">
+<figcaption>Preparing study member data.</figcaption>  
+</figure>
+
+<h3>Step 1: Obtain person_id, birth date and gestation age at birth fields</h3>
+The first task in preparing to use the ALGAE protocol will be to assign study members with
+an identifier, which may anonymised or pseudonymised depending on the preferences of the
+cohort.  Birth date and gestation age at birth data are likely to come from birth records
+and should be part of any birth cohort's variables.
+
+<h3>Step 2: Find questionnaire data related to establishing an address at conception</h3>
+Many birth cohorts recruit pregnant mothers to enrol their child.  The first address
+that is recorded is usually the address the mother specified at enrolment, which may not
+have been the location she lived at when the child was conceived.  In many cases the 
+address at enrolment will be the address at conception, but we want a flag to help us
+assess how confident we can be about this assumption.
+
+<p>
+The flag <code>at_first_addr_conception</code> is 'Y' if the study was <i>definitely</i>
+at their first recorded address at conception.  Otherwise, the value must be 'N'.  
+
+<h3>
+Step 3: Find questionnaire data to detect locations used that are not in residential 
+address histories
+</h3>
+The ALGAE Protocol assumes that study members only occupied addresses that are listed in
+their residential address histories.  However, we want a data quality flag to help us
+determine whether they spent any significant part of their exposure period living at
+addresses that are not part of their address histories.
+
+<p>
+Look for variables related to homelessness, hospitalisation, prison or visits outside the
+exposure area you would assume are not listed in the residential address histories.  Focus
+specifically on variables that would be relevant during the exposure time frame.
+</p>
+
+<h3>General Advice</h3>
+You may have to re-purpose a collection of questionnaire variables so that taken together, 
+the responses can provide a value for the <code>at_1st_addr_conception</code> and 
+<code>absent_during_exp_period</code> flags.
+
+<p>
+For example, we encountered three questions in the ALSPAC questionnaires that could help
+us be confident in determining whether study members were definitely at their addresses
+of enrolment when they were conceived.
+
+<p>
+Consider the following questions:
+
+<pre>
+Variable a003: years since last move?
+Responses:
+	'YE short'
+	'Missing'
+	0
+	1
+	2
+	3
+	4
+	5+
+</pre>
+
+<pre>
+Variable a004: weeks since last move?
+Responses:
+	'Missing'
+	0...49 weeks
+</pre>
+
+<pre>
+Variable c470: Are you living in the same home that you were in at the start of your 
+pregnancy?
+Responses
+	'Missing' -2 or -1
+	'y' 1
+	'n' 2
+</pre>
+
+<p>
+First, we had to divide responses for each question so they could provide a "Yes" or "No"
+answer to the question: "Was the study member definitely at their first listed address at
+conception?
+</p>
+
+<p>
+You may find it helpful to construct a table like the one that follows to help organise
+your questionnaire data:
+
+<table class="generic_data_table">
+<tr class="generic_data_table_header">
+<th>Variable</th>
+<th>Relevant Question</th>
+<th>Yes/No Response</th>
+<th>Values</th>
+</tr>
+
+<tr>
+<td>a003</td>
+<td>Definitely at first address?
+<td>Yes</td>
+<td>Any number greater than or equal to 1</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>a003</td>
+<td>Definitely at first address?
+<td>No</td>
+<td>missing values or 0</td>
+</tr>
+
+<tr>
+<td>a004</td>
+<td>Definitely at first address?
+<td>Yes</td>
+<td>Any integer > 32 weeks</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>a004</td>
+<td>Definitely at first address?
+<td>No</td>
+<td>Missing values or integer <= 32 weeks</td>
+</tr>
+
+
+<tr>
+<td>c470</td>
+<td>Definitely moved?</td>
+<td>Yes</td>
+<td>Response of 2</td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>c470</td>
+<td>Definitely moved?</td>
+<td>No</td>
+<td>Any other response besides 2</td>
+</tr>
+
+</table>
+
+<p>
+Once the values were converted to Yes or No responses, we had to rank questions
+based on how strongly their responses would support a definite answer.  We decided
+that if either a003 or a004 indicated that the study member had been at the first
+address for a period that would cover conception, then we would accept the answer
+"Yes".  Barring that, we would determine whether c470 would return a definite "No".
+If this didn't happen, then by default we would return a "Yes", meaing that the
+study member had been at his/her enrolment address at the time of conception.
+</p>
+
+<p>
+Other scientists may have divided the responses differently and ranked the questions
+with a different order of importance.  However, our assumptions have at least been
+explicitly recorded.
+</p>
+
+
+
+
+
+
+
+
+
+<h2>Example Table</h2>
+See <a href="./original_study_member_data.csv">here</a>.
+
+<h2>Table Properties</h2>
+You need to produce a CSV file called <code>original_study_member_data</code>.  It must
+have the following fields:
+
+<table class="original_data_table">
+<tr class="generic_data_table_header">
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+<th>Properties</th>
+<th>Examples</th>
+</tr>
+
+<tr>
+<td class="original_data_table_field_name">
+person_id
+</td>
+<td class="original_data_table_description">
+Anonymised unique identifier representing a study member
+</td>
+<td class="original_data_table_is_required">
+Yes
+</td>
+<td class="original_data_table_properties">
+Any Text
+</td>
+<td class="original_data_table_example">
+1001XYZ
+</td>
+</tr>
+
+<tr class="original_data_table_even_row">
+<td class="original_data_field_name">
+comments
+</td>
+<td class="original_data_table_description">
+Any information the cohort wants to include in the description of a study member
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+Any text
+</td>
+<td class="original_data_table_example">
+</td>
+</tr>
+
+
+<tr>
+<td class="original_data_field_name">
+birth_date
+</td>
+<td class="original_data_table_description">
+Birth date of a cohort member.
+</td>
+<td class="original_data_table_is_required">
+Yes
+</td>
+<td class="original_data_table_properties">
+Date of the format <code>dd/MM/yyyy</code>
+</td>
+<td class="original_data_table_example">
+17/05/1995
+</td>
+</tr>
+
+<tr class="original_data_table_even_row">
+<td class="original_data_field_name">
+estimated_gestation_age
+</td>
+<td class="original_data_table_description">
+Estimated gestation age of a study member at birth, expressed in the number
+of weeks.  This estimate is often obtained either from estimating a 
+pregnant mother's last menstrual period, scans of the foetus or a 
+combination of both.  
+
+<p>
+When this value is missing, ALGAE imputes it with
+a default value defined in <code>default_gestation_age</code> in the 
+<code>global_script_constants</code> table.
+</p>
+</td>
+<td class="original_data_table_is_required">
+No
+</td>
+<td class="original_data_table_properties">
+A positive integer
+</td>
+<td class="original_data_table_example">
+37
+</td>
+</tr>
+
+<tr>
+<td class="original_data_field_name">
+absent_during_exp_period
+</td>
+<td class="original_data_table_description">
+Indicates whether study members spent a significant part of their exposure
+period at a location that does not appear in their residential address
+histories
+</td>
+<td class="original_data_table_is_required">
+Yes
+</td>
+<td class="original_data_table_properties">
+One of the following ways to represent no or yes:
+<p></p>
+<br>
+N
+<br>
+n
+<br>
+no
+<br>
+NO
+<br>
+FALSE
+<br>
+false
+<br>
+No
+<br>
+
+<!--
+N,n, no, NO, FALSE, false, No, 0, Y, y, yes, YES, TRUE, true, Yes, 1 
+-->
+
+</td>
+<td class="original_data_table_example">
+</td>
+</tr>
+
+
+<tr class="original_data_table_even_row">
+<td class="original_data_field_name">
+at_1st_addr_conception
+</td>
+<td class="original_data_table_description">
+Indicates whether study members were definitely at their first registered
+residential addresses when they were being conceived.
+</td>
+<td class="original_data_table_is_required">
+</td>
+Yes
+<td class="original_data_table_properties">
+</td>
+<td class="original_data_table_example">
+One of the following ways to represent no or yes:
+N,n, no, NO, FALSE, false, No, 0, Y, y, yes, YES, TRUE, true, Yes, 1 
+</td>
+</tr>
+
+</table>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

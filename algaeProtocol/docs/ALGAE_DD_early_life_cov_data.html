@@ -1,27 +1,19 @@
 <DOCTYPE html>
 <html>
 	<head>
-	
 		<meta http-equiv="content-type" content="text/html"/>
 		<meta charset="utf-8"/>
 		<meta name="language" content="English"> 
 		<meta name="robots" content"index, follow">
-		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
-		<meta name="description" 
+		<title>ALGAE Data Dictionary: Early life stage covariate data (algae5100-algae5104)</title>
+ 		<meta name="description" 
 		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
-		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts.  For each study
-		member, exposures are aggregated by pollution type (eg: PM10, NOX, NAME), by life stage (eg: T1, T2, T3) and by 
-		aggregate operation (ie: cumulative, average, median).  Exposures are calculated using four methods, each of
-		which uses a different way of using parts of residential address history records.  The records are assumed
-		to come from an administrative system that is used to audit current addresses of study members rather than
-		a research system that is used to track past addresses of study members.">
-		<meta name="description" 
-		content="">
+		This page is the part of the data dictionary for variables algae5100-algae5104.  They describe 
+		covariate data for the early life analyses.  The variables capture the administrative areas that study 
+		members occupied on the first day of each life stage.">
 		<meta name="author" content="Kevin Garwood">
-		<meta name="copyright" content="Imperial College">		
-		
+		<meta name="copyright" content="Imperial College">
 		<link rel="stylesheet" type="text/css" href="algae.css">
-
 	</head>
 	
 	<body>
@@ -42,7 +34,7 @@
 				<h4 class="header_line">
 					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
 				</h4>
-							
+
 				<nav class="top_navigation_bar">
 					<ul class="main_menu">
 						<li>
@@ -65,7 +57,8 @@
 								</li>
 								<li>
 									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
-								</li>																								
+								</li>																							
+																								
 							</ul>														
 						</li>
 						<li>
@@ -135,39 +128,123 @@
 			</header>
 
 <section class="main_section">
-
-<table>
-<tr>
-<td width=500>
-ALGAE is an automated protocol which can be used to assess historical exposures to 
-air pollution for members of longitudinal cohorts. It was developed as part of a 
-research project between Imperial College's <a href="http://www.sahsu.org">Small Area Health 
-Statistics Unit</a>(SAHSU) and the <a href="http://www.bristol.ac.uk/alspac/">Avon Longitudinal Study 
-of Parents and Children</a>(ALSPAC).
-
-<h1>How to Cite and License It</h1>
-The ALGAE Protocol has been developed by Imperial College and is available under the 
-<a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3.0</a> open source license.  We ask that if you use the software, please 
-cite our <a href="">paper</a>, which was published in the Environmental Modelling and Software.
+			
+<h1>ALGAE Data Dictionary: Early life stage covariate data (algae5100-algae5104)</h1>
 
 <p>
-<table>
-<tr>
-<td>
-<a href="#software_design" class="link_button">Download</a>
-</tr>
-</table>
+<i>
+by Kevin Garwood
+</i>
 </p>
 
-<h2>How to Use this Web Site</h2>
-We recognise that different groups will want to make use of the protocol in different ways: some 
-groups will want to use the code, others may just want high level ideas from it.  
+<h2>Context of Variables</h2>
+These variables describe administrative areas that study members occupied on the first day of each life stage
+in the early life analysis.  They were produced by identifying the geocode used at the beginning of a 
+life stage, and then mapping that to a set of administrative area codes.  The codes allow epidemiologists
+to link these location records with covariate data that such as socio-economic levels.
+
+<h2>Location of Result File</h2>
+You will find these variables in a file having a name that fits the form:
+
+<pre>
+res_early_cov_[Date stamp].csv
+</pre>
+
+which will be found in the directory:
+
+<pre>
+early_life/results/covariates
+</pre>
+
+
+<h2>Example Result File</h2>
+See <a href="./example_results/res_early_cov_2016-Jan-04-10-14.csv">here</a>.
+
+
+<h2>Variable Naming Conventions</h2>
+The basic format of variables in this section follows this pattern:
+
+<pre>
+	algae51[00-05]_[pollution type]_[aggregate value]
+</pre>
+
+<p>
+In this pattern, <code>algae51</code> indicates that they describe properties of life
+stages used in the early life analysis.
+
+<h2>Variable Dictionary</h2>
+
+
+
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<th>
+Variable
+</th>
+<th>
+Description
+</th>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae5100_person_id
 </td>
-<td width=500>
-<img src="./images/ALGAEReusePyramid.jpg" width=500>
+<td class="data_dictionary_var_description">
+An anonymised or pseudonymised identifier which represents a study member.  ALGAE uses this
+variable to link data together for a given study member.
 </td>
 </tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae5101_life_stage
+</td>
+<td class="data_dictionary_var_description">
+The name of the life stage.  For example, EL stands for the early life period.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae5102_ed91
+</td>
+<td class="data_dictionary_var_description">
+The code for a UK district, taken from the UK 1991 census.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae5103_oa2001
+</td>
+<td class="data_dictionary_var_description">
+The code for a UK output area, taken from the UK 2001 census.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae5104_coa2011
+</td>
+<td class="data_dictionary_var_description">
+The code for a UK output area, taken from the UK 2011 census.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae5106_life_stage_duration
+</td>
+<td class="data_dictionary_var_description">
+The total number of days in the life stage, including both the start and end
+days.
+</td>
+</tr>
+
 </table>
+
 
 			</section>
 		</div>

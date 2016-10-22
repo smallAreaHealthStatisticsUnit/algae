@@ -65,7 +65,7 @@
 								</li>
 								<li>
 									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
-								</li>																								
+								</li>																					
 							</ul>														
 						</li>
 						<li>
@@ -95,21 +95,25 @@
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
 							</ul>
-						</li>
+						</li>	
 						<li>
 							Adapt
 							<ul class="sub_menu">
 								<li>
-									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
-								</li>
-								<li>
-									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+									<a href="./AdaptALGAEProtocol.html#change_life_stages">Change life stages</a>
 								</li>
 								<li>
 									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
 								</li>							
 							</ul>
-						</li>
+						</li>					
+						
+						
+						
+						
 						<li>
 							Understand
 							<ul class="sub_menu">
@@ -136,38 +140,99 @@
 
 <section class="main_section">
 
-<table>
-<tr>
-<td width=500>
-ALGAE is an automated protocol which can be used to assess historical exposures to 
-air pollution for members of longitudinal cohorts. It was developed as part of a 
-research project between Imperial College's <a href="http://www.sahsu.org">Small Area Health 
-Statistics Unit</a>(SAHSU) and the <a href="http://www.bristol.ac.uk/alspac/">Avon Longitudinal Study 
-of Parents and Children</a>(ALSPAC).
-
-<h1>How to Cite and License It</h1>
-The ALGAE Protocol has been developed by Imperial College and is available under the 
-<a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3.0</a> open source license.  We ask that if you use the software, please 
-cite our <a href="">paper</a>, which was published in the Environmental Modelling and Software.
+<h1>Adapt the Code</h1>
+We expect that there are three main ways that projects may want to adapt
+the ALGAE protocol to better suit their needs:
+<ul>
+<li>
+adjust life stage boundaries for early life analyses
+</li>
+<li>
+add or remove life stages for the later life analysis
+</li>
+<li>
+change one or more of the pollutants
+</li>
+</ul>
 
 <p>
-<table>
-<tr>
-<td>
-<a href="#software_design" class="link_button">Download</a>
-</tr>
-</table>
+Here we provide some suggestions about how you would do these tasks.  
+Please note however that any changes you make to the code will likely cause
+the test suites to fail.  However, if you're confident that ALGAE works
+correctly, this may not be a problem.
 </p>
 
-<h2>How to Use this Web Site</h2>
-We recognise that different groups will want to make use of the protocol in different ways: some 
-groups will want to use the code, others may just want high level ideas from it.  
-</td>
-<td width=500>
-<img src="./images/ALGAEReusePyramid.jpg" width=500>
-</td>
-</tr>
-</table>
+<h2>
+<a name="change_life_stages">
+How do I change the life stages?
+</a>
+</h2>
+The easiest way to learn how to change the life stages is to look for 
+the tag "#CHANGE_LIFE_STAGES" in the code base.  It will take you to
+the part of the code in the function <code>early_calc_life_stages</code>
+that specifies default stages of T1, T2, T3 and EL.
+
+<p>
+Definitions of life stages will appear like the following snippet of code: 
+<pre>
+		 SELECT
+		 	person_id,
+			'T2' AS life_stage,
+			birth_date,
+			(conception_date + INTERVAL '92 days')::date AS start_date,
+			(conception_date + INTERVAL '183 days')::date AS end_date
+</pre>
+
+<p>
+In this case, if you wanted to change the name of the life stage <code>T2</code> to 
+<code>Trimester 2</code>, you would first do a global search-and-replace on the 
+phrase "'T2'" with "'Trimester 2'".  If you wanted to change the temporal boundaries, 
+you would adjust the numbers in the phrases <code>'92 days'</code> and 
+<code>'183 days'</code>.  <b>Remember: however you change the temporal boundaries for 
+a life stage, ensure that they are temporally contiguous with other life stages</b>.
+</p>
+
+<p>
+Please exercise care when you change the life stages in the early life analysis.  
+ALGAE performs checks that fix T2 and T3 periods so that they do not overlap with
+the EL period, which by default begins at birth.  The protocol does the checks to
+correct for problems that occur in calculations when the <code>estimated_gestation_age</code>
+value reflects a very premature birth.
+</p>
+
+<p>
+If you want to change the life stage definitions for the later life analysis,
+you will need to look at similar code in <code>later_calc_life_stages</code>.
+</p>
+
+<h2>
+<a name="change_covariates">
+How do I change the covariates?
+</a>
+</h2>
+The advice here is similar to that we suggest for changing pollutants.  ALGAE
+attaches no significance to <code>ed91</code>, <code>oa2001</code>, 
+<code>coa2011</code> - they are just treated as identifiers that will be used
+by researchers to link exposures to covariate data sets.  Search for the 
+covariate linking field <code>oa2001</code> to better understand where you 
+may have to add or edit code.
+
+<h2>
+<a name="change_pollutants">
+How do I change the pollutants?
+</a>
+</h2>
+ALGAE does not attach meaning to any of the pollutant values: NAME, NOX,
+PM10 are just numeric fields that are used in aggregate calculations.  
+The easiest way to use other pollutants is to carefully go through and 
+search-and-replace one of the existing pollutants.  For example, you could replace 
+a pollutant like <code>pm10_rd</code> with <code>radon</code>.  
+
+
+
+
+
+
 
 			</section>
 		</div>

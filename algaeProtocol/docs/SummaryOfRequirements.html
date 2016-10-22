@@ -9,12 +9,7 @@
 		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
 		<meta name="description" 
 		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
-		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts.  For each study
-		member, exposures are aggregated by pollution type (eg: PM10, NOX, NAME), by life stage (eg: T1, T2, T3) and by 
-		aggregate operation (ie: cumulative, average, median).  Exposures are calculated using four methods, each of
-		which uses a different way of using parts of residential address history records.  The records are assumed
-		to come from an administrative system that is used to audit current addresses of study members rather than
-		a research system that is used to track past addresses of study members.">
+		This page is a summary of requirements that the protocol supports.">
 		<meta name="description" 
 		content="">
 		<meta name="author" content="Kevin Garwood">
@@ -136,38 +131,112 @@
 
 <section class="main_section">
 
-<table>
-<tr>
-<td width=500>
-ALGAE is an automated protocol which can be used to assess historical exposures to 
-air pollution for members of longitudinal cohorts. It was developed as part of a 
-research project between Imperial College's <a href="http://www.sahsu.org">Small Area Health 
-Statistics Unit</a>(SAHSU) and the <a href="http://www.bristol.ac.uk/alspac/">Avon Longitudinal Study 
-of Parents and Children</a>(ALSPAC).
+<h1>Summary of Requirements</h1>
 
-<h1>How to Cite and License It</h1>
-The ALGAE Protocol has been developed by Imperial College and is available under the 
-<a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3.0</a> open source license.  We ask that if you use the software, please 
-cite our <a href="">paper</a>, which was published in the Environmental Modelling and Software.
 
-<p>
-<table>
-<tr>
-<td>
-<a href="#software_design" class="link_button">Download</a>
+
+<table class="generic_table">
+<tr class="generic_data_table_header">
+<th>
+Number
+</th>
+<th>
+Requirement
+</th>
+<th>
+Reason
+</th>
 </tr>
-</table>
-</p>
 
-<h2>How to Use this Web Site</h2>
-We recognise that different groups will want to make use of the protocol in different ways: some 
-groups will want to use the code, others may just want high level ideas from it.  
+<tr>
+<td class="requirements_number">
+1
 </td>
-<td width=500>
-<img src="./images/ALGAEReusePyramid.jpg" width=500>
+<td class="requirements_name">
+Solution must be fully automated
+</td>
+<td class="requirements_reason">
+The cost of working off-site, during an expensive window of development, makes it impractical to
+depend on manual steps for manipulating data.  The cost of manual work would be repeated if the
+results had to be regenerated.
 </td>
 </tr>
+
+<tr>
+<td class="requirements_number">
+2
+</td>
+<td class="requirements_name">
+Solution must support substitution of real data with fake data sets
+</td>
+<td class="requirements_reason">
+Because of information governance concerns, much of the input data that could be used to
+run the protocol cannot be taken off-site.  In order to allow substantial development and
+testing of the protocol to be done in their normal work environment, developers would have
+to be able to simulate sensitive data with fake data.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+3
+</td>
+<td class="requirements_name">
+Use technologies that make a complete separation between data and code.
+</td>
+<td class="requirements_reason">
+Some technologies such as spreadsheets save macros together with the data to which they 
+are applied.  If the data are sensitive and cannot be taken off-site, and if the code
+can't be separated from the data, then the code cannot be taken off-site as well.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+4
+</td>
+<td class="requirements_name">
+Quantify data cleaning through sensitivity variables.
+</td>
+<td class="requirements_reason">
+The protocol must audit data cleaning via sensitivity variables that scientists can use
+to assess the effects of changes on subsets of results.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+5
+</td>
+<td class="requirements_name">
+The protocol should estimate exposure measurement error in a way that considers the nature of 
+the administrative systems which produced the data.
+</td>
+<td class="requirements_reason">
+The address 
+
+</td>
+</tr>
+
+
+
 </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			</section>
 		</div>

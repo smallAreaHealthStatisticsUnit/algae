@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>Creating the original_exp_data table</title>
+</head>
+
+<body>
+
+<h1>Creating the original_exp_data table</title>
+
+
+
+<h2>Example Table</h2>
+See <a href="./original_exposure_data.csv">here</a>.
+
+<h2>Suggested Steps</h2>
+<ol>
+<li>
+</li>
+</ol>
+
+<h2>Table Properties</h2>
+You need to produce a CSV file called <code>original_geocode_data</code>.  It must
+have the following fields:
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Description<th>
+<th>Is Required</th>
+<th>Properties</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td><code>geocode</code></td>
+<td>
+Represents the location of a residential address.  For ALGAE, the geocode is treated
+as just an identifier and the protocol attaches no meaning to the code.
+</td>
+<td>Yes</td>
+<td>Any text</td>
+<td>37.422036-122.084124</td>
+</tr>
+
+<tr>
+<td><code>comments</code></td>
+<td>Any other information cohorts want to provide about the geocode</td>
+<td>No</td>
+<td>Any Text</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>date_of_year</code></td>
+<td>Date of an exposure record.  If you are running the early life analyses, ALGAE
+assumes this is the date of a daily exposure record.  If you are running the
+later life analysis then this date is January 1st of a calendar year and the
+exposure values represent annual average values.<td>
+<td>Yes</td>
+<td>Date Format: dd/MM/yyyy</td>
+<td>23/05/1996</td>
+</tr>
+
+<tr>
+<td><code>pm10_rd</code></td>
+<td>PM10 from local road sources<td>
+<td>No</td>
+<td>A number with 15 decimal digits precision</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>nox_rd</code></td>
+<td>NOx from local road sources<td>
+<td>No</td>
+<td>A number with 15 decimal digits precision</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>pm10_gr</code></td>
+<td>PM10 from local non-road sources<td>
+<td>No</td>
+<td>A number with 15 decimal digits precision</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>name</code></td>
+<td>PM10 from background sources (outside the study area)<td>
+<td>No</td>
+<td>A number with 15 decimal digits precision</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>pm10_tot</code></td>
+<td>PM10 from local roads, local other sources and background sources 
+(outside study area)
+<td>
+<td>No</td>
+<td>A number with 15 decimal digits precision</td>
+<td></td>
+</tr>
+
+<table>
+
+
+
+</table>
+
+</body>
+
+

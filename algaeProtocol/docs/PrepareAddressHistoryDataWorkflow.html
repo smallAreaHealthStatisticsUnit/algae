@@ -1,0 +1,254 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page provides a step-by-step guide for how researchers can use cohort-specific data to produce the 
+		generic address history table that is required by the protocol.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+								<li>
+									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
+								</li>
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>																								
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							Adapt
+							<ul class="sub_menu">
+								<li>
+									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+
+<h1>Data loading part 3: Prepare the address history data</h1>	
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./PrepareCohortDataWorkflow.html" class="link_button">Overview</a>
+</td>
+<td>
+<a href="./PrepareGeocodeDataWorkflow.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./PrepareExposureDataWorkflow.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+
+
+<p>
+<img src="./images/DataLoadingProgressStep3.jpg" width=800>
+</p>
+
+
+
+
+
+<h2>Purpose</h2>
+This table is used to establish when and where study members were with respect to 
+historically modelled exposure values at addresses they occupied.  
+
+
+<h2>Location of Original Data File</h2>
+You will need to create a file that has this name
+
+<pre>
+original_address_history_data.csv
+</pre>
+
+
+which must be located in:
+
+<pre>
+early_life/input_data
+</pre>
+
+or
+
+<pre>
+later_life/input_data
+</pre>
+
+
+<h2>Suggested Approach</h2>
+The goal of this activity is to populate a table that has the following fields:
+code>person_id</code>, <code>geocode</code>, <code>start_date</code>, 
+<code>end_date</code>.  Before you begin this part of the protocol, please ensure
+that you have done all the steps needed to prepare the <code>original_geocode_data
+table</code>.  See <a href="./PrepareGeocodeDataWorkflow.html">Creating the 
+<code>original_geocode_data</code> table</a>.
+
+<p>
+We assume that you will obtain all the residential address records of study members
+from an administrative system that audits current addresses for all cohort members.
+
+<p>
+Although ALGAE does not care how you create the expected fields, we will assume that
+your administrative database will record an address using the following fields: 
+<ul>
+<li>person_id</li>
+<li>one or more fields for a residential address (eg: address line 1, post code)</li>
+<li>a time stamp</li>
+<li>
+other contact data fields that ALGAE does not need (eg: e-mail, phone number)
+</li>
+</ul>
+</p>
+
+<h3>Step 1: Substitute address fields with geocodes</h3>
+From your work preparing the <code>original_geocode_data</code>, you should have been
+able to substitute the address fields in each address record with a geocode.
+
+<h3>Step 2: Identify candidate field for <code>start_date</code></h3>
+As part of our assumptions about your administrative system, the start date will
+probably correspond to the time stamp of the address record. Note that this time stamp
+will represent when a change of address was added to the system, and not when a study
+member began living there.
+
+<h3>Step 3: Identify candidate field for <code>end_date</code></h3>
+Either your Contacts database will have a field for end_date or you will have to derive 
+one.
+
+<b>Map data from a corresponding end_date field that already exists in the Contacts database</b>.
+In the Imperial-ALSPAC use case study, ALSPAC provided Imperial with address records that
+included an <code>end_date</code> field.  However, for some administrative systems, the end
+date may have to be computed.  If this is the case, we would expect that the end date of the 
+previous address record would be 1 day before the current address record.
+
+<p>
+If you find that you have to compute an end_date field, then it is likely that all of your
+address periods will fit together perfectly with one another.  In this case, your results will
+exhibit no exposure measurement error in the <code>_err</code> fields that appear in the 
+<a href="./ALGAE_DD_early_cln_mob_exposures.html">early</a> or 
+<a href="./ALGAE_DD_early_cln_mob_exposures.html">late </a> cleaned mobility result tables.
+</p>
+
+<h3>General Advice</h3>
+If your administrative data set has both <code>start_date</code> and <code>end_date</code> fields,
+then <b>do not</b> attempt to clean them.  Otherwise ALGAE will not detect the errors and attempt
+to assess exposure measurement error in the results.
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

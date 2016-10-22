@@ -1,0 +1,269 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Data Dictionary: Later life stage data (algae1200-algae1206)</title>
+ 		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing later life exposures in longitudinal cohorts.  
+		This page is the part of the data dictionary for variables algae1200-algae1206.  They describe 
+		the properties of life stages used for the later life analysis.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+							
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+								<li>
+									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
+								</li>
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>																
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>																								
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							Adapt
+							<ul class="sub_menu">
+								<li>
+									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+			
+<h1>ALGAE Data Dictionary: Later life stage data (algae1200-algae1206)</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<h2>Context of Variables</h2>
+These variables describe the name and temporal boundaries of life stages that are used
+in the later life analysis.  Note that in the default version of ALGAE, the software
+will alter life stage boundaries for some premature births.  If you see that the 
+start date and end date of T3 are both null, you can assume that the study member was born
+as a very premature baby.  Please see <a href="./CalculationsAndAlgorithms.html#life_stage_calc">
+Calculations and Algorithms</a> to learn more about how ALGAE corrects for these cases.
+
+<h2>Location of Result File</h2>
+You will find these variables in a file having a name that fits the form:
+
+<pre>
+res_later_life_stages_[Date stamp].csv
+</pre>
+
+which will be found in the directory:
+
+<pre>
+later_life/results/life_stage_data
+</pre>
+
+<h2>Example Result File</h2>
+See <a href="./example_results/res_later_life_stages_2016-Jan-04-10-14.csv">here</a>.
+
+
+<h2>Variable Naming Conventions</h2>
+The basic format of variables in this section follows this pattern:
+
+<pre>
+	algae12[00-05]_[pollution type]_[aggregate value]
+</pre>
+
+<p>
+In this pattern, <code>algae12</code> indicates that they describe properties of life
+stages used in the later life analysis.
+
+<h2>Variable Dictionary</h2>
+
+
+
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<th>
+Variable
+</th>
+<th>
+Description
+</th>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae1200_person_id
+</td>
+<td class="data_dictionary_var_description">
+An anonymised or pseudonymised identifier which represents a study member.  ALGAE uses this
+variable to link data together for a given study member.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae1201_ith_life_stage
+</td>
+<td class="data_dictionary_var_description">
+Indicates the order of life stages.  For example, suppose the life stages 
+<code>T1</code>, <code>T2</code>, <code>T3</code> and <code>EL</code>.  The 
+temporal ordering of the stages would be 1 for <code>T1</code>, 2 for 
+<code>T2</code>, 3 for <code>T3</code> and 4 for <code>EL</code>.
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae1202_life_stage
+</td>
+<td class="data_dictionary_var_description">
+The name of the life stage.  For example, EL stands for the later life period.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae1203_life_stage_year
+</td>
+<td class="data_dictionary_var_description">
+The calendar year of the first day of the life stage.  For example, if the EL
+period runs from <code>18-11-1996</code> to <code>17-11-1997</code>, the
+life stage year will be 1996.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae1204_start_date
+</td>
+<td class="data_dictionary_var_description">
+The start date of the life stage.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae1205_end_date
+</td>
+<td class="data_dictionary_var_description">
+The end date of the life stage.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae1206_life_stage_duration
+</td>
+<td class="data_dictionary_var_description">
+The total number of days in the life stage, including both the start and end
+days.
+</td>
+</tr>
+
+</table>
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

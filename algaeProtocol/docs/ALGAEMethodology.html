@@ -1,0 +1,402 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Methodology</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes the ALGAE methodology.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>				
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+							
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Background
+							<ul class="sub_menu">
+								<li>
+									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
+								</li>
+								<li>
+									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
+								</li>
+								<li>
+									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
+								</li>
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>																								
+							</ul>														
+						</li>
+						<li>
+							Borrow
+							<ul class="sub_menu">
+								<li>
+									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+								</li>
+								<li>
+									<a href="#">The ALGAE Check List</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							Use
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+							</ul>
+						</li>
+						<li>
+							Adapt
+							<ul class="sub_menu">
+								<li>
+									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
+								</li>
+								<li>
+									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							Understand
+							<ul class="sub_menu">
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./CodeRoadMap.html">Code Road Map</a>
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>							
+							</ul>
+						</li>
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+<h1>Methodology</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p>
+The ALGAE Protocol supports two analyses: an early life analysis and a later life analysis.
+The analyses are the same except for the kind of exposure data they use.  In the early life
+analysis, an exposure record is assumed to describe the concentrations of one or more
+pollutants for a given geocode for a given date.  
+</p>
+
+<h2>1 Pre-process original data tables</h2>
+The ALGAE Protocol pre-processes original data tables in order to make the software
+more forgiving of variations of field values that cohorts may create.  It standardises
+representations of null (eg: null,#NULLIF, NULL), Y (eg: Yes, yes, y, true), N (eg: No,
+no, n, false).  The pre-processed versions of the original data tables are named to
+begin with <code>staging_</code>.  For example, pre-processing alters a copy of 
+<code>original_geocode_data</code> to make a table <code>staging_geocode_data</code>.
+
+
+<h2>2 Perform preliminary system checks</h2>
+ALGAE tries to make assertions that certain table fields are null or unique.  These checks
+help detect any errors that may exist in the cohort data sets as early as possible.
+
+<h2>3 Ensure daily exposure records are ready to use</h2>
+ALGAE processes daily exposure records.  In the later life analysis, an exposure
+record has the same fields but it represents an annual average concentration for the same
+pollutants.  In later life analyses, the date is always expected to be January 1st of a 
+calendar year.  The annual exposure records are converted to daily exposure records, and
+the rest of the protocol does not care whether it is processing an early or late analysis.
+
+<h2>4 Calculate life stages</h2>
+Life stages are calculated for each study member.  In the early life analysis, the temporal
+boundaries for T1, T2, T3 and EL are calculated.  In the later life analysis, boundaries
+are calculated for life years such as YR1, YR2, YR3, etc.  The early analysis has 
+additional code to help account for premature births.  When study members are born 
+premature, it is possible that parts of T2 and T3 will overlap with days past their
+birth date.  When the protocol corrects problems in these life stages, the result can
+be that either the end date of T2 or T3 is changed, or that T3 is made empty altogether.
+The life stage calculations ensure that they will not overlap: in other words, each
+relevant day of a person's life will belong to exactly one life stage.
+
+<p>
+As well as the life stage boundaries, the boundaries for the overall exposure time frame 
+are calculated.  For example in the early life analysis, the time frame would be 
+<code>[conception date, birth date + 1 year - 1 day]</code>.
+</p>
+
+<h2>5 Clean address periods</h2>
+<b>5.1 Impute blank start and end dates.</b> First, it ensures that each address period has 
+non-blank values for its start date and end date values.  When a start date is missing,
+the protocol imputes the value with the study member's conception date.  When the end
+date is missing, the value is set to the current date.  
+
+<figure class="explanation_figure">
+<img src="./images/ImputeBlankDates.jpg" width=600>
+<figcaption><b>Imputing blank dates</b>.  Blank start dates are filled with conception
+dates and blank end dates are filled with the current date.
+</figcaption>  
+</figure>
+
+<p>
+<b>5.2 Order address periods</b>.  Once any blank values have been imputed, the address 
+periods are sorted in a way that is maintained for the rest of the protocol.  Address 
+periods are ordered first by the study member ID, then by the start date, then by the 
+duration of the period.  
+</p>
+
+<figure class="explanation_figure">
+<img src="./images/AddressPeriodSorting.jpg" width=600>
+<figcaption><b>Understanding proxy error</b>.  Ordering the address periods.
+</figcaption>  
+</figure>
+
+
+
+
+<p>
+It is at this point in the protocol that ALGAE begins to track data cleaning changes 
+using sensitivity variables.   
+
+<p>
+<a name="fixable_bad_geocodes"></a>
+<b>5.3 Identify and try to fix bad geocodes</b>.  Before ALGAE attempts to clean the 
+temporal boundaries of successive address periods, it tries to identify and fix
+bad geocodes.  A bad geocode is one which is either 
+<a href="./ALGAETerminology.html#invalid_geocode">invalid</a> or 
+<a href="./ALGAETerminology.html#oob_geocode">out-of-bounds</a>.  If study members 
+have an address period which is within their exposure time frame and has a bad
+geocode, it means that their exposure will not be calculated - they are left out
+of exposure analysis altogether.
+</p>
+
+
+<p>
+In order to reduce the impact of bad geocodes, ALGAE tries to fix those which 
+it believes represent an incorrect address which is fixed in the following address
+record.  The diagram below illustrates the criteria for identifying an 
+address period which has a bad geocode that can be fixed.
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/IdentifyFixableBadGeocode.jpg" width=600>
+<figcaption><b>Identifying bad geocodes that could be fixed</b>.
+</figcaption>  
+</figure>
+</p>
+
+<p>
+If an address period a<sub>n</sub> is identified as having a geocode that is
+"fixable" then:
+<ol>
+<li>
+<code>
+a<sub>n+1</sub>.start_date = a<sub>n</sub>.start_date
+</code>
+</li>
+<li>
+a<sub>n</sub> is marked with 
+</li>
+</ol>
+
+Address periods whose geocodes are "fixable" are flagged to be ignored in future
+data cleaning.  If a<sub>n</sub>.is_fixed_invalid_geocode=Y.  This marks 
+the period so it can be ignored from all future cleaning as if it didn't exist.
+Note that this is not the same as marking a period for deletion, as what can
+happen later in the methodology.
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/FixBadGeocode.jpg" width=600>
+<figcaption><b>Fixing a bad geocode</b>.
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>5.3 Identify and fix temporal gaps and overlaps</b>. 
+Once the address periods have been ordered by <code>person_id</code>,
+<code>start_date</code> and <code>duration</code>, ALGAE proceeds to identify
+any gaps or overlaps that may appear in the residential address histories.
+The protocol scans the address periods and flags each one for the kind of 
+fit that exists between successive address periods.  
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/IdentifyGapsAndOverlaps.jpg" width=600>
+<figcaption><b>Identify gaps and overlaps</b>.  The numerical sign of the 
+difference between a<sub>n+1</sub>.start_date and a<sub>n</sub>.end_date is used 
+to determine whether two successive address periods a<sub>n</sub> and a<sub>n+1</sub>
+are temporally contiguous, show a gap or show an overlap.
+</figcaption>  
+</figure>
+</p>
+
+<p>
+Once address periods have been marked for gaps and overlaps, ALGAE begins to fix
+them so that they are temporally contiguous.  In any address period, the
+<code>start_date</code> values are assumed to provide a much stronger and more reliable
+signal of location than <code>end_date</code> values.  The assumption is based on
+the idea that in an administrative system, start dates will likely correspond to
+time stamps but end dates will likely be computed in relation to start dates.
+</p>.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/FixGapsAndOverlaps.jpg" width=600>
+<figcaption><b>Fix gaps and overlaps</b>.  Fixing gaps and overlaps always favours
+preserving the <code>start_date</code> of address periods.  
+</figcaption>  
+</figure>
+</p>
+
+<b>5.4 Ensure that every day of exposure time frame is covered by an address period</b>.
+It is possible in the early life analysis that there will be a gap between conception
+date and the date of enrolment.  It may also be possible in the early or late analysis
+that the end date of the last available address period fails to cover days at the end
+of the exposure time frame.  In order to ensure that all days of an exposure time frame
+are covered, ALGAE will adjust boundaries of first and last relevant address periods.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/FixExternalFitProblems.jpg" width=600>
+<figcaption><b>Filling in any remaining unaccounted exposure days with address periods.
+</b>.   
+</figcaption>  
+</figure>
+</p>
+
+<h3>6 Calculate Exposures</h3>
+Once ALGAE has geocoded residential addresses and cleaned the address periods, it then 
+matches the appropriate daily exposure records for locations that study members occupied 
+on each day covered by their cleaned residential address histories.  Each exposure record 
+have a <code>person_id</code>, a <code>geocode</code>, a <code>date_of_year</code> and daily 
+pollution concentrations
+for
+<a href="./ALGAETerminology.html#name">NAME</a>, 
+<a href="./ALGAETerminology.html#nox_rd">NOX_rd</a>, 
+<a href="./ALGAETerminology.html#pm10_rd">PM10_rd</a>, 
+<a href="./ALGAETerminology.html#pm10_gr">PM10_gr</a> and  
+<a href="./ALGAETerminology.html#pm10_tot">PM10_tot</a>.
+
+The exposure records are then used by different ways of assessing exposures for early
+and later life analyses.  The following diagram illustrates the different exposure methods.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/ExposureMethods.jpg" width=800>
+<figcaption><b>ALGAE's exposure methods.
+</b>. ALGAE matches daily exposure records with locations that study members occupied for each day of 
+their cleaned residential address histories.  The daily records are then aggregated by life stage in
+different ways.   
+</figcaption>  
+</figure>
+</p>
+
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/LaterLifeCleanedMobilityAssessment.jpg" width=800>
+<figcaption><b>Cleaned mobility assessment.
+</b>.   
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/LaterLifeUncleanedMobilityAssessment.jpg" width=800>
+<figcaption><b>Uncleaned mobility assessment.
+</b>.   
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/LaterLifeStageMobilityAssessment.jpg" width=800>
+<figcaption><b>Life stage mobility assessment.
+</b>.   
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyLifeBirthAddressAssessment.jpg" width=800>
+<figcaption><b>Early life birth address assessment.
+</b>.   
+</figcaption>  
+</figure>
+</p>
+
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

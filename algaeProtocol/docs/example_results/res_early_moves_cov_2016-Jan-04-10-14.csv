@@ -1,0 +1,11 @@
+person_id,algae5201_mv_to_concept_days,algae5202_ed91,algae5203_oa2001,algae5204_coa2011
+early_many_moves,314,a5-ed91,a5-oa01,a5-oa11
+early_many_moves,70,a2-ed91,a2-oa01,a2-oa11
+early_many_moves,162,a3-ed91,a3-oa01,a3-oa11
+early_many_moves,223,a4-ed91,a4-oa01,a4-oa11
+early_many_moves_with_err,162,a3-ed91,a3-oa01,a3-oa11
+early_many_moves_with_err,314,a5-ed91,a5-oa01,a5-oa11
+early_many_moves_with_err,223,a4-ed91,a4-oa01,a4-oa11
+early_many_moves_with_err,70,a2-ed91,a2-oa01,a2-oa11
+early_many_overlaps,62,a2-ed91,a2-oa01,a2-oa11
+early_many_overlaps,63,a3-ed91,a3-oa01,a3-oa11

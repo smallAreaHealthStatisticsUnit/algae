@@ -1,0 +1,6 @@
+person_id,algae6101_at_1st_addr_concept,algae6102_absent_in_exp,algae6102_gest_age,algae6104_is_gest_age_imp,algae6105_total_addr,algae6106_oob_geocodes,algae6107_inv_geocodes,algae6108_fixed_geocodes,algae6109_over_laps,algae6110_gaps,algae6111_gap_over_lap,algae6112_deletions,algae6113_cln_blank_start_date,algae6114_cln_blank_end_date,algae6115_cln_blank_both_dates,algae6116_cln_last_dates,algae6117_days_changed,algae6118_has_bad_geocode_in_exp,algae6119_contention_days,algae6120_missing_exp
+early_many_moves,Y,N,37,N,5,0,0,0,0,0,0,0,0,0,0,0,0,N,0,0
+early_many_moves_with_err,Y,N,37,N,5,0,0,0,0,2,1,0,0,0,0,0,13,N,13,0
+early_many_overlaps,Y,N,37,N,3,0,0,0,2,0,0,0,0,0,0,0,6,N,4,0
+early_no_moves,Y,N,37,N,1,0,0,0,0,0,0,0,0,0,0,0,0,N,0,0
+missing_exposure_days,Y,N,37,N,1,0,0,0,0,0,0,0,0,0,0,0,0,N,0,10
