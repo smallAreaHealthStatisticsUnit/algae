@@ -338,6 +338,7 @@ BEGIN
 		c.person_id,
 		c.ith_life_stage,
 		c.life_stage,
+		c.life_stage_duration,
 		COALESCE(d.name_invalid_address_days, 0) AS name_invalid_address_days,
 		COALESCE(d.name_oob_days, 0) AS name_oob_days,
 		COALESCE(d.name_poor_address_days, 0) AS name_poor_address_days,

@@ -878,6 +878,7 @@ BEGIN
 		c.person_id,
 		c.ith_life_stage,
 		c.life_stage,
+		c.life_stage_duration,
 		d.name_invalid_address_days,
 		d.name_oob_days,
 		d.name_poor_address_days,
@@ -1203,7 +1204,6 @@ BEGIN
 		person_id,
 		ith_life_stage,
 		life_stage,
-
 		SUM(name_invalid_address_count) AS name_invalid_address_days,
 		SUM(name_oob_count) AS name_oob_days,
 		SUM(name_poor_address_count) AS name_poor_address_days,
@@ -1269,6 +1269,7 @@ BEGIN
 		c.person_id,
 		c.ith_life_stage,
 		c.life_stage,
+		c.life_stage_duration,
 		COALESCE(d.name_invalid_address_days, 0) AS name_invalid_address_days,
 		COALESCE(d.name_oob_days, 0) AS name_oob_days,
 		COALESCE(d.name_poor_address_days, 0) AS name_poor_address_days,
@@ -1649,6 +1650,7 @@ BEGIN
 		c.person_id,
 		c.ith_life_stage,
 		c.life_stage,
+		c.life_stage_duration,
 		COALESCE(d.name_invalid_address_days, 0) AS name_invalid_address_days,
 		COALESCE(d.name_oob_days, 0) AS name_oob_days,
 		COALESCE(d.name_poor_address_days, 0) AS name_poor_address_days,
@@ -1939,6 +1941,7 @@ BEGIN
 		person_id,
 		ith_life_stage,
 		life_stage,
+		life_stage_duration,
 		generate_series(start_date, end_date, '1 day'::interval)::date AS date_of_year
 	FROM
 		fin_general_life_stage_data
