@@ -132,6 +132,7 @@ BEGIN
 	-- ------------------------------------
 	-- Generate cleaned address period file
 	-- ------------------------------------	
+	
 	DROP TABLE IF EXISTS results_later_cleaned_addr_periods;
 	CREATE TABLE results_later_cleaned_addr_periods AS
 	SELECT
@@ -145,34 +146,34 @@ BEGIN
 		duration AS algae2207_duration,
 		ith_residence_type AS algae2208_ith_residence_type,
 		has_valid_geocode AS algae2209_has_valid_geocode,
-		has_exposures AS algae2210_has_exposures,
-		is_out_of_bounds AS algae2211_is_out_of_bounds,
-		maximum_life_stage_overlap AS algae2212_max_life_stage_overlap,
-		is_fixed_invalid_geocode AS algae2213_max_stage_over_lap,
-		fit_extent AS algae2214_fit_extent,
-		adjusted_start_date AS algae2215_adj_start_date,
-		adjusted_end_date AS algae2216_adj_end_date,
-		days_changed AS algae2217_days_changed,
-		fit_type AS algae2218_fit_type,
-		start_date_delta1 AS algae2219_start_date_delta1,
-		start_date_delta2 AS algae2220_start_date_delta2,
-		end_date_delta1 AS algae2221_end_date_delta1,
-		end_date_delta2 AS algae2222_end_date_delta2,
-		previous_geocode AS algae2223_previous_geocode,
-		next_geocode AS algae2224_next_geocode,
-		fin_adjusted_start_date AS algae2225_fin_adj_start_date,
-		imputed_first_start AS algae2226_imputed_first_start,
-		fin_adjusted_end_date AS algae2227_fin_adj_end_date,
-		imputed_last_end AS algae2228_imputed_last_end,
-		start_date_days_from_conception AS algae2229_start_date_days_from_concep,
-		is_within_exposure_time_frame AS algae2230_is_within_exp,
-		has_bad_geocode_within_time_frame AS algae2231_has_bad_geocode_within_exp
+		has_nox_rd_exposures AS algae2210_nox_rd_exposures,
+		has_pm10_gr_exposures AS algae2211_pm10_gr_exposures,
+		has_pm10_rd_exposures AS algae2212_pm10_rd_exposures,
+		has_pm10_tot_exposures AS algae2213_pm10_tot_exposures,		
+		maximum_life_stage_overlap AS algae2214_max_life_stage_overlap,
+		is_fixed_invalid_geocode AS algae2215_max_stage_over_lap,
+		fit_extent AS algae2216_fit_extent,
+		adjusted_start_date AS algae2217_adj_start_date,
+		adjusted_end_date AS algae2218_adj_end_date,
+		days_changed AS algae2219_days_changed,
+		fit_type AS algae2220_fit_type,
+		start_date_delta1 AS algae2221_start_date_delta1,
+		start_date_delta2 AS algae2222_start_date_delta2,
+		end_date_delta1 AS algae2223_end_date_delta1,
+		end_date_delta2 AS algae2224_end_date_delta2,
+		previous_geocode AS algae2225_previous_geocode,
+		next_geocode AS algae2226_next_geocode,
+		fin_adjusted_start_date AS algae2227_fin_adj_start_date,
+		imputed_first_start AS algae2228_imputed_first_start,
+		fin_adjusted_end_date AS algae2229_fin_adj_end_date,
+		imputed_last_end AS algae2230_imputed_last_end,
+		start_date_days_from_conception AS algae2231_start_date_days_from_concep,
+		is_within_exposure_time_frame AS algae2232_is_within_exp
 	FROM
 		fin_cleaned_addr_periods
 	ORDER BY
 		person_id,
 		ith_residence;
-	
 
 	-- ------------------------------------
 	-- Generate exposure data files
@@ -468,31 +469,27 @@ BEGIN
 	-- Generate sensitivity results
 	-- ---------------------------------------
 
-	-- Generating sensitivity variables
 	DROP TABLE IF EXISTS results_later_sens_variables;
 	CREATE TABLE results_later_sens_variables AS 
 	SELECT
 		person_id AS algae6300_person_id,
 		at_1st_addr_conception AS algae6301_at_1st_addr_concept,
 		absent_during_exp_period AS algae6302_absent_in_exp,
-		gestation_age_at_birth AS algae6302_gest_age,	
+		gestation_age_at_birth AS algae6303_gest_age,	
 		is_gestation_age_imputed AS algae6304_is_gest_age_imp,
 		total_addr_periods AS algae6305_total_addr,
-		out_of_bounds_geocodes AS algae6306_oob_geocodes,
-		invalid_geocodes AS algae6307_inv_geocodes,
-		fixed_geocodes AS algae6308_fixed_geocodes,
-		over_laps AS algae6309_over_laps,
-		gaps AS algae6310_gaps,
-		gap_and_overlap_same_period AS algae6311_gap_over_lap,
-		deletions AS algae6312_deletions,
-		imp_blank_start_dates AS algae6313_cln_blank_start_date,
-		imp_blank_end_dates AS algae6314_cln_blank_end_date,
-		imp_blank_both_dates AS algae6315_cln_blank_both_dates,
-		imp_last_dates AS algae6316_cln_last_dates,
-		days_changed AS algae6317_days_changed,
-		has_bad_geocode_within_time_frame AS algae6318_has_bad_geocode_in_exp,
-		total_contention_days AS algae6319_contention_days,
-		missing_exposure_days AS algae6320_missing_exp
+		fixed_geocodes AS algae6306_fixed_geocodes,
+		over_laps AS algae6307_over_laps,
+		gaps AS algae6308_gaps,
+		gap_and_overlap_same_period AS algae6309_gap_over_lap,
+		deletions AS algae6310_deletions,
+		imp_blank_start_dates AS algae6311_cln_blank_start_date,
+		imp_blank_end_dates AS algae6312_cln_blank_end_date,
+		imp_blank_both_dates AS algae6313_cln_blank_both_dates,
+		imp_last_dates AS algae6314_cln_last_dates,
+		days_changed AS algae6315_days_changed,
+		total_contention_days AS algae6316_contention_days,
+		missing_exposure_days AS algae6317_missing_exp
 	FROM
 		fin_sens_variables
 	ORDER BY
