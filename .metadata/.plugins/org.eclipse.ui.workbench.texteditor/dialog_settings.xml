@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="dropped_" key="selection"/>
+		<item value="no_exposure_data" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="dropped_"/>
-			<item value="uncln_"/>
-			<item value="cln_"/>
-			<item value="stg_"/>
-			<item value="dropped_exp"/>
-			<item value="uncln"/>
-			<item value="COALESCE(a."/>
-			<item value="COALESCE"/>
+			<item value="no_exposure_data"/>
+			<item value="no_exposure"/>
+			<item value="tmp_addr_periods5"/>
+			<item value="tmp_addr_"/>
+			<item value="test_early_bad_geocodes"/>
+			<item value="total_exposure_days"/>
+			<item value="missing_exposure_days"/>
+			<item value="missing_exp"/>
 		</list>
 		<list key="replacehistory">
 			<item value="algae37"/>
@@ -32,7 +32,7 @@
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="381" key="DIALOG_HEIGHT"/>
-		<item value="1030" key="DIALOG_X_ORIGIN"/>
-		<item value="143" key="DIALOG_Y_ORIGIN"/>
+		<item value="890" key="DIALOG_X_ORIGIN"/>
+		<item value="170" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
