@@ -1,13 +1,13 @@
-person_id,comments,total_address_periods,out_of_bounds_geocodes,invalid_geocodes,fixed_geocodes,has_bad_geocode_within_time_frame
-one_addr_geocode_valid,sensitivity: 1 address period with a valid geocode (not fixable),1,0,0,0,N
-one_addr_geocode_invalid1,sensitivity: 1 address period with geocode is_valid = N (not fixable),1,0,1,0,Y
-one_addr_out_of_bounds,sensitivity: 1 address period with an out-of-bounds geocode (not fixable),1,1,0,0,Y
-one_addr_blank_geocode,sensitivity: 1 address period with blank geocode (not fixable),1,0,1,0,Y
-two_addr_last_invalid_geocode,sensitivity: 2 address periods and last period has invalid geocode (not fixable),2,0,1,0,Y
-two_addr_first_invalid_geocode,sensitivity: 2 address periods with first having invalid geocode (fixable),1,0,1,1,N
-two_addr_first_invalid_less25,sensitivity: 2 address periods first invalid has less than 25 percent stage overlap,1,0,1,1,N
-two_addr_first_invalid_equal25,sensitivity: 2 address periods first invalid has 25 percent stage overlap,2,0,1,0,Y
-two_addr_first_invalid_more25,sensitivity: 2 address periods first invalid has more than 25 percent stage overlap,2,0,1,0,Y
-two_addr_first_out_of_bounds,sensitivity: 2 address periods with first having an out-of-bounds geocode (not fixable),2,1,0,0,Y
-three_addr_fixable_geocode,sensitivity: 3 address periods with middle one having invalid geocode and next having valid geocode,2,0,1,1,N
-year2_bad_geocode,sensitivity: study member included for early life but excluded in later life analysis,1,0,0,0,N
+person_id,comments,total_address_periods,invalid_geocodes,fixed_geocodes
+one_addr_geocode_valid,sensitivity: 1 address period with a valid geocode (not fixable),1,0,0
+one_addr_geocode_invalid1,sensitivity: 1 address period with geocode is_valid = N (not fixable),1,1,0
+one_addr_out_of_bounds,sensitivity: 1 address period with an out-of-bounds geocode (not fixable),1,0,0
+one_addr_blank_geocode,sensitivity: 1 address period with blank geocode (not fixable),1,1,0
+two_addr_last_invalid_geocode,sensitivity: 2 address periods and last period has invalid geocode (not fixable),2,1,0
+two_addr_first_invalid_geocode,sensitivity: 2 address periods with first having invalid geocode (fixable),1,1,1
+two_addr_first_invalid_less25,sensitivity: 2 address periods first invalid has less than 25 percent stage overlap,1,1,1
+two_addr_first_invalid_equal25,sensitivity: 2 address periods first invalid has 25 percent stage overlap,2,1,0
+two_addr_first_invalid_more25,sensitivity: 2 address periods first invalid has more than 25 percent stage overlap,2,1,0
+two_addr_first_out_of_bounds,sensitivity: 2 address periods with first having an out-of-bounds geocode (not fixable),2,0,0
+three_addr_fixable_geocode,sensitivity: 3 address periods with middle one having invalid geocode and next having valid geocode,2,1,1
+year2_bad_geocode,sensitivity: study member included for early life but excluded in later life analysis,1,0,0
