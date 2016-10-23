@@ -137,6 +137,12 @@ BEGIN
 			person_id,
 			ith_residence,
 			CASE
+				WHEN has_valid_geocode = 'N' THEN
+					1
+				ELSE
+					0
+			END AS invalid_geocode_score,
+			CASE		
 				WHEN is_fixed_invalid_geocode = 'Y' THEN
 					1
 				ELSE
@@ -149,6 +155,7 @@ BEGIN
 	relevant_addr_period_geocode_scores2	AS
 		 (SELECT
 		 	person_id,
+		 	SUM(invalid_geocode_score) AS invalid_geocodes,
 		 	SUM(fixed_invalid_geocode_score) AS fixed_geocodes
 		 FROM
 		 	relevant_addr_period_geocode_scores1
@@ -160,6 +167,7 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,
+		COALESCE(b.invalid_geocodes, 0) AS invalid_geocodes,		
 		COALESCE(b.fixed_geocodes, 0) AS fixed_geocodes
 	FROM
 		tmp_sensitivity_variables1 a
@@ -264,7 +272,8 @@ BEGIN
 		a.at_1st_addr_conception,
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
-		a.is_gestation_age_imputed,		
+		a.is_gestation_age_imputed,	
+		a.invalid_geocodes,	
 		a.fixed_geocodes,
 		COALESCE(b.total_addr_periods, 0) AS total_addr_periods	--some may be null
 	FROM
@@ -377,6 +386,7 @@ BEGIN
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
 		a.is_gestation_age_imputed,		
+		a.invalid_geocodes,					
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		COALESCE(b.over_laps, 0) AS over_laps,
@@ -407,7 +417,8 @@ BEGIN
 		a.at_1st_addr_conception,
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
-		a.is_gestation_age_imputed,		
+		a.is_gestation_age_imputed,
+		a.invalid_geocodes,					
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		a.over_laps,
@@ -480,7 +491,8 @@ BEGIN
 		a.at_1st_addr_conception,
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
-		a.is_gestation_age_imputed,		
+		a.is_gestation_age_imputed,	
+		a.invalid_geocodes,							
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		a.over_laps,
@@ -552,7 +564,8 @@ BEGIN
 		a.at_1st_addr_conception,
 		a.absent_during_exp_period,
 		a.gestation_age_at_birth,		
-		a.is_gestation_age_imputed,		
+		a.is_gestation_age_imputed,
+		a.invalid_geocodes,								
 		a.fixed_geocodes,
 		a.total_addr_periods,
 		a.over_laps,
