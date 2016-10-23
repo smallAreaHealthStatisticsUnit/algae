@@ -546,9 +546,9 @@ BEGIN
 		b.has_pm10_rd_exposures,
 		b.has_pm10_tot_exposures
 	FROM
-		tmp_addr_periods4 a,
-		geocode_exposure_exposures b
-	WHERE
+		tmp_addr_periods4 a
+	LEFT JOIN geocode_exposure_exposures b --KLG 23/10/2016 change
+	ON
 		a.geocode = b.geocode
 	ORDER BY
 		person_id,
@@ -568,11 +568,36 @@ BEGIN
 		a.duration,
 		a.ith_residence_type,
 		b.has_valid_geocode,
-		c.has_name_exposures,
-		c.has_nox_rd_exposures,
-		c.has_pm10_gr_exposures,
-		c.has_pm10_rd_exposures,
-		c.has_pm10_tot_exposures		
+		CASE
+			WHEN c.has_name_exposures IS NULL THEN
+				'N'
+			ELSE
+				c.has_name_exposures
+		END AS has_name_exposures,
+		CASE
+			WHEN c.has_nox_rd_exposures IS NULL THEN
+				'N'
+			ELSE
+				c.has_nox_rd_exposures
+		END AS has_nox_rd_exposures,
+		CASE
+			WHEN c.has_pm10_gr_exposures IS NULL THEN
+				'N'
+			ELSE
+				c.has_pm10_gr_exposures
+		END AS has_pm10_gr_exposures,
+		CASE
+			WHEN c.has_pm10_rd_exposures IS NULL THEN
+				'N'
+			ELSE
+				c.has_pm10_rd_exposures
+		END AS has_pm10_rd_exposures,
+		CASE
+			WHEN c.has_pm10_tot_exposures IS NULL THEN
+				'N'
+			ELSE
+				c.has_pm10_tot_exposures
+		END AS has_pm10_tot_exposures
 	FROM
 		tmp_addr_periods4 a,
 		tmp_addr_period_geocode_validity b,
@@ -1992,9 +2017,9 @@ BEGIN
     PERFORM comm_id_geocode_contenders();
 	PERFORM comm_expand_periods_to_time_frame(); 	  
 	PERFORM comm_id_relevant_addr_periods();
+
 	PERFORM comm_val_addr_histories();
 	PERFORM comm_cleanup_addr_history_data();
-
 END;
 $$   LANGUAGE plpgsql;
 
