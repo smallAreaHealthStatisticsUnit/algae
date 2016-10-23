@@ -132,6 +132,7 @@ BEGIN
 	-- ------------------------------------
 	-- Generate cleaned address period file
 	-- ------------------------------------	
+	
 	DROP TABLE IF EXISTS results_early_cleaned_addr_periods;
 	CREATE TABLE results_early_cleaned_addr_periods AS
 	SELECT
@@ -613,7 +614,7 @@ BEGIN
 		over_laps AS algae6107_over_laps,
 		gaps AS algae6108_gaps,
 		gap_and_overlap_same_period AS algae6109_gap_over_lap,
-		deletions AS algae61110_deletions,
+		deletions AS algae6110_deletions,
 		imp_blank_start_dates AS algae6111_cln_blank_start_date,
 		imp_blank_end_dates AS algae6112_cln_blank_end_date,
 		imp_blank_both_dates AS algae6113_cln_blank_both_dates,
@@ -625,6 +626,7 @@ BEGIN
 		fin_sens_variables
 	ORDER BY
 		person_id;
+
 
 	DROP TABLE IF EXISTS results_early_stage_sens_variables;
 	CREATE TABLE results_early_stage_sens_variables AS
