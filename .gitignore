@@ -1,7 +1,6 @@
+.metadata
+.project
 *.xmi
 *.index
 *.prefs
-*.metadata
-.project
-*.xmi
-*.xmi
+*.index
