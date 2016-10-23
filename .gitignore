@@ -4,3 +4,5 @@
 *.index
 *.prefs
 *.index
+*.resources
+*.xmi
