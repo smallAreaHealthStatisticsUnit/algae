@@ -756,7 +756,6 @@ BEGIN
 	expected_results_file := expected_results_directory || '\expected_results.csv';
 	expected_sens_results_file := expected_results_directory || '\expected_sensitivity_variable_results.csv';
 
-
 	DROP TABLE IF EXISTS test_early_bad_geocodes_expected;
 	CREATE TABLE test_early_bad_geocodes_expected (
 		person_id TEXT,
@@ -870,10 +869,8 @@ BEGIN
 		person_id TEXT,
 		comments TEXT, -- comment field, often used in testing
 		total_addr_periods INT,
-		out_of_bounds_geocodes INT,
 		invalid_geocodes INT,
-		fixed_geocodes INT,
-		has_bad_geocode_within_time_frame TEXT
+		fixed_geocodes INT
 	);
 
 	EXECUTE format ('
@@ -881,10 +878,8 @@ BEGIN
 		person_id,
 		comments,
 		total_addr_periods,
-		out_of_bounds_geocodes,
 		invalid_geocodes,
-		fixed_geocodes,
-		has_bad_geocode_within_time_frame)
+		fixed_geocodes)
 	FROM 
 		%L
 	(FORMAT CSV, HEADER)', expected_sens_results_file);
@@ -896,20 +891,16 @@ BEGIN
 			person_id,
 			comments,
 			total_addr_periods,
-			out_of_bounds_geocodes,
 			invalid_geocodes,
-			fixed_geocodes,
-			has_bad_geocode_within_time_frame
+			fixed_geocodes
 		 FROM
 		 	test_early_bad_geocodes_sens_expected),
 	actual_sensitivity_variables AS
 		(SELECT
 			person_id,
 			total_addr_periods,
-			out_of_bounds_geocodes,
 			invalid_geocodes,
-			fixed_geocodes,
-			has_bad_geocode_within_time_frame
+			fixed_geocodes
 		 FROM
 		 	fin_sens_variables)
 	SELECT
@@ -922,12 +913,6 @@ BEGIN
 				FALSE
 		END AS is_total_addr_periods_correct,
 		CASE
-			WHEN a.out_of_bounds_geocodes = b.out_of_bounds_geocodes THEN
-				TRUE
-			ELSE
-				FALSE
-		END AS is_out_of_bounds_geocodes_correct,
-		CASE
 			WHEN a.invalid_geocodes = b.invalid_geocodes THEN
 				TRUE
 			ELSE
@@ -938,13 +923,7 @@ BEGIN
 				TRUE
 			ELSE
 				FALSE				
-		END AS is_fixed_geocodes_correct,
-		CASE
-			WHEN a.has_bad_geocode_within_time_frame = b.has_bad_geocode_within_time_frame THEN
-				TRUE
-			ELSE
-				FALSE
-		END AS is_has_relevant_bad_geocode_correct	
+		END AS is_fixed_geocodes_correct
 	 FROM
 	 	expected_sensitivity_variables a,
 	 	actual_sensitivity_variables b
@@ -958,10 +937,8 @@ BEGIN
 		comments AS test_case_description,
 		CASE
 			WHEN is_total_addr_periods_correct = FALSE OR
-				is_out_of_bounds_geocodes_correct = FALSE OR
 				is_invalid_geocodes_correct = FALSE OR
-				is_fixed_geocodes_correct = FALSE  OR
-				is_has_relevant_bad_geocode_correct = FALSE THEN
+				is_fixed_geocodes_correct = FALSE THEN 
 			'FAIL'
 		ELSE
 			'PASS'
@@ -972,8 +949,8 @@ BEGIN
 		person_id;
 	
 	-- Cleanup
-	DROP TABLE test_early_bad_geocodes_expected;	
-	DROP TABLE test_early_bad_geocodes_sens_expected;
+	--DROP TABLE test_early_bad_geocodes_expected;	
+	--DROP TABLE test_early_bad_geocodes_sens_expected;
 	--DROP TABLE results_test_bad_geocodes1;
 	
 END;
@@ -2751,15 +2728,15 @@ BEGIN
 
 	RAISE NOTICE 'Test directory ==%==', test_directory;
 	
-	PERFORM test_preprocessing(test_directory);
-	PERFORM test_study_member_data(test_directory);
-	PERFORM test_geocode_data(test_directory);
+	--PERFORM test_preprocessing(test_directory);
+	--PERFORM test_study_member_data(test_directory);
+	--PERFORM test_geocode_data(test_directory);
 	PERFORM test_address_histories(test_directory);
 	
-	PERFORM test_early_dropped_exposures(test_directory);
+	--PERFORM test_early_dropped_exposures(test_directory);
 	      
-	PERFORM test_early_exposure_data(test_directory);
-	PERFORM test_later_exposure_data(test_directory);
+	--PERFORM test_early_exposure_data(test_directory);
+	--PERFORM test_later_exposure_data(test_directory);
 	
 	DROP TABLE IF EXISTS results_test_suites;
 	CREATE TABLE results_test_suites AS
