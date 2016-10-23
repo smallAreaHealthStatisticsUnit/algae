@@ -489,7 +489,7 @@ BEGIN
 		imp_last_dates AS algae6314_cln_last_dates,
 		days_changed AS algae6315_days_changed,
 		total_contention_days AS algae6316_contention_days,
-		missing_exposure_days AS algae6317_missing_exp
+		no_exposure_data_days AS algae6317_no_exp_data_days
 	FROM
 		fin_sens_variables
 	ORDER BY

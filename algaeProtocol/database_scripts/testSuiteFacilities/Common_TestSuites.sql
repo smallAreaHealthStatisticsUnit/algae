@@ -1909,14 +1909,14 @@ BEGIN
 	CREATE TABLE test_early_exp_sens_expected_results (
 	   person_id TEXT,
 	   comments TEXT,
-	   missing_exposure_days INT   
+	   no_exposure_data_days INT   
 	);
 
 	EXECUTE format ('
 	COPY test_early_exp_sens_expected_results (	
 		person_id,
 		comments, -- comment field, often used in testing
-		missing_exposure_days) 
+		no_exposure_data_days) 
 	FROM 
 		%L
 	(FORMAT CSV, HEADER)', early_exp_sens_expected_results_file);
@@ -2257,24 +2257,24 @@ BEGIN
 		(SELECT
 			person_id,
 			comments,
-			missing_exposure_days
+			no_exposure_data_days
 		 FROM
 		 	test_early_exp_sens_expected_results),
 	actual_results AS 
 		(SELECT
 			person_id,
-			missing_exposure_days
+			no_exposure_data_days
 		 FROM
 		 	fin_sens_variables)
 	SELECT
 		a.person_id,
 		a.comments,
 		CASE
-			WHEN a.missing_exposure_days = b.missing_exposure_days THEN
+			WHEN a.no_exposure_data_days = b.no_exposure_data_days THEN
 				TRUE
 			ELSE
 				FALSE
-		END AS is_missing_exposure_days_correct
+		END AS is_no_exposure_data_days_correct
 	FROM
 		expected_results a,
 		actual_results b
@@ -2289,7 +2289,7 @@ BEGIN
 		'Exposure Sensitivity Variables' AS test_area,
 		comments AS test_case_description,
 		CASE
-			WHEN is_missing_exposure_days_correct = FALSE THEN 
+			WHEN is_no_exposure_data_days_correct = FALSE THEN 
 				'FAIL'
 			ELSE
 				'PASS'

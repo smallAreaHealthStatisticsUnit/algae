@@ -549,7 +549,7 @@ BEGIN
 			time_frame_duration
 		 FROM
 		 	tmp_overall_exp_time_frames),
-	missing_exposure_days AS
+	no_exposure_data_days AS
 		(SELECT
 			a.person_id,
 		 	(a.time_frame_duration - COALESCE(b.total_exposure_days, 0)) AS missing_days
@@ -578,11 +578,11 @@ BEGIN
 		a.imp_last_dates,
 		a.days_changed,
 		a.total_contention_days,
-		b.missing_days AS missing_exposure_days
+		b.missing_days AS no_exposure_data_days
 	FROM
 		tmp_sensitivity_variables6 a
 	LEFT JOIN
-		missing_exposure_days b
+		no_exposure_data_days b
 	ON
 		a.person_id = b.person_id
 	ORDER BY 
