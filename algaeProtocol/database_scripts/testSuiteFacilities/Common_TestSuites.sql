@@ -1340,9 +1340,9 @@ BEGIN
 	   life_stage TEXT,
 	   inv_addr_days INT,
 	   oob_addr_days INT,
-	   poor_match_days INT,
+	   poor_addr_days INT,
 	   missing_days INT,
-	   good_match_days INT
+	   good_addr_days INT
 	);
 
 	EXECUTE format ('
@@ -1353,9 +1353,9 @@ BEGIN
 		life_stage,
 		inv_addr_days,
 		oob_addr_days,
-		poor_match_days,
+		poor_addr_days,
 		missing_days,
-		good_match_days) 
+		good_addr_days) 
 	FROM 
 		%L
 	(FORMAT CSV, HEADER)', early_cln_exp_dq_results_file);
@@ -1372,9 +1372,9 @@ BEGIN
 	   life_stage TEXT,
 	   inv_addr_days INT,
 	   oob_addr_days INT,
-	   poor_match_days INT,
+	   poor_addr_days INT,
 	   missing_days INT,
-	   good_match_days INT
+	   good_addr_days INT
 	);
 
 	EXECUTE format ('
@@ -1385,9 +1385,9 @@ BEGIN
 		life_stage,
 		inv_addr_days,
 		oob_addr_days,
-		poor_match_days,
+		poor_addr_days,
 		missing_days,
-		good_match_days) 
+		good_addr_days) 
 	FROM 
 		%L
 	(FORMAT CSV, HEADER)', early_uncln_exp_dq_results_file);
@@ -1403,9 +1403,9 @@ BEGIN
 	   life_stage TEXT,
 	   inv_addr_days INT,
 	   oob_addr_days INT,
-	   poor_match_days INT,
+	   poor_addr_days INT,
 	   missing_days INT,
-	   good_match_days INT
+	   good_addr_days INT
 	);
 
 	EXECUTE format ('
@@ -1416,9 +1416,9 @@ BEGIN
 		life_stage,
 		inv_addr_days,
 		oob_addr_days,
-		poor_match_days,
+		poor_addr_days,
 		missing_days,
-		good_match_days) 
+		good_addr_days) 
 	FROM 
 		%L
 	(FORMAT CSV, HEADER)', early_stg_exp_dq_results_file);
@@ -1435,9 +1435,9 @@ BEGIN
 	   life_stage TEXT,
 	   inv_addr_days INT,
 	   oob_addr_days INT,
-	   poor_match_days INT,
+	   poor_addr_days INT,
 	   missing_days INT,
-	   good_match_days INT
+	   good_addr_days INT
 	);
 
 	EXECUTE format ('
@@ -1448,9 +1448,9 @@ BEGIN
 		life_stage,
 		inv_addr_days,
 		oob_addr_days,
-		poor_match_days,
+		poor_addr_days,
 		missing_days,
-		good_match_days) 
+		good_addr_days) 
 	FROM 
 		%L
 	(FORMAT CSV, HEADER)', early_birth_addr_exp_dq_results_file);
@@ -1465,9 +1465,9 @@ BEGIN
 			life_stage,
 			inv_addr_days AS pm10_tot_invalid_address_days,
 			oob_addr_days AS pm10_tot_oob_days,
-			poor_match_days AS pm10_tot_poor_address_days,
+			poor_addr_days AS pm10_tot_poor_address_days,
 			missing_days AS pm10_tot_missing_exp_days,
-			good_match_days AS pm10_tot_good_address_days
+			good_addr_days AS pm10_tot_good_address_days
 		 FROM
 		 	test_early_uncln_exp_dq_results),
 	actual_results AS 
@@ -1559,9 +1559,9 @@ BEGIN
 			life_stage,
 			inv_addr_days AS pm10_tot_invalid_address_days,
 			oob_addr_days AS pm10_tot_oob_days,
-			poor_match_days AS pm10_tot_poor_address_days,
+			poor_addr_days AS pm10_tot_poor_address_days,
 			missing_days AS pm10_tot_missing_exp_days,
-			good_match_days AS pm10_tot_good_address_days
+			good_addr_days AS pm10_tot_good_address_days
 		 FROM
 		 	test_early_stg_exp_dq_results),
 	actual_results AS 
@@ -1655,9 +1655,9 @@ BEGIN
 			life_stage,
 			inv_addr_days AS pm10_tot_invalid_address_days,
 			oob_addr_days AS pm10_tot_oob_days,
-			poor_match_days AS pm10_tot_poor_address_days,
+			poor_addr_days AS pm10_tot_poor_address_days,
 			missing_days AS pm10_tot_missing_exp_days,
-			good_match_days AS pm10_tot_good_address_days
+			good_addr_days AS pm10_tot_good_address_days
 		 FROM
 		 	test_early_birth_addr_exp_dq_results),
 	actual_results AS 
@@ -2728,15 +2728,13 @@ BEGIN
 
 	RAISE NOTICE 'Test directory ==%==', test_directory;
 	
-	--PERFORM test_preprocessing(test_directory);
-	--PERFORM test_study_member_data(test_directory);
-	--PERFORM test_geocode_data(test_directory);
+	PERFORM test_preprocessing(test_directory);
+	PERFORM test_study_member_data(test_directory);
+	PERFORM test_geocode_data(test_directory);
 	PERFORM test_address_histories(test_directory);
-	
-	--PERFORM test_early_dropped_exposures(test_directory);
-	      
-	--PERFORM test_early_exposure_data(test_directory);
-	--PERFORM test_later_exposure_data(test_directory);
+	PERFORM test_early_dropped_exposures(test_directory);      
+	PERFORM test_early_exposure_data(test_directory);
+	PERFORM test_later_exposure_data(test_directory);
 	
 	DROP TABLE IF EXISTS results_test_suites;
 	CREATE TABLE results_test_suites AS
