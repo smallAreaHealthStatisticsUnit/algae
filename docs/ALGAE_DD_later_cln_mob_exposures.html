@@ -1,0 +1,879 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Data Dictionary: Later life exposures, using cleaned mobility assessment</title>
+ 		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing later life exposures in longitudinal cohorts.  
+		This page is the part of the data dictionary for variables algae3500-algae3557.  They describe 
+		pollution exposures for the later life analysis that have been produced using the cleaned mobility 
+		assessment.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+			
+<h1>ALGAE Data Dictionary: Later life exposures, using cleaned mobility assessment
+ (algae3500-algae3557)
+ </h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<h2>Context of Variables</h2>
+These later life exposure values are based on the 
+<a href="./ALGAETerminology.html#cleaned_mobility_assessment">cleaned mobility 
+assessment </a> method. It includes days that may have been involved in gaps and overlaps 
+that appeared in the original address period file. Note that this method of assessment is 
+different than the "unclean mobility" approach, which ignores any gap or overlap in 
+its calculations.
+
+
+<p>
+Cumulative, average and median exposures are calculated for each pollutant 
+(<a href="./ALGAETerminology.html#name">NAME</a>, 
+<a href="./ALGAETerminology.html#nox_rd">NOX_rd</a>, 
+<a href="./ALGAETerminology.html#pm10_rd">PM10_rd</a>, 
+<a href="./ALGAETerminology.html#pm10_gr">PM10_gr</a>, 
+<a href="./ALGAETerminology.html#pm10_tot">PM10_tot</a>) 
+
+for each life stage (T1, T2, T3, EL) for each person.
+</p>
+
+<h3>Exposure Measurement Error Variables</h3>
+The table also includes exposure measurement error variables that correspond with each
+aggregated exposure value.  Exposure measurement errors are based on exposures that come
+from "days of contention".  A day of contention is caused by a gap or an overlap in the
+residential history records, when a person could have occupied more than one location.
+</p>
+
+<p>
+The exposure measurement error for a given day of contention is an opportunity cost, 
+measured as the absolute difference between assigned and opportunity geocodes (See
+<a href="./CalculationsAndAlgorithms.html#exposure_measurement_error">Calculations and Algorithms</a>).  The assigned
+geocode is one that the cleaning algorithm has assigned in its attempts to fix a gap or 
+overlap.  The opportunity geocode is the other location a person could have occupied on
+that day.  If a day is not covered by a gap or overlap problem, then it will have a daily 
+exposure error of zero. 
+</p>
+
+<p>
+Daily exposure error values are aggregated to match the context of the aggregated exposure
+values.  If your address periods all have temporally contiguous start and end dates, then
+you should expect the exposure values to be zero.
+</p>
+
+<p>
+You may observe that some of the exposure error values are not zero, but are extremely small
+values.  We believe that some of these may owe to numerical round-off error and we advise
+that you decide on a threshold for assigning them zero.
+</p>
+
+<h2>Location of Result File</h2>
+You will find these variables in a file having a name that fits the form:
+
+<pre>
+res_later_mob_cln_exp_[Date stamp].csv
+</pre>
+
+which will be found in the directory:
+
+<pre>
+later_life/results/exposure_data/mobility_clean
+</pre>
+
+or
+
+<pre>
+later_life/results/exposure_data/mobility_clean
+</pre>
+
+<h2>Example Result File</h2>
+See <a href="./example_results/res_later_mob_cln_exp_2016-Oct-24-22-47.csv">here</a>.
+
+<h2>Variable Naming Conventions</h2>
+It may be quicker to understand the variables through naming conventions rather than looking
+at specific table entries. The basic format of variables in this section follows this
+pattern:
+
+<pre>
+	algae35[00-31]_[pollution type]_[optional err_][aggregate value]
+</pre>
+
+<p>
+In this pattern:
+<ul>
+<li>
+<b>algae35</b>: indicates that they refer to exposure values for later life that make 
+full use of cleaned address periods and consider error values
+</li>
+<li>
+<b>pollution_type</b>: will be name, nox_rd, pm10_tot, pm10_rd, pm10_gr
+</li>
+<li>
+<b><code>_err_</code></b>: If <code>_err_</code> appears in the name, then the variables
+describes some aggregate of error values over a life stage.  If <code>_err_</code> does not
+appear in the name, then the value indicates an aggregate pollution value over the life stage.
+</li>
+<li>
+<b>aggregate value</b>: sum for cumulative value, avg for average value and med for median value.
+</li>
+</ul>
+
+<p>
+The pollutant codes have the following meanings:
+<ul>
+<li>
+<b>name</b>: high level pollution that comes from outside the exposure area
+</li>
+<li>
+<b>nox_rd</b>: Nitrogen oxide pollution coming from roads
+</li>
+<li>
+<b>pm10_rd</b>: PM10 particulate matter coming from roads.
+</li>
+<li>
+<b>pm10_gr</b>: PM10 particulate matter coming from sources other than roads.
+</li>
+<li>
+<b>pm10_tot</b>: PM10 particulate matter coming from either roads or other sources.
+</li>
+</ul>
+
+<p>
+Be aware that in many cases field values with <code>_err_</code> can be very small.
+Extremely small values can indicate either that the amount of error is small, or reflect
+numerical roundoff error somewhere in the calculations.
+</p>
+
+
+<h2>Variable Dictionary</h2>
+
+
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<th>
+Variable
+</th>
+<th>
+Description
+</th>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3500_person_id
+</td>
+<td class="data_dictionary_var_description">
+An anonymised or pseudonymised identifier which represents a study member.  ALGAE uses this
+variable to link data together for a given study member.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3501_life_stage
+</td>
+<td class="data_dictionary_var_description">
+The name of a life stage.  For example, "T1" may be the name of the Trimester 1 life stage.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3502_life_stage_duration
+</td>
+<td class="data_dictionary_var_description">
+The number of days in the life stage.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3503_name_inv_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#name">NAME</a> exposure days in the life stage that the study member spent at an 
+invalid address.
+See definition of 
+<a href="./ALGAETerminology.html#inv_addr_days">Invalid address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3504_name_oob_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#name">NAME</a> exposure days in the life stage that the study member spent living
+at a location that is considered outside the bounds of the exposure area.
+See definition of 
+<a href="./ALGAETerminology.html#oob_days">Out of bounds days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3505_name_poor_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#name">NAME</a> exposure days in the life stage that the study member spent living
+at a location whose geocode was derived from a poor quality residential address.
+The geocode was used to generate exposure values, but it is still considered to
+be invalid because it is of such poor quality.  
+See definition of 
+<a href="./ALGAETerminology.html#poor_addr_days">Poor address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3506_name_missing_exp_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#name">NAME</a> exposure days in the life stage that the study member spent living
+at a valid geocode which has some exposure values but not for specific days.
+See definition of 
+<a href="./ALGAETerminology.html#missing_exp_days">Missing exposure days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3507_name_good_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#name">NAME</a> exposure days in the life stage that the study member spent living
+at a geocode that is considered a good match: it has a valid geocode and it has
+a non-blank exposure value for a given day.  See definition of 
+<a href="./ALGAETerminology.html#good_addr_days">Good address days</a>.
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3508_nox_rd_inv_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#nox_rd">NOX RD</a> exposure days in 
+the life stage that the study member spent at an invalid address.
+See definition of 
+<a href="./ALGAETerminology.html#inv_addr_days">Invalid address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3509_nox_rd_oob_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#nox_rd">NOX RD</a> exposure days in the life stage that the study member spent living
+at a location that is considered outside the bounds of the exposure area.
+See definition of 
+<a href="./ALGAETerminology.html#oob_days">Out of bounds days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3510_nox_rd_poor_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#nox_rd">NOX RD</a> exposure days in the life stage that the study member spent living
+at a location whose geocode was derived from a poor quality residential address.
+The geocode was used to generate exposure values, but it is still considered to
+be invalid because it is of such poor quality.  
+See definition of 
+<a href="./ALGAETerminology.html#poor_addr_days">Poor address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3511_nox_rd_missing_exp_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#nox_rd">NOX RD</a> exposure days in the life stage that the study member spent living
+at a valid geocode which has some exposure values but not for specific days.
+See definition of 
+<a href="./ALGAETerminology.html#missing_exp_days">Missing exposure days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3512_nox_rd_good_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#nox_rd">NOX RD</a> exposure days in the life stage that the study member spent living
+at a geocode that is considered a good match: it has a valid geocode and it has
+a non-blank exposure value for a given day.  See definition of 
+<a href="./ALGAETerminology.html#good_addr_days">Good address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3513_pm10_rd_inv_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_rd">PM10 RD</a> exposure days in 
+the life stage that the study member spent at an invalid address.
+See definition of 
+<a href="./ALGAETerminology.html#inv_addr_days">Invalid address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3514_pm10_rd_oob_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_rd">PM10 RD</a> exposure days in the life stage that the study member spent living
+at a location that is considered outside the bounds of the exposure area.
+See definition of 
+<a href="./ALGAETerminology.html#oob_days">Out of bounds days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3515_pm10_rd_poor_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_rd">PM10 RD</a> exposure days in the life stage that the study member spent living
+at a location whose geocode was derived from a poor quality residential address.
+The geocode was used to generate exposure values, but it is still considered to
+be invalid because it is of such poor quality.  
+See definition of 
+<a href="./ALGAETerminology.html#poor_addr_days">Poor address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3516_pm10_rd_missing_exp_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_rd">PM10 RD</a> exposure days in the life stage that the study member spent living
+at a valid geocode which has some exposure values but not for specific days.
+See definition of 
+<a href="./ALGAETerminology.html#missing_exp_days">Missing exposure days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3517_pm10_rd_good_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_rd">PM10 RD</a> exposure days in the life stage that the study member spent living
+at a geocode that is considered a good match: it has a valid geocode and it has
+a non-blank exposure value for a given day.  See definition of 
+<a href="./ALGAETerminology.html#good_addr_days">Good address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3518_pm10_gr_inv_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_gr">PM10 GR</a> exposure days in 
+the life stage that the study member spent at an invalid address.
+See definition of 
+<a href="./ALGAETerminology.html#inv_addr_days">Invalid address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3519_pm10_gr_oob_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_gr">PM10 GR</a> exposure days in the life stage that the study member spent living
+at a location that is considered outside the bounds of the exposure area.
+See definition of 
+<a href="./ALGAETerminology.html#oob_days">Out of bounds days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3520_pm10_gr_poor_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_gr">PM10 GR</a> exposure days in the life stage that the study member spent living
+at a location whose geocode was derived from a poor quality residential address.
+The geocode was used to generate exposure values, but it is still considered to
+be invalid because it is of such poor quality.  
+See definition of 
+<a href="./ALGAETerminology.html#poor_addr_days">Poor address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3521_pm10_gr_missing_exp_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_gr">PM10 GR</a> exposure days in the life stage that the study member spent living
+at a valid geocode which has some exposure values but not for specific days.
+See definition of 
+<a href="./ALGAETerminology.html#missing_exp_days">Missing exposure days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3522_pm10_gr_good_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_gr">PM10 GR</a> exposure days in the life stage that the study member spent living
+at a geocode that is considered a good match: it has a valid geocode and it has
+a non-blank exposure value for a given day.  See definition of 
+<a href="./ALGAETerminology.html#good_addr_days">Good address days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3523_pm10_tot_inv_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_tot">PM10 TOT</a> exposure days in 
+the life stage that the study member spent at an invalid address.
+See definition of 
+<a href="./ALGAETerminology.html#inv_addr_days">Invalid address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3524_pm10_tot_oob_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_tot">PM10 TOT</a> exposure days in the life stage that the study member spent living
+at a location that is considered outside the bounds of the exposure area.
+See definition of 
+<a href="./ALGAETerminology.html#oob_days">Out of bounds days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3525_pm10_tot_poor_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_tot">PM10 TOT</a> exposure days in the life stage that the study member spent living
+at a location whose geocode was derived from a poor quality residential address.
+The geocode was used to generate exposure values, but it is still considered to
+be invalid because it is of such poor quality.  
+See definition of 
+<a href="./ALGAETerminology.html#poor_addr_days">Poor address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3526_pm10_tot_missing_exp_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_tot">PM10 TOT</a> exposure days in the life stage that the study member spent living
+at a valid geocode which has some exposure values but not for specific days.
+See definition of 
+<a href="./ALGAETerminology.html#missing_exp_days">Missing exposure days</a>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3527_pm10_tot_good_addr_days
+</td>
+<td class="data_dictionary_var_description">
+The number of <a href="./ALGAETerminology.html#pm10_tot">PM10 TOT</a> exposure days in the life stage that the study member spent living
+at a geocode that is considered a good match: it has a valid geocode and it has
+a non-blank exposure value for a given day.  See definition of 
+<a href="./ALGAETerminology.html#good_addr_days">Good address days</a>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3528_name_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure of NAME for the given <code>life_stage</code>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3529_name_err_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure measurement error for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3530_name_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3531_name_err_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure measurement error for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3532_name_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3533_name_err_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure measurement error for NAME measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3534_nox_rd_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure of NOX (road sources) for a given <code>life_stage</code>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3535_nox_rd_err_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure measurement error for NOX (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3536_nox_rd_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure of NOX (road sources) for a given <code>life_stage</code>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3537_nox_rd_err_avg
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure measurement error for NOX (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3538_nox_rd_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for NOX (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3539_nox_rd_err_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure measurement error for NOX (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3540_pm10_gr_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3541_pm10_gr_err_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure measurement error for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3542_pm10_gr_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3543_pm10_gr_err_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure measurement error for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3544_pm10_gr_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3545_pm10_gr_err_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure measurement error for PM10 (non-road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3546_pm10_rd_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3547_pm10_rd_err_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure measurement error for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3548_pm10_rd_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3549_pm10_rd_err_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure measurement error for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3550_pm10_rd_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3551_pm10_rd_err_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure measurement error for PM10 (road sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3552_pm10_tot_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3553_pm10_tot_err_sum
+</td>
+<td class="data_dictionary_var_description">
+Cumulative exposure measurement error for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3554_pm10_tot_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3555_pm10_tot_err_avg
+</td>
+<td class="data_dictionary_var_description">
+Average exposure measurement error for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+</td>
+<td class="data_dictionary_var_description">
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae3556_pm10_tot_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae3557_pm10_tot_err_med
+</td>
+<td class="data_dictionary_var_description">
+Median exposure measurement error for PM10 (all sources), measured for the given <code>life_stage</code>
+</td>
+</tr>
+
+</table>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

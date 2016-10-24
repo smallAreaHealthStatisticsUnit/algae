@@ -1,0 +1,5 @@
+algae6300_person_id,algae6301_at_1st_addr_concept,algae6302_absent_in_exp,algae6303_gest_age,algae6304_is_gest_age_imp,algae6305_total_addr,algae6306_fixed_geocodes,algae6307_over_laps,algae6308_gaps,algae6309_gap_over_lap,algae6310_deletions,algae6311_cln_blank_start_date,algae6312_cln_blank_end_date,algae6313_cln_blank_both_dates,algae6314_cln_last_dates,algae6315_days_changed,algae6316_contention_days,algae6317_no_exp_data_days
+late_many_moves,Y,N,37,N,5,0,0,0,0,0,0,0,0,0,0,0,261
+late_many_moves_with_err,Y,N,37,N,5,0,1,1,1,0,0,0,0,0,269,269,261
+late_many_overlaps,Y,N,37,N,3,0,2,0,0,0,0,0,0,0,22,16,261
+late_no_moves,Y,N,37,N,1,0,0,0,0,0,0,0,0,0,0,0,261

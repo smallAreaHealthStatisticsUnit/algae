@@ -1,0 +1,340 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>		
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes the protocol from the perspective of data science and software development.  It is meant
+		to appeal to people who develop scientific infrastructure to support research and it assumes that they have
+		no background in epidemiology, statistics or exposure science.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+			
+<h1>The Data Science Perspective</h1>
+<p>
+<b>by Kevin Garwood</b>
+</p>
+
+<p>
+We hope that aspects of the ALGAE Protocol will be of interest to data scientists who are not
+experts in environmental health studies or exposure assessments.  Much of the emphasis of this 
+project has been on writing an automated protocol that re-purposes administrative data sets so 
+they can serve a research purpose. 
+
+<p>
+Much of the programming and initial data quality analysis was done by a software 
+developer (me) who was not a domain expert in any of the areas of study for which the results 
+would serve.  Because of information governance protocols for handling sensitive data, I had
+to do a lot of the work within a secure computing environment where there were limited resources 
+to do high performance computing activities. 
+</p>
+
+<p>
+The remote nature of the work meant it was impractical for other domain scientists to be 
+with me when there was a problem or for them to trouble shoot an unusual result over the phone.  
+The expense of living remotely compelled me to invest in an automated solution and the absence of 
+on-site help from domain scientists compelled me to apply my knowledge of automated testing using 
+fake data.  
+<p>
+
+<p>
+However, developing the protocol was not just an exercise in software engineering to make software
+pass a collection of automated tests.  Test cases for data analyses are developed based on 
+expected behaviour, but expected behaviour can depend on the provenance of data that are being 
+processed.  If the details of that provenance are not well understood, then protocol development
+must allow for a period of data exploration to better understand the variance in data patterns. 
+</p>
+ 
+<p>
+The exposure assessments were critically dependent on residential mobility data that had been 
+gathered to serve an administrative purpose but were being used for a scientific purpose.  
+The process of adding value to the residential address history records went beyond merely data 
+cleaning, and required a more comprehensive approach to transforming records in a way that 
+considered the nature of the original data sets.  
+</p>
+
+
+
+
+
+<p>
+Because of information governance protocols for handling sensitive cohort data, much of the 
+data linking work had to happen off-site in a restricted computing environment having limited 
+resources.  The remote nature of the work meant that it was not practical for domain scientists 
+to verify results as they were being produced. It would have been difficult to verify over the
+telephone whether what I was observing was an error in my code, an error in the data, a
+combination of both, or simply an anomaly in the data sets that was correct but unusual. 
+</p>
+
+<p>
+Developing the ALGAE Protocol was not just a software engineering activity.  The provenance of
+the residential mobility data was poorly understood, partly because it had been maintained over
+years and migrated from one software environment to another.  Because the records had a quality
+that adequately served their original use, the cohort had no need before to investigate the
+other patterns in the data that would present a challenge in establishing that a person occupied
+exactly one valid address for each day of their exposure period.  The result was that that
+I needed to conduct a data exploration activity to better understand the value of the data sets.
+</p>
+ 
+<p>
+It became clear that the residential mobility data we were using had been originally gathered
+for a very different purpose to the one we wanted to use in the study.  
+</p>
+
+
+
+
+
+
+
+
+
+
+There are many definitions of data science, many of which focus on the application
+of advanced statistics to derive new insights from combinations of very large data sets.
+In discussions of data science that are dominated by the Volume, Variety, and Velocity of 
+data, this project focuses on the 4th "V" of veracity.
+
+"Data cleaning" is inadequate
+to describe the activity because the term can suggest that the data sets lacked enough quality to
+support the purposes for which they were originally collected.  
+</p>
+
+<p>
+In our work, the quality of the residential mobility data was more than adequate to support its 
+original purpose.  The staff members of a longitudinal cohort used an administrative system
+to track the current addresses of its study members.  One of the main goals of the system 
+design was to ensure that if they needed to mail out materials to study members, they would
+be using the best known postal address.  Perhaps as a means of auditing where they would have
+sent materials when, the system audited current address records through a sequence of 
+time stamped records.  As each new address or correction of an address was recorded, the 
+system would add a new record to its ongoing chronology of address changes.
+</p>
+
+<p>
+The new purpose for the residential address data was very different.  A high resolution exposure
+study was to use the address changes to track study members through locations within an exposure
+area, during their pre-natal and other early life stages.  The addresses would establish
+the when and where of study members with respect to historically modelled concentrations of 
+air pollutants within the area.
+</p>
+
+<p>
+The original residential mobility data were produced by a system that was designed to audit
+current addresses not track past addresses.  Cohort administrators would only need to know
+that as of a given date forward a study member was living at an address.  They had no need
+to know when that person started or stopped living there.  Yet, for an exposure study that
+was measuring exposures over short life stages, a day spent living at one location rather
+than an other could potentially have a significant effect.
+</p>
+
+<p>
+Along with changing and mapping field values, the protocol had to also assess what effects
+transforming the data had on results.  What would be the effect of fixing temporal gaps
+and overlaps in the residential address histories have on results as compared with using
+just the parts of periods that were not involved in these problems? How would we identify
+address periods having residential addresses that did not result in map coordinates? Would
+we fix these bad geocodes or ex
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+They did not originally envision
+that the records of address changes would be used to support high resolution exposure studies
+involving air pollution!
+</p>
+
+<p>
+Repurposing involved changing 
+
+
+In so doing, we have needed
+a systematic approach for measuring the effects of transforming the data sets that are
+used to assess someone's historical exposure to pollutants.
+
+using
+multiple comparable methods.
+</p>
+
+
+
+<h2>The Need to Repurpose Data</h2>
+
+
+<p>
+I use the word "repurposing" rather than "data cleaning" for several reasons.  To clean
+data suggests that the original data set may have had poor quality data relative to the
+purpose for which it was collected.  
+</p>
+
+<p>
+As an example of a good use of the term "data cleaning", consider the scenario where
+social scientists are conducting a large-scale paper-based survey.  Although a 
+questionnaire may have been designed to serve a specific study, it may need to be cleaned 
+for many reasons.  A question may have been unclear, the answers may have been ambiguous or
+the translation of responses from written form to electronic form may have been error-prone.
+</p>
+
+<p>
+In the work that lead to the ALGAE Protocol, we needed to take residential mobility data that
+were gathered to suit an administrative purpose and apply it to serve a scientific purpose.
+The addresses came from an administrative system that a Contacts database that a longitudinal
+cohort used to keep in touch with its members.  The system maintained an audit trail of 
+time-stamped current address records.  
+
+
+
+
+
+
+
+
+<p>
+In this project, the main emphasis of data science is on automating a scientific 
+protocol that re-purposes administrative data so that it may help answer research 
+questions.  
+
+
+
+
+The term "data cleaning" seems inadequate to describe the transformation
+of residential mobility data whose data quality was more than adequate to serve the
+original purpose for which it was collected.
+
+
+
+
+
+
+
+
+
+
+
+
+re-purposes an administrative data set so that it
+may support research questions.  
+
+  
+
+
+
+In this project,
+the focus of data science is on using the scientific method to produce repeatable 
+results,   
+
+
+
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

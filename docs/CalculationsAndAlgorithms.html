@@ -1,0 +1,246 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Calculations and Algorithms</title>		
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes the calculations and algorithms that are used in key parts of the protocol.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+			
+<h1>Calculations and Algorithms</h2>
+
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<a name="exposure_measurement_error"></a>
+<h2>Exposure Measurement Error Calculations</h2>
+ALGAE's cleaning process will ensure that study members occupy exactly one
+location for each day of their exposure time frames.  Gaps and overlaps may
+occur in the administrative records that are used to create residential 
+address histories. These two types of problems make it uncertain where they
+may have lived.  
+
+<p>
+If an exposure day is affected by a correction for a gap or an overlap, ALGAE
+assigns an exposure measurement error that is based on the difference between
+two locations: the address that cleaning assigned and the address that could
+have otherwise been used.
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/ExposureMeasurementError.jpg" width=600>
+<figcaption><b>Assessing the error for exposure values because of data cleaning.</b>.
+</figcaption>  
+</figure>
+</p>
+
+
+
+<a name="percent_error"></a>
+<h2>Percent Error Calculations</h2>
+ALGAE conducts exposure assessment in different ways, and then compares corresponding
+results between pairs of them.  
+See the section <a href="ALGAEMethodology.html#assess_exposures_different_ways">
+Aggregate Daily Exposure Methods Using Different Methods</a>.
+
+Percent error calculations 
+
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/PercentErrorCalculation.jpg" width=500>
+<figcaption><b>Assessing the error for exposure values because of data cleaning.</b>.
+</figcaption>  
+</figure>
+</p>
+
+
+
+
+
+
+<a name="life_stage_calc"></a>
+<h2>Life Stage Calculations</h2>
+
+<h3>Calculation for life stage boundaries</h3>
+<p>
+Most of the life stage boundaries in the early life analysis are based on conception date,
+which is calculated as follows:
+
+<pre>
+conception date = birth date - (7 x gestation age at birth in weeks) - 1 day
+</pre>
+
+<table class="generic_data_table">
+
+<tr class="generic_data_table_header">
+<th>Life Stage</th>
+<th>Description</th>
+<th>Start Date</th>
+<th>End Date</th>
+</tr>
+
+<tr>
+<td>T1</td>
+<td>Trimester 1</td>
+<td><code>conception date</code></td>
+<td><code>conception date + 92 days</code></td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>T2</td>
+<td>Trimester 2</td>
+<td><code>conception date + 93 days</code></td>
+<td><code>conception date + 183 days</code></td>
+</tr>
+
+<tr>
+<td>T3</td>
+<td>Trimester 3</td>
+<td><code>conception date + 184 days</code></td>
+<td><code>birth date - 1 day</code></td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>EL</td>
+<td>Early life period</td>
+<td><code>birth date</code></td>
+<td><code>birth date + 1 year - 1 day</code></td>
+</tr>
+
+<tr class="generic_data_table_even_row">
+<td>YRn</td>
+<td>Year n of life</td>
+<td><code>birth date + n years</td>
+<td><code>birth date + (n + 1) years - 1 day</code></td>
+</tr>
+
+</table>
+<caption>
+<b>Default life stage calculations</b>.  
+</caption>
+
+<h3>Algorithm for fixing life stage boundaries in cases of premature birth</h3>
+In the early life analysis, if the study member has a gestation age at birth value
+of less than 26 weeks, then one or both of T2 or T3 will overlap with the EL period.
+In order to corret this, we use an algorithm described by the following pseudo-code:
+</p>
+
+<pre>
+	If life stage = 'EL' then 
+		do not change the start and end dates
+	Else if life stage start date > birth date then
+		assign the life stage null values for its start and end dates
+	Else if life stage end date > birth date then
+		end date = birth date - 1 day 
+</pre>
+
+
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

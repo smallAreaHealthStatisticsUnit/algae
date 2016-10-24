@@ -1,0 +1,219 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page is a summary of requirements that the protocol supports.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Summary of Requirements</h1>
+
+
+
+<table class="generic_table">
+<tr class="generic_data_table_header">
+<th>
+Number
+</th>
+<th>
+Requirement
+</th>
+<th>
+Reason
+</th>
+</tr>
+
+<tr>
+<td class="requirements_number">
+1
+</td>
+<td class="requirements_name">
+Solution must be fully automated
+</td>
+<td class="requirements_reason">
+The cost of working off-site, during an expensive window of development, makes it impractical to
+depend on manual steps for manipulating data.  The cost of manual work would be repeated if the
+results had to be regenerated.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+2
+</td>
+<td class="requirements_name">
+Solution must support substitution of real data with fake data sets
+</td>
+<td class="requirements_reason">
+Because of information governance concerns, much of the input data that could be used to
+run the protocol cannot be taken off-site.  In order to allow substantial development and
+testing of the protocol to be done in their normal work environment, developers would have
+to be able to simulate sensitive data with fake data.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+3
+</td>
+<td class="requirements_name">
+Use technologies that make a complete separation between data and code.
+</td>
+<td class="requirements_reason">
+Some technologies such as spreadsheets save macros together with the data to which they 
+are applied.  If the data are sensitive and cannot be taken off-site, and if the code
+can't be separated from the data, then the code cannot be taken off-site as well.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+4
+</td>
+<td class="requirements_name">
+Quantify data cleaning through sensitivity variables.
+</td>
+<td class="requirements_reason">
+The protocol must audit data cleaning via sensitivity variables that scientists can use
+to assess the effects of changes on subsets of results.
+</td>
+</tr>
+
+<tr>
+<td class="requirements_number">
+5
+</td>
+<td class="requirements_name">
+The protocol should estimate exposure measurement error in a way that considers the nature of 
+the administrative systems which produced the data.
+</td>
+<td class="requirements_reason">
+The address 
+
+</td>
+</tr>
+
+
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

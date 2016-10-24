@@ -1,8 +1,161 @@
+<DOCTYPE html>
 <html>
-<title>
-Test web page.
-</title>
-<body>
-Trying yet another test.
-</body>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts.  For each study
+		member, exposures are aggregated by pollution type (eg: PM10, NOX, NAME), by life stage (eg: T1, T2, T3) and by 
+		aggregate operation (ie: cumulative, average, median).  Exposures are calculated using four methods, each of
+		which uses a different way of using parts of residential address history records.  The records are assumed
+		to come from an administrative system that is used to audit current addresses of study members rather than
+		a research system that is used to track past addresses of study members.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<table>
+<tr>
+<td width=600>
+ALGAE is an automated protocol which can be used to assess historical exposures to 
+air pollution for members of longitudinal cohorts. It was developed as part of a 
+research project between Imperial College's <a href="http://www.sahsu.org">Small Area Health 
+Statistics Unit</a> (SAHSU) and the <a href="http://www.bristol.ac.uk/alspac/">Avon Longitudinal Study 
+of Parents and Children</a> (ALSPAC).
+
+<p>
+Although it was initially designed to support an exposure study that involved air pollutants and
+respiratory health outcomes, it was later made into a generic solution which could be adapted to
+support different life stages and pollutants.  ALGAE is intended as a generic exposure study protocol
+that can generate reusable exposure data set that can be linked with various health outcomes.
+</p>
+
+<p>
+Please note that the exposure results and test cases have been developed to support the
+original SAHSU-ALSPAC study. However, it is very likely that other studies would want
+to change the life stages, the pollutants or the covariates to make the protocol work
+for them.  Please see our sections on 
+<a href="./AdaptALGAEProtocol.html">adapting the code</a>.
+
+<h1>How to Cite and License It</h1>
+The ALGAE Protocol has been developed by Imperial College and is available under the 
+<a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3.0</a> open source license.  We ask that if you use the software, please 
+cite our <a href="">paper</a>, which was published in the Environmental Modelling and Software.
+
+<p>
+<table>
+<tr>
+<td>
+<a href="./algae_protocol.zip" class="link_button">Download</a>
+</tr>
+</table>
+</p>
+  
+</td>
+<td width=500>
+<img src="./images/ExposureStudy.jpg" width=500>
+</td>
+</tr>
+</table>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
 </html>

@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>Creating the original_addr_history_data table</title>
+</head>
+
+<body>
+
+<h1> Creating the original_addr_history_data table</h1>
+This file contains the residential address histories that are used to establish
+the temporal and spatial proximity of study members to pollutants.  We assume
+these are going to come from a Contacts database used by a cohort to track
+its study members. 
+
+Each address period comprises four fields:
+<ul>
+<li>a person_id to represent the study member</li>
+<li>
+a geocode, which represents the location of a residential address.  It is often
+expressed as a concatenation of map coordinates but ALGAE does not attach any
+meaning to it.  The geocode is used to link  which corresponds to the same 
+<code>geocode</code> fields found in <code>original_geocode_data</code> and 
+<code>original_exp_data</code>
+</li>
+<li>a start date</li>
+<li>an end date</li>
+</ul>
+
+<p>
+Here, the geocodes are just unique identifiers that represent locations.  They are
+used to link address periods with exposure values.  We assume that 
+<code>start_date</code> will the the creation time stamp of a record that was 
+created to describe a current address of a study member.  Therefore, the 
+start date will represent when an address was entered into the cohort's contacts 
+database and not when someone began living at the address.
+</p>
+
+<p>
+We field <code>end date</code> should represent when study members stopped living at
+addresses.  However, we expect that in many systems, the value of 
+<code>end_date</code> would either be manually or automatically calculated relative
+to the next start date.
+</p>
+
+<h2>Example Table</h2>
+See <a href="./original_address_history_data.csv">here</a>.
+
+<h2>Suggested Steps</h2>
+<ol>
+<li>
+Try to identify the part of your Contacts Database that contains a history of
+current addresses for study members.  
+</li>
+Export the addresses as a single CSV file.
+<li>
+
+<li>
+If the cohort's contacts database already has fields for start_date and end_date,
+then great! If not, then try using the time stamp of the address record for a 
+start date.  Compute the end date as being 1 day less than the next time stamp.
+</li>
+<li>
+Do <i>not</i> attempt to clean the address histories records.  Doing so will 
+undermine ALGAE's attempts to associate exposure values with an exposure 
+measurement error.
+</li>
+</ol>
+
+<h2>Table Properties</h2>
+You need to produce a CSV file called <code>original_address_history_data</code>.  It must
+have the following fields:
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Description<th>
+<th>Is Required</th>
+<th>Properties</th>
+<th>Example</th>
+<tr>
+
+<tr>
+<td><code>person_id</code></td>
+<td>Anonymised unique identifier representing a study member<td>
+<td>Yes</td>
+<td>Any Text</td>
+<td>1001XYZ</td>
+</tr>
+
+
+<tr>
+<td><code>geocode</code></td>
+<td>
+Represents the location of a residential address.  For ALGAE, the geocode is treated
+as just an identifier and the protocol attaches no meaning to the code.
+</td>
+<td>
+Yes
+</td>
+<td>
+Any text
+</td>
+<td>
+37.422036-122.084124
+</td>
+</tr>
+
+
+<tr>
+<th>Field</th>
+<th>Description<th>
+<th>Is Required</th>
+<th>Properties</th>
+<th>Example</th>
+<tr>
+
+<tr>
+<td><code>start_date</code></td>
+<td>The start date of the address period.  For the protocol, we assume that
+these dates represent when study members began living at an address.  However,
+we expect that in most cases, the start dates will actually represent when
+their contact details were last updated in the Contacts Database.
+</td>
+<td>Yes</td>
+<td>Date Format: dd/MM/yyyy</td>
+<td>17/05/1995</td>
+</tr>
+
+<tr>
+<td><code>end_date</code></td>
+<td>
+The end date of the address period. In the protocol, we assume that the dates
+represent when study members stop living at an address.  However, we expect
+that in practice, this date will usually be computed in relation to the start
+date of the next address period.  
+</td>
+<td>Yes</td>
+<td>Date Format: dd/MM/yyyy</td>
+<td>17/05/1995</td>
+</tr>
+
+
+</body>
+</table>
+

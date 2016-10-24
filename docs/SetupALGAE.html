@@ -1,0 +1,292 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes how you setup ALGAE, both the run and to edit code if you want.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Setup ALGAE</h1>
+ALGAE should run on most operating systems, but at present the scripts
+assume that you will work from a directory located at 
+<code>C:/algae_protocol</code>.
+
+<ol>
+<li>
+Click this button, and save the zip file to your computer.  Unzip it
+so that you have a folder <code>C:/algae_protocol</code>. 
+
+<table>
+<tr>
+<td>
+<a href="./algae_protocol.zip" class="link_button">Download</a>
+</tr>
+</table>
+
+</li>
+
+</ol>
+
+<h1>Create a new database and load the ALGAE code</h1>
+
+<ol>
+<li>
+In the left-hand panel marked "Object Browser" in PG Admin, right-click
+on the "Databases" item.  Then click "New database..."
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB1.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+<li>
+You should now see the following dialog.  Choose some meaningful name for
+the test database you're about to create (eg: <code>algae_15012016</code>).
+Click the "OK" button.  You should now see an entry for your new database
+in the Object Browser.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB2.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+<li>
+Double click on the Object Browser entry for your database (eg: the part of the 
+tree that would say <code>algae_15012016</code>).  You should see the following 
+items under the heading for your new database.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB3.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+<li>
+Click on the Tools menu and choose "Query Tool".  The following dialog appears:
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB4.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+<li>
+Now we're going to load all the code you need to run the ALGAE test cases.
+In your download, find and open the text file: 
+<pre>
+C:\algae_protocol\Load_All_ALGAE_Code.sql
+</pre>
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB5.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+<li>
+Using your favourite text editor (or use Eclipse), select all of the text in the 
+file and copy it into the Query tool window.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB6.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB7.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+Within the Query tool window, you should now see the top lines of the 
+Load_All_ALGAE_Code.txt file.  
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB8.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+</li>
+
+<li>
+Click on the "Query" menu, then click "Execute".
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB9.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+
+<li>
+Very quickly, you should see the message "Query returned successfully with no result in xxx ms".
+This just tells you that PostgreSQL loaded all the code correctly and didn't encounter any
+problems.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB10.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+
+<p>
+You should now be able to see the result of loading the code.  In
+the Objecct browser panel, click first on your database (eg: <code>algae_15102016</code>).
+Then click on "Schemas" and finally click on "Functions".  You should dozens of
+database functions listed.  These are responsible for processing your cohort data.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB11.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+</p>
+</li>
+
+<li>
+We now want to run the test suites to make sure that you've installed ALGAE 
+correctly and that the program works.  Paste the following line of code into
+the Query tool window and press Execute (ie press F5 button):
+<pre>
+SELECT "run_test_suite"('C:\algae_protocol\test_environment');
+</pre>
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB12.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+
+<li>
+Verify that the program ran correctly.  When the program finishes running, you should 
+see a row marked "1" in the Data Output panel at the bottom of the Query Tool screen.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB13.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+
+<p>
+If you want to see more information telling you about how it ran, click on the 
+"Messages" panel that appear along with the "Data Output" tab.
+<figure class="explanation_figure">
+<img src="./images/ALGAEInstallationCreateNewDB14.jpg" width=600>
+<figcaption>
+</figcaption>  
+</figure>
+</li>
+
+</ol>
+
+<p>
+If you finish these steps, it means you've successfully installed ALGAE and 
+verified that it can run on the test data sets that come with the download
+bundle.
+</p>
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

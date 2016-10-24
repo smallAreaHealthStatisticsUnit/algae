@@ -1,0 +1,466 @@
+
+body {
+	
+}
+
+header,
+section,
+footer,
+aside,
+nav,
+article {
+	display: block;}
+
+body {
+	font-family: 'Ariel', sans-serif; /* avoid using serif fonts for dyslexics */
+	background-color:#f9f8f6;
+}
+
+#wrapper {
+	max-width: 960 px;
+	margin: 0 auto;
+	background-color: white;
+	padding: 32 px;
+}
+	
+header {
+	height: 138px;
+
+	/*height: 140px;*/
+	/* R:197, G:224 B:180 */
+	background-color: #C5E0B4;
+}	
+
+footer {
+	height: 32px;
+	font-size: 70%;
+	text-align: left;	
+	padding: 7px 0px 0px 20px;
+
+	/*height: 140px;*/
+	/* R:197, G:224 B:180 */
+	background-color: #C5E0B4;
+}
+
+.header_line {
+	padding: 0;
+	margin: 0;
+}
+
+.header_line1 {
+	padding: 0;
+	margin: 0;
+	font-size: 70%;
+}
+
+.header_line2 {
+	padding: 0;
+	margin: 0;
+	font-size: 40%;
+}
+
+.header_line3 {
+	padding: 0;
+	margin: 0;
+	font-size: 70%;
+}
+
+
+
+td {
+	vertical-align: top;
+}
+
+
+.banner_table {
+    margin-left:0; 
+    margin-right:0;
+ 	mid-width: 900px;    		
+}
+
+.banner_table_text {
+    margin-left:0; 
+    margin-right:0;
+
+    min-width: 550px;
+    max-width: 550px;
+        
+ 	text-align: left; 
+}
+
+.banner_table_logos {
+    margin-left:0; 
+    margin-right:0;
+    min-width: 420px;
+    max-width: 420px;
+ 	text-align: right; 
+ 	/*background-color: #eeeeee;*/
+ 	  
+}
+
+
+.logos_table {
+    border-collapse: collapse;
+	background-color: white;	
+    width:80%; 
+    margin-left:10%; 
+    margin-right:10%;	
+			
+}
+
+
+.link_button {
+	display: block;
+    background: #4E9CAF;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* 
+ * CSS styling for generic tables that are neither original data tables (input)
+ * nor result tables (output)
+*/
+.generic_data_table_header {
+	text-align: left;
+	color: white;
+	background-color: black;
+}
+
+.generic_data_table {
+	padding: 10 px;
+	background: tan;
+	
+	/*background: #6CCFFF;*/
+    border-collapse: collapse;
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	/*background-color: #7F7F7F*/ /* RGB: 127, 127, 127 */		
+    border-radius:10px;
+    -moz-border-radius:10px;
+    
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+}
+
+
+.generic_data_table_even_row {
+	background-color: khaki; /* RGB: 210, 210, 210 */
+}
+
+.general_data_table_odd_row {
+	background-color: beige;	
+}
+
+
+
+.design_decision_table {
+	padding: 10 px;
+	background: tan;
+	
+	/*background: #6CCFFF;*/
+    border-collapse: collapse;
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	/*background-color: #7F7F7F*/ /* RGB: 127, 127, 127 */		
+    border-radius:10px;
+    -moz-border-radius:10px;
+    
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+}
+
+
+.design_decision_table_even_row {
+	background-color: khaki; /* RGB: 210, 210, 210 */
+}
+
+.design_decision_table_odd_row {
+	background-color: beige;	
+}
+
+.design_decision_name {
+	width: 150px;
+ 	/*white-space: pre;*/
+  	font-weight: bold;
+} 
+
+.design_decision_description {
+	width: 800px;
+ 	/*white-space: pre;*/
+} 
+
+
+
+.dense_data_table_header {
+	text-align: left;
+	color: white;
+	background-color: black;
+	font-size: 70%;
+}
+
+.dense_data_table {
+	background: #6CCFFF;
+
+    border-collapse: collapse;
+    border:solid black 1px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+
+
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	background-color: #7F7F7F /* RGB: 127, 127, 127 */	
+}
+
+.dense_data_table td {
+	font-size: 70%;
+}
+
+.dense_data_table_even_row {
+	background-color: #D2D2D2 /* RGB: 210, 210, 210 */
+}
+
+
+
+
+
+/* CSS styling for data dictionary tables */
+.data_dictionary_table {
+	background: #6CCFFF;
+	
+    border-collapse: collapse;
+    border:solid black 1px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	background-color: #dddddd;		
+}
+
+.data_dictionary_header {
+	text-align: left;
+	color: white;
+	background-color: black;
+}
+.data_dictionary_even_row {
+	background-color: #B9E9FF;
+}
+
+.data_dictionary_var_name {
+	valign: top;
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+.algae_input_table_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+.algae_input_table_field_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+  	font-size: 70%;
+} 
+
+
+.courier_font_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+
+
+/* CSS styling for data dictionary tables */
+.contributing_authors_table {
+	background: #6CCFFF;
+
+    border-collapse: collapse;
+    border:solid black 1px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+    
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	background-color: #FFDC5A;
+	
+			
+}
+
+.contributing_authors_header {
+	text-align: left;
+	color: white;
+	background-color: black;
+}
+.contributing_authors_even_row {
+	background-color: #FFDC80;
+}
+.contributing_authors_var_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+
+
+
+
+/* CSS settings to style an original data table */
+.original_data_table {
+	background: #F5DEB3; /* colour: wheat */
+	background: #FFFFA4;
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	table-layout: fixed;
+}
+.generic_data_table_header {
+	text-align: left;
+	color: white;
+	background-color: black;
+}
+.original_data_table_even_row {
+	background-color: #F5DEB3; /* colour: wheat */
+	/* background-color: #FFFF80;*/
+	/*background-color: #bbbbbb;*/
+}
+
+.original_data_table_field_name,
+.original_data_table_description,
+.original_data_table_is_required,
+.original_data_table_properties,
+.original_data_table_example {
+	color : #222222; /* Dim Gray */
+} 
+
+.original_data_table_field_name {
+	width: 100px;
+}
+
+.original_data_table_description {
+	width: 500px;
+}
+
+.original_data_table_is_required {
+	width: 50px;
+}
+
+.original_data_table_properties {
+	width: 100px;
+}
+
+.original_data_table_example {
+	width: 10px;
+}
+
+.original_data_table_example {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+
+
+.main_section {
+	z-index: 1;
+}
+
+
+.top_navigation_bar {
+    background-color: #333;
+    border: 1px solid #333;
+    color: #fff;
+    display: block;
+    margin: 10px 0px;
+    overflow: hidden;
+    z-index: 3;
+}
+.top_navigation_bar ul {
+    line-height: 2em;
+    margin: 0;
+    
+    padding: 0;
+    list-style: none;
+}
+
+.top_navigation_bar ul li {
+    margin: 0;
+    padding: 0em 0.5 em;
+        
+    display: inline-block;
+    list-style-type: none;
+    transition: all 0.2s;
+}
+
+.top_navigation_bar > ul > li > a {
+    color: #aaa;
+    display: block;
+    /* line-height: 2em; */
+    /* padding: 0.5em 2em; */
+    text-decoration: none;
+
+}
+
+.top_navigation_bar li > ul{
+    display : none;
+    margin-top:1px;
+    background-color: #bbb;
+
+}
+
+.top_navigation_bar li > ul li{
+    display: block;
+}
+
+.top_navigation_bar li > ul li a {
+    color: #111;
+    display: block;
+    line-height: 2em;
+    padding: 0.5em 2em;
+    text-decoration: none;
+}
+
+.top_navigation_bar li:hover {
+    background-color: #666;
+}
+
+.top_navigation_bar li:hover > ul{
+    position:absolute;
+    display : block;
+}
+
+.top_navigation_bar li > ul > li ul  {
+    display: none;
+    background-color: #888;
+}
+
+.top_navigation_bar li > ul > li:hover > ul  {
+    position:absolute;
+    display : block;
+    margin-left:100%;
+    margin-top:-3em;
+}
+
+figure {
+	display: table;
+}
+figcaption {
+	display: table-caption; caption-side: bottom; 
+}
+
+figure img {
+	max-width : 800;
+	max-height: 800;
+  border: 1px solid #323232;
+  padding: 5px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 3px 3px 5px rgba(50, 50, 50, .5);
+}
+
+
+
+	
+

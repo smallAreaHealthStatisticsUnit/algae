@@ -1,0 +1,420 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Testing Part 4: Study Member Features</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes ALGAE test cases that relate to temporal aspects of cleaning address periods.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Testing Part 4: Address History Features</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./TestingOverview.html" class="link_button">Testing Overview</a>
+</td>
+<td>
+<a href="./TestingStudyMemberFeatures.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./TestingExposureFeatures.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Background</h2>
+<p>
+These features describe the temporal aspects of cleaning address periods.  
+They ensure that study members live at exactly one address for each day of 
+their exposure time frame.  It mainly focuses on how the protocol handles 
+temporal gaps, overlaps and deletions in a chronologically ordered sequence 
+of address periods.  
+</p>
+
+<p>
+Tests examine cleaned address variables that appear in the 
+<code>res_early_cleaned_addr</code> result file and the sensitivity variables that 
+appear in the <code>res_sens_variables</code> and <code>res_early_stage_sens</code> 
+result files.
+
+<p>
+If all the tests in both address history and geocode feature areas pass, 
+then we may assume that all the address periods used in the Exposures test 
+area will be valid.
+</p>
+
+
+<h2>Coverage</h2>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/StudyMemberTestArea.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<h3>Input Fields Covered by Test Cases</h3>
+
+<table class="original_data_table">
+
+<tr class="generic_data_table_header">
+<th>Table</th>
+<th>Field</th>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+original_geocode_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+original_geocode_data
+</td>
+<td class="courier_font_name">
+has_valid_geocode
+</td>
+</tr>
+
+</table>
+
+
+
+<h2>Test Case Design</h2>
+This area covers a lot of variables, many of which involve variables which 
+capture the extent of changes made from cleaning address periods:
+<ul>
+<li>
+<code>
+out_of_bounds_geocodes
+</code>
+</li>
+<li>
+<code>
+invalid_geocodes
+</code>
+</li>
+<li>
+<code>
+fixed_geocodes
+</code>
+</li>
+<li>
+<code>
+total_addr_periods
+</code>
+</li>
+<li>
+<code>
+over_laps
+</code>
+</li>
+<li>
+<code>
+gaps
+</code>
+</li>
+<li>
+<code>
+gap_and_overlap_same_period
+</code>
+</li>
+<li>
+<code>
+deletions
+</code>
+</li>
+<li>
+<code>
+imp_blank_start_dates
+</code>
+</li>
+<li>
+<code>
+imp_blank_end_dates
+</code>
+</li>
+<li>
+<code>
+imp_blank_both_dates
+</code>
+</li>
+<li>
+<code>
+imp_last_dates
+</code>
+</li>
+<li>
+<code>
+days_changed
+</code>
+</li>
+<li>
+<code>
+has_bad_geocode_within_time_frame
+</code>
+</li>
+<li>
+<code>
+total_contention_days 
+</code>
+</li>
+</ul>
+The next few test case themes focus on how the number of address periods 
+study members have influences these variables.
+
+<h3>
+Test for a study member who has no address periods
+</h3>
+The protocol needs to anticipate errors that may occur when the input 
+data sets are linked.  If the <code>original_study_member_data</code> and 
+<code>original_address_history_data files</code> are prepared by separate 
+groups, then it is possible that study members mentioned in one file may 
+not appear in the other.
+
+<p>
+If a study member has no address periods, then would we use <code>NULL</code> 
+or 0 to indicate the total number of address periods they occupied during his 
+or her exposure time frame?  On one hand we know that the study member must 
+have lived somewhere, so it would seem zero would be incorrect.  However, 
+if the protocol is counting the number of available address periods that 
+cover the exposure time frame, then the answer would be 0. 
+</p>
+
+<p>
+In this area, if study members have no associated address periods, we 
+will assign zero rather than <code>NULL</code> to variables that count 
+different types of changes.
+</p>
+
+<h3>
+Test for a study member who has one address period
+</h3>
+If a study member experiences no address changes, then many fields will 
+have predictable values:
+<ul>
+<li>
+<code>
+fixed_geocodes = 0
+</code>
+</li>
+<li>
+<code>
+total_addr_periods = 1
+</code>
+</li>
+<li>
+<code>
+over_laps = 0
+</code>
+</li>
+<li>
+<code>
+gaps = 0
+</code>
+</li>
+<li>
+<code>
+gap_and_overlap_same_period = 0
+</code>
+</li>
+<li>
+<code>
+deletions = 0
+</code>
+</li>
+<li>
+<code>
+imp_blank_start_dates = 0
+</code>
+</li>
+<li>
+<code>
+imp_blank_end_dates = 0
+</code>
+</li>
+<li>
+<code>
+imp_blank_both_dates = 0
+</code>
+</li>
+<li>
+<code>
+imp_last_dates = 0
+</code>
+</li>
+<li>
+<code>
+days_changed = 0
+</code>
+</li>
+<li>
+<code>
+total_contention_days = 0
+</code>
+</li>
+</ul>
+
+<h3>
+Test for a study member who has two or more address periods
+</h3>
+Once study members have at least two address periods, they are able to 
+have gaps, overlaps, deletions, contention days, and fixed bad geocodes.
+
+
+<h3>
+Test exhaustively for gaps and overlaps using two successive address 
+periods that are 1, 2 and 3 days of length
+</h3>
+
+One of the most important aspects of the protocol is that it is able to 
+create a temporally continuous address history that spans the entire 
+exposure time frame of the study member.  Fixing gaps and overlaps that 
+may exist between successive address periods is a critical part of that 
+process.  Study members will not likely have address period durations 
+that are so short.  However, periods of 1, 2 and 3 days often capture 
+many of the edge test cases in test cases and we felt that if the 
+protocol could handle them, it could handle combinations of address 
+periods that had an arbitrary length.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/GapOverlapDeletionScenario.jpg" width=500>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<h3>
+Include test case where the same address period is involved with cleaning gap and an overlap
+</h3>
+It is possible that the temporal boundaries of an address period could be changed twice: once
+in response to fixing a gap and another in response to fixing an overlap.  The
+diagram below illustrates this case:
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/GapAndOverlapTestScenario.jpg" width=500>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,454 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Methodology</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes advice we give to other cohorts for improving the administrative systems they use to maintain changes of address.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+			
+<section class="main_section">
+<h1>Our Advice: Improving administrative systems used to capture address histories</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+There are three main kinds of improvements that can be made to administrative 
+systems so that their residential address histories will better support 
+retrospective exposure studies:
+<ul>
+<li>
+form comments
+</li>
+<li>
+guided data entry features
+</li>
+<li>
+validation features
+</li>
+</ul>
+Form comments provide a form of end-user training that will increase the likelihood 
+that users enter data in the way that the electronic forms expect.  For example, 
+having the comment "dd-MM-yyyy" next to a date text field will encourage users to 
+enter data in the correct format.  Guided data entry features help prevent certain 
+types of errors from occurring and validation features help address them when they 
+happen.  
+
+<p>
+We assume that there would be scarce developer resources available for cohorts to 
+create or improve administrative systems they use to maintain contact details of 
+their study members.  For small cohorts, it is likely that such systems would begin 
+as simple spread sheets, and would evolve into tables that are managed through a 
+database.  Eventually cohort members would be able to add, edit and delete current 
+addresses using electronic forms that support guided data entry and validation 
+features.  Large cohorts may invest in web-based applications as part of delegating 
+the task of updating changes of address to the study members themselves.
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EvolutionOfContactApps.jpg" width=1000>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+Apart from evolving through different technologies, the administrative systems may 
+evolve new features as it goes from being a means of auditing current addresses to 
+a means of tracking past addresses.  Initially, the start date of an address period 
+would likely be the time stamp that is generated when the application creates a 
+new record.  The end date of the address period may be calculated as the day 
+before the creation time stamp of the next record.
+</p>
+
+<p>
+In the following sections, we explain a sequence of incremental improvements that can 
+improve the data quality of residential address histories that would later be taken 
+from the contact database systems.  Cohorts may decide to make different improvements, 
+depending on their available developer resources and on the needs of any legacy 
+contacts applications they may already be using.
+</p>
+
+<h2>General Advice</h2>
+
+<h3>Use alphanumeric study member identifiers instead of auto-incremented numbers</h3>
+The study member identifier is the most important data field in ALGAE because it links
+together different sources of information about the same person.  The way the 
+identifiers are generated can influence how error-prone it is to link related records
+together and how easy it will later be to migrate data from one information management
+system to the next.
+</p>
+
+<p>
+Using auto-numbering to generate new study identifiers is appealing because it is 
+simple.  In spreadsheets, it may be tempting to borrow the line number that appears
+next to the first field.  In database programs such as MS Access, it is easy to
+create a primary key that uses an autonumbering feature.
+</p>
+
+<p>
+The problem with using auto-generated identifiers is that when they are used in 
+different tables, there is a risk that accidentally linking the wrong fields will still
+produce matches that obscure the mistake.
+</p>
+
+<p>
+Consider the following example of where we make an error by accidentally linking
+study member and current address tables using
+<code>study_member_data.id=current_addresses.id</code> instead of
+<code>study_member_data.id=current_addresses.study_member_id</code>.  
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/DataLinkageError1.jpg" width=1000>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<p>
+The resulting database query may return addresses for most study members and create
+the impression that it has correctly created address histories for each person.
+There is a possibility that during some important life stage, Amanda Garner's
+exposure will be assessed at <code>13 Orchard Vale</code> instead of 
+<code>5 Tanningware Rd</code>.  It is also possible that exposure scientists
+would never detect the error and that epidemiologists might then observe incorrect
+relationships between early life exposure and later life health outcomes.
+</p>
+
+<p>
+Now consider the same scenario, but where the identifier field in the 
+<code>study_member_data</code> has a value that is not assigned a unique value
+through an auto-numbering feature.  When the query is run, it will produce no results, 
+thereby indicating an obvious problem that needs to be fixed.
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/DataLinkageError2.jpg" width=1000>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+As technologies change, cohorts may feel compelled to migrate administrative data
+from one kind of information management system to another.  Auto-generated keys are
+usually unique with respect to a particular table but may not be unique when they
+are used within a new system.  For example, if administrators use a new database
+to recruit a new group of cohort members and then import cohort member data from
+another database, they may find that multiple people are assigned the same
+study identifier.
+</p>
+
+<h3>Design study member identifiers to resist typographical mistakes</h3>
+If your staff are going to be manually typing in study member identifiers, then it 
+is a good idea to generate ones that will be guaranteed to be at least two
+characters different than any other identifier.  
+
+<p>
+For example, consider the study member identifiers 101D assigned to one person and 
+151D assigned to another. If cohort staff were to accidentally type in 151D but
+actually mean 101D, then a record could end up being assigned to another person.
+It is much easier to spot data linkage errors if the typographical mistakes
+produce identifiers that don't belong to anyone.
+</p>
+
+<p>
+One way to reduce the risk of typographical mistakes is to alternate number and
+letter characters.  The alternation between letters and number helps slow down
+data entry so that key strokes become more deliberate.  Another way to reduce
+the likelihood of undetected typographical errors is to choose identifiers that
+have many characters and produce far more possible identifiers than are needed
+by the size of the cohort.
+</p>
+
+<h3>Include an audit trail feature to retain old current addresses</h3>
+However you record the current address of your cohort members, you should ensure 
+that your system audits past current address records rather than just maintaining 
+only the most recent one.  We have learned of cohorts whose administrative systems 
+did not do this, and they are left with the challenge of relying on a single postal 
+address to represent the entire exposure time frame that is used within a particular 
+study.  
+
+<p>
+When having the one address is no longer sufficient to support these studies, the 
+cohorts are usually left with no choice other than to commission a data collection 
+sweep that elicits past addresses from study members.  This approach is prone to 
+problems related to memory recall and response rates.  
+</p>
+
+<p>
+Having an audit trail in your system provides at least two benefits.  First, it can 
+help establish which addresses a cohort used when it mailed out sensitive data to 
+its members.  An audit trail can help support various reviews that may be part of 
+information governance procedures.  Second, the audit trail provides a way of 
+recording movement patterns that could later be used as well or in place of an 
+expensive questionnaire effort to accomplish the same thing. 
+</p>
+
+
+<h2>Improving Spreadsheets</h2>
+If your project is recording changes of addresses using a spreadsheet, then you
+may want to change the date format so that the dates are spelled rather than
+numbered.  Entering dates using formats such as <code>dd/MM/yyyy</code> or 
+<code>MM/dd/yyyy</code> are prone to problems of transposing numbers and 
+having the data interpretted differently between American and European formats.  
+In data entry activities, it is much easier to understand the meaning of 
+<code>09 JUN 2002</code> than <code>09/06/2002</code>
+
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/ImproveContactsApp2.jpg" width=1000>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<p>
+A spreadsheet may be an acceptable means of recording a few address changes at 
+the beginning of recruitment for a very small cohort.  However, spreadsheets have 
+a number of drawbacks:
+<ul>
+<li>
+manual data entry is prone to typographical errors and the field errors can 
+affect data linking and filtering activities
+</li>
+<li>
+tables may include additional description fields to help data enterers know
+whose records they are editing
+</li>
+<li>
+the repetitious nature of data entry may make staff more at risk of creating
+errors from copy-and-paste operations.
+</li>
+<li>
+auditing manual data corrections is laborious
+</ul>
+
+<p>
+I would expect that almost any cohort project having more than a few cohort members
+will soon invest in using a database that is edited through electronic forms.
+</p>
+
+<h2>
+Suggestions for databases that are edited through electronic forms
+</h2>
+
+<h3>
+Record the time stamp of when a new change of address is created
+</h3>
+Many cohorts may not initially try to record the start and end dates of each
+study member's address periods.  One of the advantages of this feature is that 
+the time will be set automatically by the database rather than be set 
+manually by a user. However, it has the drawback of creating artificial start 
+dates that correspond to when a study member's change of address is updated
+rather than when they have actually moved.
+
+<h3>
+Derive end dates in relation to start dates
+</h3>
+Each time a new address record is created, the database should set the end date
+of the previous current address with the creation time stamp minus one day.  This
+improvement has the drawback of making end dates seem more synthetic but it has
+the benefit of simplifying data cleaning activities that are used to fix gaps and
+overlaps in the address histories.
+
+<h3>
+Include both an Add and an Edit feature for address change records
+</h3>
+Some administrative systems may create a new change of address each time the current
+one is changed.  The problem with this kind of auditing is that a new record may
+reflect corrections of an old address rather than represent a new location.
+The benefit of applying this improvement is that it begins to turn the database
+from an auditing tool into a tracking tool.  The scientists doing the study can have
+more confidence that address changes actually represent moves from one place to
+another.
+
+<h3>
+Add format comments to help describe the input formats of dates.
+</h3>
+Adding the format for a date field can help make it more likely that users enter
+dates in the formats that the electronic forms expect.
+
+<h3>
+Include an explicit form field to capture the start and end dates
+</h3>
+Up until now, we have used record creation dates to represent start dates of
+address periods.  However, the start dates will be more meaningful if data 
+enterers have to explicitly enter start and end dates.
+
+<h3>Break date text fields into three separate and smaller form fields</h3>
+Representing the date through separate fields for day, month and year can make it
+easier for data enterers to know what to type.  The size of the field can also help
+indicate what is expected to be typed.  For example, if year has a text field that 
+looks large enough to hold two characters, then the user may conclude that the 
+system wants a two digit year to be provided.
+
+<h3>
+Prefer drop down fields to text fields for representing date fields
+</h3>
+Changing from using text fields to drop-down fields can help eliminate typographical
+errors.  The former way may prove the quicker way to create a new date field but
+the latter will likely mean that a date value would be less error prone.
+
+<h3>
+Prefer a date picker to drop down list fields for representing date fields.
+</h3>
+Many modern electronic forms will let users specify a date value through a graphical
+pop-up calendar. Using the calendars can help eliminate typographical errors,
+problems specifying years with only two digits, problems specifying leap year days
+and other problems of choosing inappropriate days for certain months (eg: day 31
+for February).  By default, date pickers will show the calendar month that contains 
+the current day.  Therefore, date pickers work best when users have to select days
+that are recent.  They may be less useful when old dates are being specified.
+
+<h3>
+Make sure that end dates are not less than start dates
+</h3>
+Preventing this kind of error will ensure that data cleaning will not have to 
+fix it later.
+
+<h3>
+Prompt users to enter a previous end date when they create a new address change
+</h3>
+When users create a new address period for a study member, they may forget to 
+specify an end date for that person's previous address period.  To ensure that all past 
+current addresses have both a start and an end date, the application should detect 
+blank required dates.
+
+<h3>
+Develop an end-user tutorial to help users specify addresses in a standard way
+</h3>
+Users who create new address period records should receive some training about how
+standard addresses should be entered.  For example, projects may suggest that they
+use standard ways to represent "street", "avenue", and "road".  By promoting a
+standard way for specifying addresses, it is likely that more addresses will later
+be geocoded successfully.
+
+<h3>
+Support key stroke filtering for postal code fields
+</h3>
+Another way to improve the data quality of addresses is to make a list of valid
+post codes that changes when users type more characters of it.  Even if the
+street addresses are of poor quality, the postal code can often provide important
+information for geocoding software applications.
+
+<h3>
+Use address look-up service
+</h3>
+The best way to specify an address would be to look it up using a service that
+filters choices based on key strokes.  By specifying addresses in this way, the
+application would be more easily able to check that the next address change 
+did indeed represent a new location.
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

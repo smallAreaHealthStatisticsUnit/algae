@@ -1,0 +1,8 @@
+geocode,version,comments,ed91,oa2001,oa2011,has_valid_geocode
+a1,1.0,,a1-ed91,a1-oa01,a1-oa11,Y
+a2,2.0,,a2-ed91,a2-oa01,a2-oa11,Y
+a3,1.0,,a3-ed91,a3-oa01,a3-oa11,Y
+a4,1.0,,a4-ed91,a4-oa01,a4-oa11,Y
+a5,2.0,,a5-ed91,a5-oa01,a5-oa11,Y
+a6,1.0,poor match regarded as invalid,a6-ed91,a6-oa01,a6-oa11,N
+a7,1.0,out of bounds no exposures,a7-ed91,a7-oa01,a7-oa11,Y

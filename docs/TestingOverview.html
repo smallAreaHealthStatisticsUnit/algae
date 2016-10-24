@@ -1,0 +1,171 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Methodology</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes the ALGAE methodology.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">						
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+<h1>Testing Strategy</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p>
+The ALGAE protocol has been successfully tested with a suite of 300 test 
+cases that compare results created by the software with results created 
+by hand.  ALGAE compares the two and generates a report showing which ones
+passed or failed.  An example of the test run is 
+<a href="./example_results/res_test_suite_2016-Oct-24-22-47.csv">here</a>.
+</p>
+
+<p>
+Our test plan was implemented by exercising a sequence of six test areas.
+Click on a test area to learn more about it:
+
+<p align="center">
+<table>
+<tr>
+<td>
+<a href="./TestingPreProcessingFeatures.html" class="link_button">Testing Part 1: Pre-processing Features</a>
+</td>
+</tr>
+<tr>
+<td>
+<a href="./TestingGeocodeFeatures.html" class="link_button">Testing Part 2: Geocode Features</a>
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="./TestingStudyMemberFeatures.html" class="link_button">Testing Part 3: Study Member Features</a>
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="./TestingAddressHistoryFeatures.html" class="link_button">Testing Part 4: Address History Features</a>
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="./TestingExposureFeatures.html" class="link_button">Testing Part 5: Exposure Features</a>
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="./TestingAllOtherFeatures.html" class="link_button">Testing Part 6: All Other Features</a>
+</td>
+</tr>
+
+</table>
+</p>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

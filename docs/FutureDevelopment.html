@@ -1,0 +1,178 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Future development</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts.  This page
+		describes ideas for future development.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Future development</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p>
+As ALGAE continues to be used and adapted to support other projects, we will
+likely need to consider making improvements on the existing protocol.  Below,
+we share our thoughts about two ideas that could be used to make future 
+releases.
+
+
+<h2>
+Limit the effect of bad geocodes
+</h2>
+Currently, if study members have at least one address period within their
+exposure time frame that has a bad geocode, and that bad geocode cannot be
+<a href="./ALGAEMethodology.html#fixable_bad_geocodes">fixed</a>,
+then they are excluded entirely from exposure assessments.
+
+<p>
+In future, the protocol should be adapted so that only the life stages
+that contain address periods with bad geocodes are excluded from assessment.
+For example, if there is a bad geocode in T2, the exposures could still be
+calculated for T1, T3, and EL periods.
+</p>
+
+<h2>
+Develop the concept of the proxy error
+</h2>
+Currently, ALGAE's <a href="./ALGAEGlossary.html#contention_day">contention days</a>
+are only produced when there is a gap or an overlap between successive address 
+periods.  However, a far more significant source of contention days for many
+projects would come from the lag time between when someone moved to an address
+and when they began living there.
+
+<p>
+For example, consider the scenario shown in the diagram below.  A study member decides
+to mail a change of address to the cohort facilities and move on May 3, 1995.  Assume
+that it takes three days for a letter to reach the cohort offices. A cohort administrator 
+opens the mail showing the change on May 6 and immediately updates
+the study member's record.  The start date at a<sub>2</sub> will be listed as
+May 6, but the actual move date would be May 3.
+</p>
+
+
+
+<figure class="explanation_figure">
+<img src="./images/ProxyError.jpg" width=400>
+<figcaption><b>Understanding proxy error</b>.  The start dates are used as a proxy
+for when study members begin living at an address, but they will likely
+represent when their change of address is recorded by cohort staff.
+</figcaption>  
+</figure>
+
+<p>
+In future releases, it may be useful to clean the address periods, and then calculate a 
++/- X days that represents the lag between the date of a move and the date when it was
+reported.  Applying the proxy error would create days of contention, whether or not
+they were covered by gap or overlap errors in the administrative data.
+</p>
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

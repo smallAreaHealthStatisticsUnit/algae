@@ -1,0 +1,1322 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts.  This section
+		provides access to a design document that outlines the major design considerations that
+		were used to make the protocol.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<table>
+<tr>
+<td width=250 align="center">
+<a href="./ALGAEProtocolRationale.docx">
+<img src="./images/ALGAEProtocolDesignBookCover.jpg" width=200 title="Click here to download">
+</a>
+</td>
+<td width=600>
+Most of this web site describes how the ALGAE protocol works, but here we discuss why 
+the protocol was designed in the manner that it was.  ALGAE is the product of over
+50 separate design decisions that were drawn from four main areas of requirements:
+<ul>
+<li>
+domain science decisions
+</li>
+<li>
+business decisions
+</li>
+<li>
+data science decisions
+</li>
+<li>
+software engineering decisions.
+</li>
+</ul>
+<p>
+Instead of spreading the discussion over dozens of web pages, we provide the entire
+discussion in a separate document that project members can more easily print out and 
+read.
+</p>
+</td>
+</tr>
+</table>
+
+<h1>Summary of Design Decisions</h1>
+
+<h2>Domain Science Decisions</h2>
+<table class="design_decision_table">
+
+<tr class="generic_data_table_header">
+<th>Decision</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Domain Science-1
+</td>
+<td class="design_decision_description">
+The protocol will use residential address histories, historically modelled 
+pollutant concentrations and life stage data to assess life stage exposures 
+in members the ALSPAC cohort.  The life stage exposures will then be linked 
+with health outcomes relating to respiratory health outcomes that are measured 
+at years 8 and 15
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Domain Science-2
+</td>
+<td class="design_decision_description">
+The protocol will support both an early life and a later life analysis.  The 
+early life analysis will assess exposures in: Trimester 1 (<code>T1</code>), 
+Trimester 2 (<code>T2</code>), Trimester 3 (<code>T3</code>), and an early life 
+period that spans the first year of life (<code>EL</code>). 
+ The later life analysis will assess exposures for years of life beginning in 
+ year 2 and ending in year 15 (<code>YR2...YR15</code>).</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Domain Science-3
+</td>
+<td class="design_decision_description">
+Conception date will be calculated as: date of birth - (7 x gestation age at 
+birth measured in weeks) - 1 day.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Domain Science-4
+</td>
+<td class="design_decision_description">
+The boundaries of early life stages will be calculated as follows: 
+T1 = [conception date, conception date + 91 days], 
+T2 = [conception date + 92 days, conception date + 183 days], 
+T3=[conception date + 184 days, birth date - 1 day], 
+EL=[birth date, birth date + 1 year - 1 day].
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Domain Science-5
+</td>
+<td class="design_decision_description">
+In the early life analysis, the protocol will need a facility for 
+correcting overlaps in life stage boundaries that may occur with 
+prematurely born study members.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Domain Science-6
+</td>
+<td class="design_decision_description">
+The boundaries of life stages in the later life analysis will be 
+calculated as follows: YRn = [date of birth + n years, date of 
+birth + (n+1) years - 1 day.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Domain Science-7
+</td>
+<td class="design_decision_description">
+The protocol will assess exposures for the following pollutants: 
+<code>PM10_tot</code></code>, <code>PM10_rd</code>, <code>PM10_gr</code>, 
+<code>NOx_rd</code>, and <code>NAME</code>
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Domain Science-8
+</td>
+<td class="design_decision_description">
+Assume that the exposure area will exhibit high spatial and temporal 
+variation during the exposure time frame.
+
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Domain Science-9
+</td>
+<td class="design_decision_description">
+Assume that the susceptibility of study members to spatial and temporal 
+fluctuations in exposures may depend on the life stages being used in 
+assessment.
+
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Domain Science-10
+</td>
+<td class="design_decision_description">
+The early life analysis will use daily exposure values and the later 
+life analysis will use annual average exposure values.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Domain Science-11
+</td>
+<td class="design_decision_description">
+The protocol will aggregate exposures by life-stage, and express the 
+results using cumulative, average and median calculations.
+</td>
+</tr>
+
+</table>
+
+<h2>Business Decisions</h2>
+
+
+
+
+
+<table class="design_decision_table">
+<tr class="generic_data_table_header">
+<th>Decision</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-1
+</td>
+<td class="design_decision_description">
+The protocol must be able to omit from analysis any study members who have 
+withdrawn consent to participate in the activity, at any time during the 
+activity.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-2
+</td>
+<td class="design_decision_description">
+The intermediate data sets that are made from linking cohort data and the 
+results produced by analysis can only be created on-site at the cohort's 
+premises, using a secure and limited computing environment.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-3
+</td>
+<td class="design_decision_description">
+Scientists could only take aggregated exposure results off-site.  They would 
+not be allowed to take away results which contained birth dates or which 
+linked residential addresses to specific individuals.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-4
+</td>
+<td class="design_decision_description">
+The protocol assumes that exposure data would be generated on the premises of 
+the collaborating research institution and not those of the cohort facilities.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-5
+</td>
+<td class="design_decision_description">
+Assume that exposure data for both early and later life analyses will be generated 
+based on a set of all residential addresses that have ever been occupied by any 
+study member for any period that falls within either their early life or later life 
+analysis.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-6
+</td>
+<td class="design_decision_description">
+An exposure record will comprise a geocode, a date of year, and concentration values 
+for each type of pollutants.  In the early life analysis, the date of year will 
+represent a daily exposure record.  In the later life analysis, the same field will 
+represent an annual exposure value and will be January 1st of some year that is 
+involved in the later life analysis.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-7
+</td>
+<td class="design_decision_description">
+
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-7
+</td>
+<td class="design_decision_description">
+The protocol must be fully automated.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-8
+</td>
+<td class="design_decision_description">
+The protocol must support being tested by a suite of automated test cases that 
+can demonstrate that it is behaving correctly.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-9
+</td>
+<td class="design_decision_description">
+The protocol would generate a reusable exposure data set that was made 
+independently of health outcomes that could be linked to it.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-10
+</td>
+<td class="design_decision_description">
+Because it produces a data set that will support multiple environmental 
+health studies, the need to support data science and software engineering 
+requirements becomes more important than those concerns would have if the 
+protocol supported only a single study.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-11
+</td>
+<td class="design_decision_description">
+Accept that different cohort projects will express different levels of 
+interest in the protocol.  Rather than expecting the utility of a generic 
+protocol to be measured by the number of projects that download and use it, 
+anticipated tiered levels of buy-in from other groups.  These are: people 
+who want to reuse its design to make their own software; people who want to 
+reuse the software tool with a different cohort; people who want to adapt 
+the code to suit different slightly different use cases; and people who 
+want to borrow parts of the code for other projects.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-12
+</td>
+<td class="design_decision_description">
+The protocol documentation must minimally include three things for 
+prospective users in other projects: an explanation of properties for the 
+input data sets; instructions for installing and running the protocol; and 
+a data dictionary that describes the meaning and context of result variables.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-13
+</td>
+<td class="design_decision_description">
+Accommodate input values that may have cohort-specific representations but will 
+have the same meaning.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-14
+</td>
+<td class="design_decision_description">
+Accommodate different ways of representing input values for yes-no fields. For 
+example, allow ALGAE to understand that "Yes", "yes", "true", and "1" are all 
+ways of representing "Y" for Yes.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-15
+</td>
+<td class="design_decision_description">
+Accommodate different ways of representing an empty field value.  They may include 
+the empty string "", a null value, some form of "<code>NULL</code>", and "<code>NULLIF#</code>".
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-16
+</td>
+<td class="design_decision_description">
+Document how code could be changed to support different life stages, or different temporal 
+boundaries for existing life stages.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-17
+</td>
+<td class="design_decision_description">
+Document any code that may depend on the name of a specific life stage (eg: <code>EL</code>, 
+which normally contains the birth date as a start date).
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-18
+</td>
+<td class="design_decision_description">
+Document how other projects could change the pollutants that are used for the study.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-19
+</td>
+<td class="design_decision_description">
+The protocol will not support features for anonymising or pseudonymising fields.  
+Projects that want to de-identify these variables should do so as part of the 
+process they follow for creating the input data files or they should de-identify 
+variables after the results have been generated.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Business-20
+</td>
+<td class="design_decision_description">
+The protocol will not attach any meaning to <code>person_id</code> or <code>geocode</code> 
+fields, and will just treat them as identifiers that link tables together.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-21
+</td>
+<td class="design_decision_description">
+In order to support data destruction provisions in information governance policies, the protocol 
+will write all of its result tables to CSV files so that projects can safely delete the entire 
+database which produced them.  Isolating results in this way allows projects to minimise the risk 
+of holding sensitive data in the intermediate data sets produced by the protocol.  
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Business-22
+</td>
+<td class="design_decision_description">
+The decision about which fields the protocol will produce are based on what fields would be useful 
+for the scientific use case and are not based on the information governance policies of any one 
+cohort.  It is possible that in a given project, ALGAE produces more data than what is necessary 
+and sufficient for the research purpose.  It is also possible that it will generate more data 
+than a given cohort will allow to be taken off-site.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Business-23
+</td>
+<td class="design_decision_description">
+The ALGAE protocol should be open sourced through a standard OSI license.
+</td>
+</tr>
+
+</table>
+
+<h2>Data Science Decisions</h2>
+<table class="design_decision_table">
+<tr class="generic_data_table_header">
+<th>Decision</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-1
+</td>
+<td class="design_decision_description">
+The input CSV file that holds data about geocodes will have a yes/no flag 
+called "<code>is_valid</code>".  If the flag value is Y, then the <code>geocode</code> is considered 
+valid and may be used in exposure calculations.  If the flag value is N, 
+then the <code>geocode</code> is considered not valid, and may cause some study members 
+to be excluded from exposure assessments.  The criteria for validity are 
+defined by individual cohorts
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-2
+</td>
+<td class="design_decision_description">
+The input CSV file that holds data about geocodes will have a free-text field called "<code>version</code>".  
+Cohorts can use the field to describe an iteration of geocoding that uses a particular version 
+of software, was done by a particular method or was done by a particular people.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Data Science-3
+</td>
+<td class="design_decision_description">
+The input CSV file that holds data study member data will have a yes/no field called 
+"<code>at_1st_address_conception</code>".  If the flag value is "Y", then researchers can be confident that 
+a cohort member was definitely at their enrolment address when he or she was conceived.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-4
+</td>
+<td class="design_decision_description">
+The input CSV file that holds data study member data will have a yes/no field called 
+"<code>absent_during_exp_period</code>".  If the flag value is "Y", then researchers can be confident 
+that a cohort member spent a significant amount of their exposure time frame living at 
+a location that was not specified in his/her residential address history.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Data Science-5
+</td>
+<td class="design_decision_description">
+Cohort projects will need to comply with naming conventions for both the paths of input files 
+and for the variable names within those files.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-6
+</td>
+<td class="design_decision_description">
+Preserve the provenance of data in the original data files by storing unaltered data in original 
+data tables that are not touched by the rest of the protocol.  Let the protocol apply its data 
+transformations on staging tables, which will contain versions of the original data that have 
+standardised the representation of field values.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Data Science-7
+</td>
+<td class="design_decision_description">
+In order to make it easier for researchers to identify errors, favour expressing complex operations 
+through a sequence of simple temporary tables rather than by using a single, complex monolithic 
+query to do the same work.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-8
+</td>
+<td class="design_decision_description">
+Save changes using modified copies of table fields rather than changing original ones.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-9
+</td>
+<td class="design_decision_description">
+Capture the original row number of records from input files in corresponding staging tables. 
+Where it is possible to do so, promote the original row number fields through temporary 
+tables that may use them.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-10
+</td>
+<td class="design_decision_description">
+Wherever possible, do not delete table rows.  Instead, flag them as being deleted.  This 
+approach allows protocol users to inspect the nature of deleted data identified for 
+each study member.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-11
+</td>
+<td class="design_decision_description">
+Promote ignored rows through successive temporary tables but use deletion flags to ignore 
+them from consideration in calculations.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-12
+</td>
+<td class="design_decision_description">
+Assume that the date that a study member's current address was updated in the Contacts 
+database is the date when he or she began living at a new address.  This value is the 
+start date of an address period.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-13
+</td>
+<td class="design_decision_description">
+Ensure that each address period has non-blank values for its start date and end date 
+fields.  Impute missing start dates with the conception date of the study member.  
+Impute missing end dates with the current date.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-14
+</td>
+<td class="design_decision_description">
+Order address periods in ascending order, first by <code>person_id</code>, 
+second by <code>start_date</code> and third by <code>duration</code>. 
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-15
+</td>
+<td class="design_decision_description">
+Assume that in the residential address histories, start dates are stronger signals 
+than end dates.  Assume that study members were likely already living at the geocoded 
+location in an address period at or before its start date.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-16
+</td>
+<td class="design_decision_description">
+In the process of fixing temporal gaps and overlaps between successive address periods, 
+act to preserve the start date of the current address period over the end date of the 
+previous one.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Data Science-17
+</td>
+<td class="design_decision_description">
+Let an and an+1 be two successive address periods.  If a gap exists between them, then 
+let <code>a<sub>n+1</sub>.start_date = a<sub>n</sub>.end_date + 1 day</code>.  If an overlap exists between them, let 
+<code>a<sub>n</sub>.end_date = a<sub>n+1</sub>.start_date - 1 day</code>.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-18
+</td>
+<td class="design_decision_description">
+Let a<sub>n</sub> and a<sub>n+1</sub> be two successive address periods.  a<sub>n</sub> is considered 
+a duplicate if it is temporally subsumed by a<sub>n+1</sub>.  If this is true, then an will be flagged 
+as a deleted record.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-19
+</td>
+<td class="design_decision_description">
+Ensure the address history for any study member spans the entire exposure time frame (eg: 
+<code>[conception_date, birth date + 1 yr - 1 day]</code>).  Ensure that the start date of 
+the earliest address period is adjusted to be at least as old as the conception date.  Ensure 
+that the end date of the latest address period is adjusted to be at least as early as the 
+last day of the exposure time frame.  
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-20
+</td>
+<td class="design_decision_description">
+If a study member has at least one address period which has a bad geocode and which spans part of 
+their exposure time frame, he or she will be excluded from further exposure assessments.
+</td>
+</tr>
+<tr>
+<td class="design_decision_name">
+Data Science-21
+</td>
+<td class="design_decision_description">
+If address period is fixable if it meets the following three criteria:
+<ul>
+<li>It has a bad geocode</li>
+<li>It is immediately followed by an address period which has a valid geocode</li>
+<li>It has less than 25% overlap with any life stage</li>
+</ul>
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-22
+</td>
+<td class="design_decision_description">
+Let an address an be a fixable address period.  The protocol will attempt to ignore 
+an from further calculations by subsuming it within <code>a<sub>n+1</sub>:  a<sub>n+1</sub>.start_date = a<sub>n</sub>.start_date</code>.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-23
+</td>
+<td class="design_decision_description">
+The protocol will support a set of sensitivity variables that will allow researchers to 
+quantify the influence of data quality attributes and data cleaning actions on subsets 
+of exposure results.  These variables will provide meta data about data transformation 
+activities and will be provided as a result file for users. 
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-24
+</td>
+<td class="design_decision_description">
+The sensitivity variables will include variables that allow researchers to isolate 
+exposure results based on how confident they can be that the residential address 
+histories can cover the exposure time frame of interest.  These variables will borrow 
+the <code>at_1st_addr_conception</code> and <code>absent_during_exp_period</code> variables from the 
+<code>original_study_member_data</code> table.
+</td>
+</tr>
+<tr>
+<td class="design_decision_name">
+Data Science-25
+</td>
+<td class="design_decision_description">
+The sensitivity variables will include ones that can help researchers determine whether low exposure 
+values for Trimester 3 are due to a premature births or to areas that exhibit low levels of pollution.  
+It will borrow the <code>estimated_gestation_age</code> field from the <code>original_study_member_data</code> table, 
+and include a yes/no flag <code>is_gestation_age_imputed</code>.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-26
+</td>
+<td class="design_decision_description">
+The sensitivity variables will include ones that can help researchers identify study members who 
+were affected by bad geocodes.  These variables will include the following totals measured 
+throughout the whole exposure time frame: <code>invalid_geocodes</code>, <code>fixed_geocodes</code>, 
+<code>out_of_bounds_geocodes</code>, and <code>has_bad_geocodes_within_time_frame</code>
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-27
+</td>
+<td class="design_decision_description">
+:  The sensitivity variables will include ones that can help researchers assess the extent to which 
+the field values of address periods were imputed for each study member.  These variables will 
+include the following totals measured across the whole exposure time frame: <code>imp_blank_start_dates</code>, 
+<code>imp_blank_end_dates</code>, <code>imp_blank_both_dates</code>.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Data Science-28
+</td>
+<td class="design_decision_description">
+The sensitivity variables will include ones that can help researchers assess the kinds 
+of data cleaning changes that were made in order for the protocol to make a temporally 
+contiguous record of movements that cover the exposure period.  These variables will 
+include the following totals, measured across the whole exposure time frame: 
+<code>total_addr_periods</code>, 
+<code>gaps</code>, 
+<code>gap_and_overlap_same_period</code>, 
+<code>over_laps</code>, 
+<code>deletions</code>.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-29
+</td>
+<td class="design_decision_description">
+:  The sensitivity variables will include days_changed, which is the total number of 
+days that were adjusted across all address periods which overlapped with the exposure 
+time frame.  The total considers the total number of days that each address period 
+was shifted in data cleaning.  In cases of successive overlaps, some days may be 
+counted more than once.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-30
+</td>
+<td class="design_decision_description">
+:  The sensitivity variables will include <code>total_contention_days</code>, which measures 
+the total number of unique days in an exposure time frame that were involved 
+with a gap or an overlap.  It is called a contention day because on such a day, 
+a study member could be placed at either of two locations: the location that 
+data cleaning assigned in a cleaned set of address periods, or the location 
+that may have been allowed in uncleaned address periods.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-31
+</td>
+<td class="design_decision_description">
+The sensitivity variables will include <code>missing_exposure_days</code>, which gives the total number 
+of days in the exposure time frame that are not associated with exposure values.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-32
+</td>
+<td class="design_decision_description">
+Assume that on a given day, placing a study member at one location when they actually lived at another 
+could present an exposure misclassification error that was significant for studies that used the 
+life stage exposure results.  
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-33
+</td>
+<td class="design_decision_description">
+Suppose the protocol cleans two successive address periods a<sub>n</sub> and a<sub>n+1</sub>, where a gap or overlap exists 
+between them.  Let the exposure at the location assigned by data cleaning to 
+correct a given contention day be called the assigned exposure.  Let the 
+exposure at the other location the study member could have occupied on that day be 
+called the opportunity cost exposure.  The exposure classification error for that day 
+of contention will be calculated as 
+<code>|assigned exposure - opportunity cost exposure|</code>.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-34
+</td>
+<td class="design_decision_description">
+Daily values for exposure measurement error will be aggregated in the same way as exposure values are aggregated.  
+For example, error values will be expressed for each pollutant for each life stage for 
+each study member.  Error values will be further reported through and use average, sum 
+and median aggregation operations.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-35
+</td>
+<td class="design_decision_description">
+The cleaned mobility assessment considers exposure contributions from all cleaned address periods that 
+overlap with the exposure time frame.  Daily exposure measurement errors are calculated to 
+correspond with daily exposures and they are aggregated in the same ways.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-36
+</td>
+<td class="design_decision_description">
+The uncleaned mobility assessment considers exposure contributions from all cleaned 
+address periods that overlap with the exposure time frame. However, it omits any days 
+that spanned a gap or overlap error in a study member's residential address history. No 
+exposure measurement errors are assessed in this approach.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-37
+</td>
+<td class="design_decision_description">
+The life stage mobility assessment uses the locations study members used on the first day 
+of one of their life stages to represent the location for that whole life stage.  It 
+ignores contributions from all other locations.  No exposure measurement errors are 
+assessed in this approach.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-38
+</td>
+<td class="design_decision_description">
+ The birth address assessment uses the birth addresses of study members to represent their 
+ locations for the entire early life exposure time frame (eg: conception until the 
+ last day of the first year of life).  No exposure measurement error is assessed in 
+ this approach.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-39
+</td>
+<td class="design_decision_description">
+The protocol will compare pairs of exposure assessment methods and calculate 
+percent error values for corresponding exposure results.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-40
+</td>
+<td class="design_decision_description">
+The protocol will produce CSV result files whose names follow standard naming 
+conventions.  These files will be generated within a directory that has 
+predictable structure.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-41
+</td>
+<td class="design_decision_description">
+Variables that are produced by the protocol will have names which are 
+prefixed by "<code>algae[NNNN]_</code>".  The four digit number is designed 
+to help uniquely identify the context which produced variables.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Data Scienc-42
+</td>
+<td class="design_decision_description">
+The protocol will come with a comprehensive data dictionary that 
+will define the meaning of result variables.
+</td>
+</tr>
+
+</table>
+
+<h2>Software Engineering Decisions</h2>
+
+<table class="design_decision_table">
+<tr class="generic_data_table_header">
+<th>Decision</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-1
+</td>
+<td class="design_decision_description">
+The protocol will come with clear, concise documentation that project staff 
+can use to transform their data into the input tables that are expected 
+by the software.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-2
+</td>
+<td class="design_decision_description">
+The protocol will create a staging table for each table of original 
+input data.  The staging table will use a standardised way for representing 
+yes/no values and empty field values. The rest of the protocol will 
+operate on the staging tables and not the input tables.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-3
+</td>
+<td class="design_decision_description">
+Consolidate code for standardising input fields within well-tested database 
+functions.  Later on in testing, assume standardisation functions will 
+work and then rely on just using standard forms to express input data 
+for test cases.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-4
+</td>
+<td class="design_decision_description">
+When it is appropriate for the scientific use case, impute blank values.  
+For example, blank gestation age values will be imputed with a default 
+value for gestation age in weeks.  Imputing field values helps simplify 
+code that processes them.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-5
+</td>
+<td class="design_decision_description">
+:  Some missing value errors will be important to users but will have
+ no effect on the protocol's algorithms (eg: <code>absent_during_exp_period</code> 
+ and <code>at_1st_addr_conception</code>).  Reject rather than ignore these errors 
+ in order to help users fix their input data as soon as possible
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-6
+</td>
+<td class="design_decision_description">
+Design the protocol to fail fast: if it is going to fail because of an error, 
+then make it fail as soon as possible.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-7
+</td>
+<td class="design_decision_description">
+Identify duplicate key errors by applying a database constraint which tries 
+to use a field as a primary key.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-8
+</td>
+<td class="design_decision_description">
+Identify required field values by applying a database constraint which tries 
+to forbid a field from having empty field values.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-9
+</td>
+<td class="design_decision_description">
+It is more important that the program performs correctly than it is that 
+the program performs quickly.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-10
+</td>
+<td class="design_decision_description">
+Favour expressing complex operations through a sequence of simple temporary 
+tables rather than by using a single, complex monolithic query to do the same work.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-11
+</td>
+<td class="design_decision_description">
+Where it is important to preserve rows from one temporary table to the next, rely on 
+<code>LEFT JOIN</code> operations to link the data applicable to all study members with the 
+new data that may only be applicable to some.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-12
+</td>
+<td class="design_decision_description">
+Consider a sequence of successive temporary tables marked by T<sub>1</sub> ... T<sub>n</sub> that are meant to 
+build up a growing collection of field values describing the way cohort data have 
+been processed for each study member.  The protocol will compare the keys between 
+T<sub>1</sub> and T<sub>n</sub> so that they have the same number and that all the keys in one are found 
+in the other.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-13
+</td>
+<td class="design_decision_description">
+The protocol will support a means of automatically comparing the actual results 
+generated by the program with expected results that are derived through manual calculation.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-14
+</td>
+<td class="design_decision_description">
+Each test case should only test one feature.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-15
+</td>
+<td class="design_decision_description">
+Within a test suite, test data related to each study member should remain the same, 
+except for data that relate to the features being tested.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-16
+</td>
+<td class="design_decision_description">
+In order to make test data easier to understand use the names of test 
+scenarios as study member identifiers.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-17
+</td>
+<td class="design_decision_description">
+In order to make test data easier to understand use the names of test 
+scenarios as study member identifiers.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-18
+</td>
+<td class="design_decision_description">
+Each test case should use the minimal amount of input data it needs to 
+exercise a feature.  The values should be simple enough to make them 
+amenable to being used in the manual calculations that produce expected 
+test results. 
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-19
+</td>
+<td class="design_decision_description">
+For each pollutant at each geocode, assign stepped pollution values that are constant 
+over time but which vary significantly between geocodes and between pollutants.  
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-20
+</td>
+<td class="design_decision_description">
+For test cases that need to demonstrate variation between average and 
+median life stage exposures, induce differences by adjusting the boundaries of 
+address periods spent in different locations.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-21
+</td>
+<td class="design_decision_description">
+Design stepped exposure generation functions so that the differences between 
+successive geocodes and the differences between successive pollutants is unique.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Software Engineering-22
+</td>
+<td class="design_decision_description">
+Testing will assume that ALGAE treats all pollutants in the same manner.  
+Testing multiple pollutants will be limited to inspecting by eye that 
+aggregated exposure values are in fact different from pollutant to pollutant.
+</td>
+</tr>
+
+
+<tr>
+<td class="design_decision_name">
+Software Engineering-23
+</td>
+<td class="design_decision_description">
+Limit the scope of testing by focusing test cases on only one pollutant.
+</td>
+</tr>
+
+</table>
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

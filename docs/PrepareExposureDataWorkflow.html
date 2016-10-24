@@ -1,0 +1,469 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Creating the original_exposure_data table</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page provides a step-by-step guide for how researchers can use cohort-specific data to produce the generic study 
+		member data table that is required by the protocol.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Data loading part 4: Prepare the exposure data</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./PrepareCohortDataWorkflow.html" class="link_button">Overview</a>
+</td>
+<td>
+<a href="./PrepareAddressHistoryDataWorkflow.html" class="link_button">Previous</a>
+</td>
+
+</tr>
+</table>
+</p>
+
+
+
+
+<p>
+<img src="./images/DataLoadingProgressStep4.jpg" width=800>
+</p>
+
+
+
+<h2>Purpose</h2>
+This table contains exposure values that are linked to locations that study members have
+occupied during their exposure time frame.  Exposures for various types of pollutants are
+associated with a given geocode location for a given date.  
+
+<p>In the early analysis, ALGAE assumes the records represent daily exposure values for 
+each location.  In the later life analysis, ALGAE assumes the records are annual average 
+exposure values.  For this analysis, the date is expected to be the first date of the 
+calendar year that an annual exposure record describes for a given location.  ALGAE later 
+converts the annual exposure values into daily exposure records.
+</p>
+
+<h2>Location of Original Data File</h2>
+You will need to create a file that has this name
+
+<pre>
+original_exposure_data.csv
+</pre>
+
+
+which must be located in:
+
+<pre>
+early_life/input_data
+</pre>
+
+or
+
+<pre>
+later_life/input_data
+</pre>
+
+<h2>Example Original Data File</h2>
+See <a href="./example_original_data/original_exposure_data.csv">here</a>.
+
+
+
+
+<h2>Suggested Approach</h2>
+The suggested approach can best be viewed as a way of making a matrix where exposure
+values for all geocoded locations are set against daily exposure values that cover the
+time span used by all cohort members that are in the study.
+
+
+<figure class="explanation_figure">
+<img src="./images/PrepareExposureDataWorkflow.jpg">
+<figcaption>Preparing study member data.</figcaption>  
+</figure>
+
+
+<h3>Step 1:Identify earliest exposure start date</h3>
+We assume that you will generate exposure values by using an exposure model to
+process addresses of all cohort members, and cover the the exposure periods of 
+all cohort members who are part of your study.
+
+<p>
+In order to know when your exposure model should begin generating historical values,
+find the earliest start date for any exposure period of any person who is enrolled in
+your study.  In early life analysis, the date will describe the earliest conception
+date (See <a href="x">life stage calculations</a>  to see how conception date is calculated).
+In later life analysis, the date will describe the earliest value of birth_date + 1 year
+for any cohort member who is in the study.  So if you start with year 1 (YR1), year 2 (YR2),
+year 3 (YR3) then you would be looking for the earliest value of YR1.
+
+<h3>Step 2: Identify latest exposure end date</h3>
+Next, you will want to know the latest date of the latest life stage that is covered
+by an analysis.  In the case of early analysis, that early life stage will typically
+be called EL and the key date will be the most recent last day of a first year of life.
+For exposure modelling, you would then want to create daily exposure values for:
+
+<p>
+<code>
+[earliest conception date, latest last day of EL]
+</code>
+</p>
+
+In the later life analysis, you will want to identify the last day of the last life 
+stage.  For example, if your study includes the fifteenth year of life (eg: "YR15"),
+then you will want to identify the latest last day of Y15 for any study member.  The
+overall time frame for your exposure model would then be:
+
+<p>
+<code>
+[earliest YR1 start date, latest YR15 end date]
+</code>
+</p>
+
+<h3>
+Step 3: Identify addresses used by study members during overall exposure time frame
+</h3>
+The most economical way of doing this step would be to use only the addresses that 
+study members used during their exposure period.  However, this would  assume that
+you had done all the data cleaning for the address periods first and the data cleaning
+for the address periods presumes that the geocodes already exist.  
+
+<p>
+In the ALGAE protcol, we assume that you will geocode residential addresses without 
+knowing who they may belong to or when they were occupied.  That information is contained 
+in the <code>original_address_history_data</code> table.
+</p>
+
+<h3>
+Step 4: Know the meaning of date_of_year depending on your analysis
+</h3>
+The field <code>date_of_year</code> has a different meaning, depending on whether you are 
+doing an early life analysis or a later life analysis.  In the early life analysis, 
+this value refers to the date of daily exposure values for various pollutants.  In
+the later life analysis, ALGAE expects that the records will be annual exposure values and
+that the date will be the first day of the calendar year of exposure coverage.
+
+<h3>General Advice</h3>
+Using an exposure model to generate exposures for multiple pollutants for all geocoded
+locations for the overall exposure time frame will likely be computationally intensive.
+We suggest that early in your project, you should invest in acquiring some form of 
+secure access, high performance computing environment. 
+
+<h2>Example Table</h2>
+See <a href="./original_exposure_data.csv">here</a>.
+
+<h2>Table Properties</h2>
+You need to produce a CSV file called <code>original_geocode_data</code>.  It must
+have the following fields:
+
+
+<table class="original_data_table">
+<tr class="generic_data_table_header">
+<th>Field</th>
+<th>Description</th>
+<th>Required</th>
+<th>Properties</th>
+<th>Examples</th>
+</tr>
+
+<tr>
+
+<td class="original_data_table_field_name">
+geocode
+</td>
+
+<td class="original_data_table_description">
+Represents the location of a residential address.  For ALGAE, the geocode is treated
+as just an identifier and the protocol attaches no meaning to the code.
+</td>
+
+<td class="original_data_table_is_required">
+Yes
+</td>
+
+<td class="original_data_table_properties">
+Any text
+</td>
+
+<td class="original_data_table_example">
+37.422036-122.084124
+<br>
+x4353bi838 (anonymised)
+</td>
+
+</tr>
+
+<tr class="original_data_table_even_row">
+
+<td class="original_data_field_name">
+comments
+</td>
+
+<td class="original_data_table_description">
+Any other information the cohort researchers want to provide about the geocode
+</td>
+
+<td class="original_data_table_is_required">
+No
+</td>
+
+<td class="original_data_table_properties">
+Any text
+</td>
+
+<td class="original_data_table_example">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="original_data_table_field_name">
+date_of_year
+</td>
+
+<td class="original_data_table_description">
+Date of an exposure record.  If you are running the early life analyses, ALGAE
+assumes this is the date of a daily exposure record.  If you are running the
+later life analysis then this date is January 1st of a calendar year and the
+exposure values represent annual average values.
+</td>
+
+<td class="original_data_table_is_required">
+Yes
+</td>
+
+<td class="original_data_table_properties">
+Date Format: dd/MM/yyyy
+</td>
+
+<td class="original_data_table_example">
+23/03/1996
+</td>
+
+</tr>
+
+<tr class="original_data_table_even_row">
+
+<td class="original_data_field_name">
+pm10_rd
+</td>
+
+<td class="original_data_table_description">
+PM10 from local road sources
+</td>
+
+<td class="original_data_table_is_required">
+No
+</td>
+
+<td class="original_data_table_properties">
+A number with at most 15 decimal digits precision
+</td>
+
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+<tr>
+
+<td class="original_data_table_field_name">
+nox_rd
+</td>
+
+<td class="original_data_table_description">
+NOx from local road sources
+</td>
+
+<td class="original_data_table_is_required">
+No
+</td>
+
+<td class="original_data_table_properties">
+A number with at most 15 decimal digits precision
+</td>
+
+<td class="original_data_table_example">
+</td>
+
+</tr>
+
+<tr class="original_data_table_even_row">
+
+<td class="original_data_field_name">
+pm10_gr
+</td>
+
+<td class="original_data_table_description">
+PM10 from sources other than roads.
+</td>
+
+<td class="original_data_table_is_required">
+No
+</td>
+
+<td class="original_data_table_properties">
+A number with at most 15 decimal digits precision
+</td>
+
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+<tr>
+
+<td class="original_data_table_field_name">
+pm10_rd
+</td>
+
+<td class="original_data_table_description">
+PM10 from road sources.
+</td>
+
+<td class="original_data_table_is_required">
+No
+</td>
+
+<td class="original_data_table_properties">
+A number with at most 15 decimal digits precision
+</td>
+
+<td class="original_data_table_example">
+
+</td>
+</tr>
+
+<tr class="original_data_table_even_row">
+
+<td class="original_data_field_name">
+pm10_tot
+</td>
+
+<td class="original_data_table_description">
+PM10 from all sources.
+</td>
+
+<td class="original_data_table_is_required">
+No
+</td>
+
+<td class="original_data_table_properties">
+A number with at most 15 decimal digits precision
+</td>
+
+<td class="original_data_table_example">
+
+</td>
+
+</tr>
+
+</table>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

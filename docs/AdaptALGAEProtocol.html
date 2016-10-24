@@ -1,0 +1,210 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts.  For each study
+		member, exposures are aggregated by pollution type (eg: PM10, NOX, NAME), by life stage (eg: T1, T2, T3) and by 
+		aggregate operation (ie: cumulative, average, median).  Exposures are calculated using four methods, each of
+		which uses a different way of using parts of residential address history records.  The records are assumed
+		to come from an administrative system that is used to audit current addresses of study members rather than
+		a research system that is used to track past addresses of study members.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+
+<h1>Adapt the Code</h1>
+We expect that there are three main ways that projects may want to adapt
+the ALGAE protocol to better suit their needs:
+<ul>
+<li>
+adjust life stage boundaries for early life analyses
+</li>
+<li>
+add or remove life stages for the later life analysis
+</li>
+<li>
+change one or more of the pollutants
+</li>
+</ul>
+
+<p>
+Here we provide some suggestions about how you would do these tasks.  
+Please note however that any changes you make to the code will likely cause
+the test suites to fail.
+</p>
+
+<h2>
+<a name="change_life_stages">
+How do I change the life stages?
+</a>
+</h2>
+The easiest way to learn how to change the life stages is to look for 
+the tag "#CHANGE_LIFE_STAGES" in the code base.  It will take you to
+the part of the code in the function <code>early_calc_life_stages</code>
+that specifies default stages of T1, T2, T3 and EL.
+
+<p>
+Definitions of life stages will appear like the following snippet of code: 
+<pre>
+		 SELECT
+		 	person_id,
+			'T2' AS life_stage,
+			birth_date,
+			(conception_date + INTERVAL '92 days')::date AS start_date,
+			(conception_date + INTERVAL '183 days')::date AS end_date
+</pre>
+
+<p>
+In this case, if you wanted to change the name of the life stage <code>T2</code> to 
+<code>Trimester 2</code>, you would first do a global search-and-replace on the 
+phrase "'T2'" with "'Trimester 2'".  If you wanted to change the temporal boundaries, 
+you would adjust the numbers in the phrases <code>'92 days'</code> and 
+<code>'183 days'</code>.  <b>Remember: however you change the temporal boundaries for 
+a life stage, ensure that they are temporally contiguous with other life stages</b>.
+</p>
+
+<p>
+Please exercise care when you change the life stages in the early life analysis.  
+ALGAE performs checks that fix T2 and T3 periods so that they do not overlap with
+the EL period, which by default begins at birth.  The protocol does the checks to
+correct for problems that occur in calculations when the <code>estimated_gestation_age</code>
+value reflects a very premature birth.
+</p>
+
+<p>
+If you want to change the life stage definitions for the later life analysis,
+you will need to look at similar code in <code>later_calc_life_stages</code>.
+</p>
+
+<h2>
+<a name="change_covariates">
+How do I change the covariates?
+</a>
+</h2>
+The advice here is similar to that we suggest for changing pollutants.  ALGAE
+attaches no significance to <code>ed91</code>, <code>oa2001</code>, 
+<code>coa2011</code> - they are just treated as identifiers that will be used
+by researchers to link exposures to covariate data sets.  Search for the 
+covariate linking field <code>oa2001</code> to better understand where you 
+may have to add or edit code.
+
+<h2>
+<a name="change_pollutants">
+How do I change the pollutants?
+</a>
+</h2>
+ALGAE does not attach meaning to any of the pollutant values: NAME, NOX,
+PM10 are just numeric fields that are used in aggregate calculations.  
+The easiest way to use other pollutants is to carefully go through and 
+search-and-replace one of the existing pollutants.  For example, you could replace 
+a pollutant like <code>pm10_rd</code> with <code>radon</code>.  
+
+
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

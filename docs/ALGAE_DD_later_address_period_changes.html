@@ -1,0 +1,712 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: ALGAE Data Dictionary: Later life address period changes (algae2200-algae2233)</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing later life exposures in longitudinal cohorts.  
+		This page is the part of the data dictionary that describes variables algae2200-algae2230, which capture changes to 
+		address periods used in the later life analysis.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+			
+<h1>ALGAE Data Dictionary: Later life address period changes (algae2200-algae2233)</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<h2>Context of Variables</h2>
+These variables describe the original address periods used in early life analysis and
+all the changes that were made to them so they could be used in an exposure assessment.
+Although most of the variables would have the same value as address period variables used
+in the later life analysis, there are some key differences.  The variable
+<code>algae2228_is_within_exp</code> indicates whether or not the address period 
+overlaps with a study member's exposure period.  There is a similar variable
+<code>algae2228_is_within_exp</code> for the later life analysis.
+</p>
+
+<p>
+Both of these variables depend on the duration of the study member's exposure period.  In 
+early life, this could be <code>[conception date, last day of first year]</code>, whereas in 
+later life analyses, this could be <code>[yr1.start_date, year15.end_date]</code>.  You should
+expect that these field values may appear different for the same address period, depending on
+whether you are running an early life or later life analysis.
+</p>
+
+<h2>Location of Result File</h2>
+You will find these variables in a file having a name that fits the form:
+
+<pre>
+res_later_cleaned_addr[Date stamp].csv
+</pre>
+
+which will be found in the directory:
+
+<pre>
+later_life/results/cleaned_address_history
+</pre>
+
+or
+
+<pre>
+later_life/results/cleaned_address_history
+</pre>
+
+<h2>Example Result File</h2>
+See <a href="./example_results/res_later_cleaned_addr2016-Oct-24-22-47.csv">here</a>.
+
+<h2>Variable Naming Conventions</h2>
+The basic format of variables in this section follows this
+pattern:
+
+<pre>
+	algae22[00-30]_[base variable name]
+</pre>
+
+<p>
+In this pattern, <code>algae22</code> indicates that the variables relate to the address periods,
+as they were used within the later life assessment.  Two other common phrases that appear
+within variable names here are:
+<ul>
+<li>
+<code>_adj_</code>: adjusted
+</li>
+<li>
+<code>_within_exp</code>: within exposure period.
+</li>
+</ul>
+</p>
+
+
+
+
+<h2>Variable Dictionary</h2>
+
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<th>
+Variable
+</th>
+<th>
+Description
+</th>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2200_original_row_number
+</td>
+<td class="data_dictionary_var_description">
+The row number refers to the position the record had in the file that was loaded
+into the <code>original_addr_history_data</code>.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2201_person_id
+</td>
+<td class="data_dictionary_var_description">
+An anonymised or pseudonymised identifier which represents a study member.  ALGAE uses this
+variable to link data together for a given study member.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2202_ith_residence
+</td>
+<td class="data_dictionary_var_description">
+Describes the sequence of address periods.  Note that a study member could
+have two address periods which have the same location but a different
+ith_residence value.  This would indicate that a person is moving back and
+forth between places.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2203_geocode
+</td>
+<td class="data_dictionary_var_description">
+Represents the location.  Normally this would be some concatenation of 
+map coordinates but ALGAE attaches no meaning to the contents of this field.
+It simply uses geocode as an identifier that is used to link tables.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2204_date_state
+</td>
+<td class="data_dictionary_var_description">
+Indicates what actions were taken to ensure that both the start date and 
+end date fields have values.  The states include:
+<ul>
+<li>
+<b><code>imputed_both_dates</code></b>: a blank start date was imputed with the
+study members's conception date and a blank end date was imputed with the 
+current date
+</li>
+<li>
+<b><code>imputed_start_date</code></b>: a blank start date was imputed with the
+study member's conception date.
+</li>
+<li>
+<b><code>imputed_end_date</code></b>: a blank end date was imputed with the
+current date.
+</li>
+<li>
+<b><code>no imputation</code></b>: no action was taken because the start date and
+the end date have non-blank values.
+</li>
+
+</ul>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2205_start_date
+</td>
+<td class="data_dictionary_var_description">
+The original start date, before any data cleaning was done.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2206_end_date
+</td>
+<td class="data_dictionary_var_description">
+The original end date, before any data cleaning was done.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2207_duration
+</td>
+<td class="data_dictionary_var_description">
+The number of days represented by the time frame [start_date, end_date].  
+The total includes the boundary dates as well.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2208_ith_residence_type
+</td>
+<td class="data_dictionary_var_description">
+Describes the relative position of an address period with respect to 
+all a study member's address periods.  The variable has the following
+states:
+<ul>
+<li>
+<b><code>only</code></b>: This is the only address period that exists for the
+study member.  It would indicate that the person has never moved.  This
+is an address period whose start date would be changed to match the 
+study member's conception date. The end date may also be changed so that
+it has a value that is at least the last day of the exposure time frame
+(eg: in EL, it could be at least the last day of the first year of life).
+</li>
+<li>
+<b><code>first</code></b>: The study member has more than one address period
+and this address is the first one.  This is an address period whose start 
+date would be changed to match the study member's conception date.
+</li>
+<li>
+<b><code>middle</code></b>: The study member has more than one address period
+and this is neither the first nor the last one.
+</li>
+<li>
+<b><code>last</code></b>: The study member has more than one address period and
+this is the last one.  This field value may be adjusted in order to be
+at least the last day of the exposure time frame.
+</li>
+</ul>
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2209_has_valid_geocode
+</td>
+<td class="data_dictionary_var_description">
+'Y' if an address period has a valid geocode and 'N' if it does not have
+a valid geocode.  For this field, a geocode is valid if it has a non-blank
+value and the 'has_valid_geocode' field in the original geocode data table
+is 'Y'.  
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2210_has_name_exposures
+</td>
+<td class="data_dictionary_var_description">
+'Y' if the geocode is associated with at least one non-null NAME value in
+the exposure records found in the <code>staging_exp_data</code> table.  'N'
+if the geocode has no NAME values at all.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2211_has_nox_rd_exposures
+</td>
+<td class="data_dictionary_var_description">
+'Y' if the geocode is associated with at least one non-null NOX RD value in
+the exposure records found in the <code>staging_exp_data</code> table.  'N'
+if the geocode has no NOX RD values at all.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2212_has_pm10_gr_exposures
+</td>
+<td class="data_dictionary_var_description">
+'Y' if the geocode is associated with at least one non-null PM10 GR value in
+the exposure records found in the <code>staging_exp_data</code> table.  'N'
+if the geocode has no PM10 GR values at all.
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2213_has_pm10_rd_exposures
+</td>
+<td class="data_dictionary_var_description">
+'Y' if the geocode is associated with at least one non-null PM10 RD value in
+the exposure records found in the <code>staging_exp_data</code> table.  'N'
+if the geocode has no PM10 RD values at all.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2214_has_pm10_tot_exposures
+</td>
+<td class="data_dictionary_var_description">
+'Y' if the geocode is associated with at least one non-null PM10 TOT value in
+the exposure records found in the <code>staging_exp_data</code> table.  'N'
+if the geocode has no PM10 TOT values at all.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2215_max_life_stage_overlap
+</td>
+<td class="data_dictionary_var_description">
+The maximum number of days that an address period will overlap with any life stage.
+The value is used to help assess whether address periods having bad geocodes 
+should be cleaned or not.
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2216_is_fixed_inv_geocode
+</td>
+<td class="data_dictionary_var_description">
+Indicates 'Y' or 'N' for whether an address period has a fixed invalid geocode.
+An address period with a bad geocode can be fixed if it meets three criteria:
+<ol>
+<li>
+It has an invalid geocode (one that is either blank or otherwise marked with
+<code>has_valid_geocode='N'</code> in the original geocode data table)
+</li>
+<li>
+It is immediately followed by an address period which has a valid geocode
+</li>
+<li>
+The address period overlaps at most 25% with any of the study member's life stages.
+</li>
+</ol>
+<p>
+If an address period <code>a(n)</code> meets these conditions, then 
+<code>a(n+1).start_date = a(n).start_date</code> and <code>a(n)</code> is then said 
+to be entirely subsumed by <code>a(n+1)</code> and ignored from any further processing.
+</p> 
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2217_fit_extent
+</td>
+<td class="data_dictionary_var_description">
+A number whose sign indicates how this address period <code>a(n)</code> fits with the 
+previous one a(n - 1).  It has the following meanings:
+<ul>
+<li>
+<b>zero</b>: the previous and current address period have a temporally contiguous fit.
+There are no gaps or overlaps.
+</li>
+<li>
+<b>positive number</b>: there is a temporal gap between the previous and current 
+address periods.
+</li>
+<li>
+<b>negative number</b>: there is a temporal overlap between the previous and current
+address periods.
+</li>
+</ul>
+
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2218_adj_start_date
+</td>
+<td class="data_dictionary_var_description">
+The start date of the address period, correcting for any gaps which may have occurred
+between the current address period and the previous one.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2219_adj_end_date
+</td>
+<td class="data_dictionary_var_description">
+The end date of the address period, correcting for any overlaps which may have 
+occurred between the current address period and the next one.
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2220_days_changed
+</td>
+<td class="data_dictionary_var_description">
+The total number of days that were changed after gap and overlaps were fixed.
+It is calculated as follows: 
+<p>
+<code>
+|start_date - adj_start_date| + |end_date - adj_end_date|.
+</code>
+</p>
+<p>
+Note that the days_changed value between two successive address periods may not
+necessarily describe different days.  For example, if <code>a(n)</code> significantly overlaps 
+with <code>a(n+1)</code>and <code>a(n+1)</code> significantly overlaps with <code>a(n+2)</code>,
+then it is likely that the days_overlap value for <code>a(n)</code> and <code>a(n+1)</code>
+will cover some of the same calendar days.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2221_fit_type
+</td>
+<td class="data_dictionary_var_description">
+Describes how the temporal boundaries of an address period were changed as a result of 
+correcting for gaps and overlaps.  It can have the following values:
+<ul>
+<li>
+<b><code>C</code></b>: contiguous fit.  Neither the start date nor the end date had to be
+adjusted in response to a gap or overlap problem with another address period.
+</li>
+<li>
+<b><code>D</code></b>: the entire address period is subsumed by the address period that
+follows it.  "D" marks the address period as a duplicate that has been deleted.
+</li>
+<li>
+<b><code>O</code></b>: the end date was changed in response to an overlap between
+the current address period and the next address period.
+</li>
+<li>
+<b><code>G</code></b>: the start date was changed in response to a gap between the 
+current address period and the previous address period.
+</li>
+<li>
+<b><code>B</code></b>: an address period had to be adjusted to fix both a gap and
+an overlap.
+</li>
+</ul>
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2222_start_date_delta1
+</td>
+<td class="data_dictionary_var_description">
+The lower limit of the period which describes the change in the start date.  For example,
+suppose the start date for an address period <code>a(n)</code> was originally 
+<code>05-05-1996</code> but was changed to <code>01-05-1996</code> to help close a gap 
+with the previous address period <code>a(n-1)</code>.  Then the change (delta) in start
+date would be characterised by the period <code>[01-05-1996, 04-05-1996]</code> 
+inclusively and <code>01-05-1996</code> would be <code>algae2222_start_date_delta1</code>
+and <code>04-05-1996</code> would be <code>algae2223_start_date_delta2</code>.
+<p>
+Note that if these fields are null they indicate that the start date of the address
+period did not have to be changed in response to a gap with the previous address period.
+</p>
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2223_start_date_delta2
+</td>
+<td class="data_dictionary_var_description">
+The upper limit of the period which describes the change in the start date.  See the
+example for <code>algae2222_start_date_delta1</code>.  Notice this value will either
+be null or the day before the original start date.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2224_end_date_delta1
+</td>
+<td class="data_dictionary_var_description">
+The lower limit of the period which describes the change in the end date.  For example,
+suppose the end date for an address period <code>a(n)</code> was originally 
+<code>15-11-1994</code> but was changed to <code>10-11-1994</code> so that it would not
+overlap with the start date of the following address period <code>a(n+1)</code>
+Then the change (delta) in end date would be characterised by the period 
+<code>[11-11-1994, 15-11-1994]</code> 
+inclusively.  <code>11-11-1994</code> would be <code>algae2224_end_date_delta1</code>
+and <code>15-11-1994</code> would be <code>algae2225_end_date_delta2</code>.  Notice that
+the value for <code>algae2224_end_date_delta1</code> will either be null or the start
+date of the following address period that was being overlapped.
+<p>
+Note that if these fields are null they indicate that the start date of the address
+period did not have to be changed in response to an overlap with the next address period.
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2225_end_date_delta2
+</td>
+<td class="data_dictionary_var_description">
+The upper limit of the period which describes the change in end date.  See the example for
+<code>algae2224_end_date_delta1</code>.
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2226_previous_geocode
+</td>
+<td class="data_dictionary_var_description">
+The geocode appearing in the previous address period.  Note that determining the previous geocode
+ignores all address periods that have had bad geocodes 'fixed' (See entry for 
+<code>algae2216_is_fixed_inv_geocode</code>).  <code>previous_geocode</code> and
+<code>next_geocode</code> are used to assess the difference between assigned and opportunity
+cost exposures.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2227_next_geocode
+</td>
+<td class="data_dictionary_var_description">
+The geocode appearing in the next address period.  Determining the next geocode ignores
+address periods which have bad geocodes that have been fixed (See entry for
+<code>algae2222_previous_geocode</code>).
+</td>
+</tr>
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2228_fin_adj_start_date
+</td>
+<td class="data_dictionary_var_description">
+This the final value of the start date.  Whereas <code>algae2218_adj_start_date</code>
+will be adjusted in response to fixing gaps, this field may consider other changes that
+are not considered part of a correction.  Specifically, the start date may be altered
+if it is a study member's first address period and the start date needs to be changed
+so that it covers all the time from the date of conception through to the date when
+he or she was first enrolled in the study.
+
+<p>
+Moving the start date back to the conception date is not treated as a change that warrants
+assessing the kind of exposure measurement error that is associated with gaps and overlaps.
+Instead, we rely on sensitivity variables to indicate how certain we can be that the
+study members occupied their first address when they were being conceived.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2229_imputed_first_start
+</td>
+<td class="data_dictionary_var_description">
+Indicates a 'Y' or 'N' response whether this is a first address period that has been altered
+to cover the period from conception until study member enrolment.  In the case of a birth 
+cohort that recruited already pregnant mothers, we would expect the answer to be 'Y'.
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2230_fin_adj_end_date
+</td>
+<td class="data_dictionary_var_description">
+This is the final value of the end date.  The value may differ from 
+<code>algae2219_adj_end_date</code> if this is the last address period for a study member
+and the end date had to be moved so that it covered up until the last day in the exposure
+period.  The context of this variable is similar to <code>algae2228_fin_adj_start_date</code>.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2231_imputed_last_end
+</td>
+<td class="data_dictionary_var_description">
+'Y' if this is the last address period for a study member and the end date of that period
+had to be changed to be at least the last day in his or her exposure period.  Otherwise
+'N' for No.
+
+</td>
+</tr>
+
+
+<tr>
+<td class="data_dictionary_var_name">
+algae2232_start_date_days_from_concep
+</td>
+<td class="data_dictionary_var_description">
+Measures the total number of days between the <code>algae2228_fin_adj_start_date</code>
+and the person's date of conception.  The value is used to construct a data set that
+captures geographical covariates for every move made by a study member during their 
+exposure period.  Moves can be ordered not based on an explicit date but on a date relative
+to conception.
+</td>
+</tr>
+
+
+<tr class="data_dictionary_even_row">
+<td class="data_dictionary_var_name">
+algae2233_is_within_exp
+</td>
+<td class="data_dictionary_var_description">
+Indicates 'Y' or 'N' whether this address period falls within the study member's exposure period.
+For example, if their last day in their exposure period is on <code>01-05-1994</code>, an 
+address period covering the dates <code>[11-10-2003, 22-12-2005]</code> would not fall within 
+the person's exposure period.
+</td>
+</tr>
+</table>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

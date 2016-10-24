@@ -1,0 +1,355 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Testing Part 3: Study Member Features</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes ALGAE test cases that relate to calculating life stages.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Testing Part 3: Study Member Features</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./TestingOverview.html" class="link_button">Testing Overview</a>
+</td>
+<td>
+<a href="./TestingGeocodeFeatures.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./TestingAddressHistoryFeatures.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Background</h2>
+<p>
+This area describes features that are related to calculating life stages and 
+for indicating the data quality of residential address histories.  Because of 
+limited resources, we only tested the features in the early life analysis.  
+However, apart from the need to handle trimester boundaries for prematurely 
+born study members, these variables are handled in the same way across analyses.
+</p>
+
+<p>
+Tests relating to life stage calculations include: birth dates that are chosen 
+in order to make a life stage include a leap year day; blank gestation-age-at-birth 
+values to test that imputation works; and gestation-age-at-birth values that test 
+whether the protocol correctly calculates the boundaries of Trimester 2 and 
+Trimester 3 for prematurely born study members.
+</p>
+
+<p>
+The tests also assess whether the protocol correctly preserves the 
+<code>absent_during_exp_period</code> and <code>at_1st addr_conception</code> fields 
+found in the <code>staging_study_member_data</code> table.
+</p>
+
+<p>
+If the tests for this area pass, then test cases in the address history and exposure 
+areas can assume that the temporal boundaries of the exposure time frame and of 
+individual life stages have been done correctly.
+</p>
+
+<p>
+This area describes features that mainly relate to calculations of life
+stages.  It also ensures that the <code>absent_during_exp_period</code>
+and <code>at_1st_addr_conception</code> flags found in the table
+<code>staging_study_member_data</code> also appear in the sensitivity
+variable table <code>early_sens_variables</code>.
+</p>
+
+<h2>Coverage</h2>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/StudyMemberTestArea.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<h3>Input Fields Covered by Test Cases</h3>
+
+<table class="original_data_table">
+
+<tr class="generic_data_table_header">
+<th>Table</th>
+<th>Field</th>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_study_member_data
+</td>
+<td class="courier_font_name">
+birth_date
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_study_member_data
+</td>
+<td class="courier_font_name">
+gestation_age_at_birth
+</td>
+</tr>
+</table>
+
+<h3>Output Fields Covered by Test Cases</h3>
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<td>Table</td>
+<td>Field</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+gestation_age_at_birth
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+is_gestation_age_imputed
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+absent_during_exp_period
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+at_1st_addr_conception
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_life_stages
+</td>
+<td class="courier_font_name">
+life_stage
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_life_stages
+</td>
+<td class="courier_font_name">
+start_date
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_life_stages
+</td>
+<td class="courier_font_name">
+end_date
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_life_stages
+</td>
+<td class="courier_font_name">
+life_stage_duration
+</td>
+</tr>
+
+</table>
+
+<h2>Test Case Design</h2>
+
+
+<h3>
+Check that
+<code>absent_during_exp_period</code>
+and <code>at_1st_addr_conception</code> appear in the sensitivity variables
+</h3>
+
+These fields appear in the 
+<code>original_study_member_data</code> file and are later 
+standardised when they are copied to the staging table
+<code>staging_study_member_data</code>.  The flags are not used
+to compute any exposures, but they are preserved in the sensitivity
+variables to allow researchers to relate exposures with these
+data quality variables.
+
+</h3>
+These two flags first appear in <code>original_study_member_data</code>
+
+<h3>
+Use a study member who has a missing gestation-age-at-birth value
+</h3>
+
+The protocol needs to show that it can change any blank 
+<code>estimated_gestation_age</code>
+values in the <code>staging_study_member_data</code> table.  By default,
+the protocol will replace any blank with 38 (weeks).
+
+<h3>
+Develop a test case that considers leap years to calculate life stage durations
+</h3>
+A test study member has a birth date of November 18, 1991 so that 
+Trimester 2 will span a leap year day of February 29, 1992.  The test confirms
+that the protocol will still correctly calculate the duration and 
+boundaries of all life stages used in the exposure time frame.
+
+<h3>
+Include a study member who has a typical gestation-age-at-birth value
+</h3>
+Testing efforts should be able to show that the protcol correctly processes
+a typical <code>estimated_gestation_age</code> field value in the table
+<code>staging_study_member_data</code>.
+
+<h3>
+Use prematurely-born study members to test cleaning features for 
+Trimester 2 and Trimester 3
+</h3>
+The boundaries of early life stage boundaries are usually made in 
+relation to the number of days from conception date, which in turn
+will depend on the gestation-age-at-birth values. Very low values
+for gestation age can cause the boundaries of T2 and T3 to overlap
+with the first year of life.  In some cases, there will be no T3
+and in others, the end date of T2 will need to be adjusted so that it
+ends the day before the birth date.  The test cases need scenarios
+where study members have 23, 25, and 26 weeks, which can show these
+problems.
+
+
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>
