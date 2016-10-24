@@ -24,7 +24,7 @@ body {
 }
 	
 header {
-	height: 125px;
+	height: 138px;
 
 	/*height: 140px;*/
 	/* R:197, G:224 B:180 */
@@ -46,6 +46,25 @@ footer {
 	padding: 0;
 	margin: 0;
 }
+
+.header_line1 {
+	padding: 0;
+	margin: 0;
+	font-size: 70%;
+}
+
+.header_line2 {
+	padding: 0;
+	margin: 0;
+	font-size: 40%;
+}
+
+.header_line3 {
+	padding: 0;
+	margin: 0;
+	font-size: 70%;
+}
+
 
 
 td {
@@ -112,16 +131,69 @@ td {
 }
 
 .generic_data_table {
-	background: #6CCFFF;
+	padding: 10 px;
+	background: tan;
+	
+	/*background: #6CCFFF;*/
     border-collapse: collapse;
 	border-top: 1px solid #6b727c;
 	border-bottom: 1px solid #575f6a;
-	background-color: #7F7F7F /* RGB: 127, 127, 127 */		
+	/*background-color: #7F7F7F*/ /* RGB: 127, 127, 127 */		
+    border-radius:10px;
+    -moz-border-radius:10px;
+    
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
 }
 
+
 .generic_data_table_even_row {
-	background-color: #D2D2D2 /* RGB: 210, 210, 210 */
+	background-color: khaki; /* RGB: 210, 210, 210 */
 }
+
+.general_data_table_odd_row {
+	background-color: beige;	
+}
+
+
+
+.design_decision_table {
+	padding: 10 px;
+	background: tan;
+	
+	/*background: #6CCFFF;*/
+    border-collapse: collapse;
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+	/*background-color: #7F7F7F*/ /* RGB: 127, 127, 127 */		
+    border-radius:10px;
+    -moz-border-radius:10px;
+    
+	border-top: 1px solid #6b727c;
+	border-bottom: 1px solid #575f6a;
+}
+
+
+.design_decision_table_even_row {
+	background-color: khaki; /* RGB: 210, 210, 210 */
+}
+
+.design_decision_table_odd_row {
+	background-color: beige;	
+}
+
+.design_decision_name {
+	width: 150px;
+ 	/*white-space: pre;*/
+  	font-weight: bold;
+} 
+
+.design_decision_description {
+	width: 800px;
+ 	/*white-space: pre;*/
+} 
+
+
 
 .dense_data_table_header {
 	text-align: left;
@@ -178,10 +250,30 @@ td {
 .data_dictionary_even_row {
 	background-color: #B9E9FF;
 }
+
 .data_dictionary_var_name {
+	valign: top;
  	white-space: pre;
   	font-family: Courier New, monospace;
 } 
+
+.algae_input_table_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+.algae_input_table_field_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+  	font-size: 70%;
+} 
+
+
+.courier_font_name {
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
 
 
 /* CSS styling for data dictionary tables */
@@ -286,13 +378,17 @@ td {
     z-index: 3;
 }
 .top_navigation_bar ul {
+    line-height: 2em;
     margin: 0;
+    
     padding: 0;
     list-style: none;
 }
 
 .top_navigation_bar ul li {
     margin: 0;
+    padding: 0em 0.5 em;
+        
     display: inline-block;
     list-style-type: none;
     transition: all 0.2s;

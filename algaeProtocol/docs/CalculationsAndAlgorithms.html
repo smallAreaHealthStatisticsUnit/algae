@@ -16,13 +16,13 @@
 	
 	<body>
 		<div id="wrapper">
-			<header>				
+			<header>
 
 				<table class="banner_table" width="100%">
 				<tr>
 				<td class="banner_table_text">
 				<h1 class="header_line"> The ALGAE Protocol</h1>
-				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
 				</td>
 				<td class="banner_table_logos" border="1">
 					<img src="./images/algae_banner_logos.jpg" height="70">
@@ -32,46 +32,39 @@
 				<h4 class="header_line">
 					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
 				</h4>
-							
+								
 				<nav class="top_navigation_bar">
 					<ul class="main_menu">
 						<li>
 							<a href="./index.html">Home</a>
 						</li>
 						<li>
-							Background
+							Methodology
 							<ul class="sub_menu">
-								<li>
-									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
-								</li>
-								<li>
-									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
-								</li>
-								<li>
-									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
-								</li>
 								<li>
 									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
 								</li>
 								<li>
 									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
-								</li>																								
-																								
+								</li>
 							</ul>														
 						</li>
 						<li>
-							Borrow
-							<ul class="sub_menu">
+							Protocol Design
+							<ul class="sub_menu">							
 								<li>
-									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+									<a href="./DesignDecisions.html">Design Decisions</a>
 								</li>
 								<li>
-									<a href="#">The ALGAE Check List</a>
+									<a href="./FutureDevelopment.html">Future Development</a>
 								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
 							</ul>
 						</li>
 						<li>
-							Use
+							Using ALGAE
 							<ul class="sub_menu">
 								<li>
 									<a href="./SetupALGAE.html">Setup ALGAE</a>
@@ -85,39 +78,17 @@
 								<li>
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
-							</ul>
-						</li>
-						<li>
-							Adapt
-							<ul class="sub_menu">
-								<li>
-									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
-								</li>
-								<li>
-									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
-								</li>
-								<li>
-									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
-								</li>							
-							</ul>
-						</li>
-						<li>
-							Understand
-							<ul class="sub_menu">
-								<li>
-									<a href="./DesignDecisions.html">Design Decisions</a>
-								</li>
-								<li>
-									<a href="./CodeRoadMap.html">Code Road Map</a>
-								</li>
 								<li>
 									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
-								</li>
-								<li>
-									<a href="./FutureDevelopment.html">Future Development</a>
-								</li>							
+								</li>								
 							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
 						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
 						<li>
 							<a href="./AboutUs.html">About Us</a>
 						</li>
@@ -138,23 +109,46 @@ by Kevin Garwood
 
 <a name="exposure_measurement_error"></a>
 <h2>Exposure Measurement Error Calculations</h2>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+ALGAE's cleaning process will ensure that study members occupy exactly one
+location for each day of their exposure time frames.  Gaps and overlaps may
+occur in the administrative records that are used to create residential 
+address histories. These two types of problems make it uncertain where they
+may have lived.  
+
+<p>
+If an exposure day is affected by a correction for a gap or an overlap, ALGAE
+assigns an exposure measurement error that is based on the difference between
+two locations: the address that cleaning assigned and the address that could
+have otherwise been used.
+</p>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/ExposureMeasurementError.jpg" width=600>
+<figcaption><b>Assessing the error for exposure values because of data cleaning.</b>.
+</figcaption>  
+</figure>
+</p>
+
 
 
 <a name="percent_error"></a>
 <h2>Percent Error Calculations</h2>
+ALGAE conducts exposure assessment in different ways, and then compares corresponding
+results between pairs of them.  
+See the section <a href="ALGAEMethodology.html#assess_exposures_different_ways">
+Aggregate Daily Exposure Methods Using Different Methods</a>.
+
+Percent error calculations 
 
 
+<p>
+<figure class="explanation_figure">
+<img src="./images/PercentErrorCalculation.jpg" width=500>
+<figcaption><b>Assessing the error for exposure values because of data cleaning.</b>.
+</figcaption>  
+</figure>
+</p>
 
 
 

@@ -1,0 +1,536 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Testing Part 5: Exposure Features</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes the ALGAE methodology.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Testing Part 5: Exposure Features</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./TestingOverview.html" class="link_button">Testing Overview</a>
+</td>
+<td>
+<a href="./TestingAddressHistoryFeatures.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./TestingAllOtherFeatures.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Background</h2>
+<p>
+These features are used to assess exposures in one of four ways.  In the 
+<a href="./ALGAEGlossary.html#cleaned_mobility_assessment">
+cleaned mobility assessment
+</a>, aggregated life stage exposures are calculated based on contributions 
+of all address periods that fall within the study member's exposure time frame.  
+
+The 
+<a href="./ALGAEGlossary.html#uncleaned_mobility_assessment">
+uncleaned mobility assessment
+</a> 
+considers the contributions 
+of all relevant address periods, but ignores exposures from days that have been 
+involved in a gap or an overlap between successive address periods.  
+
+In the life 
+<a href="./ALGAEGlossary.html#life_stage_mobility_assessment">
+stage mobility assessment</a>, the location study members occupied on the 
+first day of each life stage is used to represent the location for the entire stage.  
+The early life analysis has one more assessment approach than the later life analysis.
+The 
+<a href="./ALGAEGlossary.html#birth_address_assessment">
+birth address assessment 
+</a> uses the address at birth to represent 
+for the entirety of the study member's exposure time frame.  
+
+<p>
+Initially, early life analyses used daily exposure records while later life analysis 
+used weighted annual exposure values.  The differences in exposure inputs warranted 
+having test suites designed to test the protocol in early and later life analyses.  
+However, later on the protocol code was changed so that both analyses would aggregate 
+daily exposure records.  In the case of the later life analysis, weighted annual 
+values were used to generate exposure values for every day of every year that was 
+covered in the analysis.  Once daily exposure values have been generated, the early 
+and later life analyses used identical code to process exposures.
+</p>
+
+<p>
+Although the two analyses use almost exactly the same code to assess exposures, test 
+suites for early and later life analyses will be retained.  Although sharing the 
+exposure assessment code between the two analyses simplified testing, the effect of 
+using daily exposure values for the later life analysis has greatly increased the 
+amount of time needed to run the protocol.  In future, the code used to assess later 
+life exposures may once again be changed to improve performance.  Therefore, we are 
+preserving early and later life test suites just in case the code for supporting early 
+and later life analyses diverges again.
+</p>
+
+<p>
+This is the most complex and labour intensive area of testing for the whole project.  
+Fake exposure data had to be generated in a way that made it amenable to manual 
+calculations for each of the exposure assessments.  In an effort to minimise testing
+efforts, we elected not to develop automated test cases for features that compare
+corresponding results in results that are generated by different pairs of assessment.
+</p>
+
+
+<h2>Coverage</h2>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/ExposureTestArea.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<h3>Input Fields Covered by Test Cases</h3>
+
+<table class="original_data_table">
+
+<tr class="generic_data_table_header">
+<th>Table</th>
+<th>Field</th>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_exp_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_exp_data
+</td>
+<td class="courier_font_name">
+date_of_year
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_exp_data
+</td>
+<td class="courier_font_name">
+pm10_tot
+</td>
+</tr>
+
+</table>
+
+<h3>Output Fields Covered by Test Cases</h3>
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<td>Table</td>
+<td>Field</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+ith_life_stage
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+life_stage
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_sum
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_avg
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_med
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_err_sum
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_err_med
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_mob_cln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_err_avg
+</td>
+</tr>
+
+
+
+<tr>
+<td class="courier_font_name">
+early_mob_uncln_exp
+</td>
+<td class="courier_font_name">
+ith_life_stage
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_mob_uncln_exp
+</td>
+<td class="courier_font_name">
+life_stage
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_mob_uncln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_sum
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_mob_uncln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_avg
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_mob_uncln_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_med
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_stg_mob_exp
+</td>
+<td class="courier_font_name">
+ith_life_stage
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_stg_mob_exp
+</td>
+<td class="courier_font_name">
+life_stage
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_stg_mob_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_sum
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_stg_mob_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_med
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_stg_mob_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_avg
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_no_mob_birth_addr_exp
+</td>
+<td class="courier_font_name">
+ith_life_stage
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_no_mob_birth_addr_exp
+</td>
+<td class="courier_font_name">
+life_stage
+</td>
+</tr>
+
+
+
+<tr>
+<td class="courier_font_name">
+early_no_mob_birth_addr_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_sum
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_no_mob_birth_addr_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_med
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_no_mob_birth_addr_exp
+</td>
+<td class="courier_font_name">
+pm10_tot_avg
+</td>
+</tr>
+
+</table>
+
+
+
+
+<h2>Test Case Design</h2>
+
+<h3>Ignore features that compare results from different pairs of assessment methods</h3>
+ALGAE automatically compares results between various pairs of exposure assessment methods.
+These appear in the <code>method_comparisons</code> directory of the results file folder.
+Because of limited resources, these have not been tested.  
+
+<p>
+All calculations for percent error are done by the function:
+<code>calc_percent_error(exact_value, approximate_value);</code>, which was tested with
+ad hoc values.
+</p>
+
+<h3>Use only one pollutant for testing</h3>
+ALGAE treats all pollutant values exactly the same.  Therefore, for the purposes of testing,
+only one pollutant needs to be used to check that exposure calculations are working correctly.
+
+<h3>Engineer exposure data so they are easy to calculate</h3>
+In real-world scenarios, the concentration of a pollutant will rise and fall in response to
+various complex factors.  In the test data, the concentration of each pollutant remains 
+permanently fixed at each geocode.  The constant value of a pollutant from day to day
+at a given location makes exposure assessments easier to calculate by hand.
+
+<h3>Engineer the daily exposure data so that each pollutant type produces very different results</h3>
+Although only <code>pm10_tot</code> is used in exposure test cases, fake data values for
+the other pollutants have been designed to guarantee that results will significantly vary
+between one pollutant type and another.  The design of the other pollutant values is meant to 
+make it easy to identify errors where the code is using the wrong pollution type for a 
+calculation (eg: it's using the same field for <code>nox_rd</code> and <code>pm10_tot</code>.
+
+<h3>
+Engineer daily exposure data to make it easier to see mistakes in exposure 
+error assessment
+</h3>
+In ALGAE, exposure error is assessed as the difference between the pollution 
+between the location assigned by data cleaning and the opportunity location 
+that may have otherwise been used for assessment.  In order to make it easy to 
+know that that the correct assigned and opportunity geocodes are being used, 
+the pollutant values are stepped at each location for each day.  The data
+table below shows how pollution values are stepped between locations and
+between pollutants.
+
+<pre>
+Geocode PM10_rd  nox_rd  pm10_gr  name  pm10_tot
+a1      1.0      2.0     3.0      4.0   5.0
+a2      3.0      4.0     5.0      6.0   7.0
+a3      6.0      7.0     8.0      9.0   10.0
+a4      10.0     11.0    12.0     13.0  14.0
+a5      15.0     16.0    17.0     18.0  19.0
+a6      21.0     22.0    23.0     24.0  25.0
+</pre>
+
+<p>
+Values vary across pollutants to produce obviously different exposure results,
+but only <code>pm10_tot</code> is used in test cases.  For <code>pm10_tot</code>,
+the concentrations vary in a sequence of +2.0, +3.0, +4.0, +5.0, +6.0... in 
+order to ensure that the difference between any two successive locations will 
+be different.  For example, if the study member moves from a<sub>3</sub> to
+a<sub>4</sub>, the exposure error measured between these locations will be 
+different than if the a<sub>3</sub> was used with any other location.  
+</p>
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

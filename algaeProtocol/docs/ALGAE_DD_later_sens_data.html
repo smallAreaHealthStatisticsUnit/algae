@@ -5,7 +5,7 @@
 		<meta charset="utf-8"/>
 		<meta name="language" content="English"> 
 		<meta name="robots" content"index, follow">
-		<title>ALGAE Data Dictionary: Later life sensitivity variables (algae6300-algae6320)</title>
+		<title>ALGAE Data Dictionary: Later life sensitivity variables (algae6300-algae6317)</title>
  		<meta name="description" 
 		content="The ALGAE Protocol, an automated protocol for assessing later life exposures in longitudinal cohorts.  
 		This page is the part of the data dictionary for variables algae6300-algae6320.  They describe 
@@ -19,13 +19,13 @@
 	
 	<body>
 		<div id="wrapper">
-			<header>				
+			<header>
 
 				<table class="banner_table" width="100%">
 				<tr>
 				<td class="banner_table_text">
 				<h1 class="header_line"> The ALGAE Protocol</h1>
-				<h2 class="header_line"> <font color="#548235"><b>ALG</b></font>orithms for <font color="#548235"><b>A</b></font>ssessing <font color="#548235"><b>E</b></a></font>arly-life Exposures</h2>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
 				</td>
 				<td class="banner_table_logos" border="1">
 					<img src="./images/algae_banner_logos.jpg" height="70">
@@ -35,45 +35,39 @@
 				<h4 class="header_line">
 					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
 				</h4>
-							
+								
 				<nav class="top_navigation_bar">
 					<ul class="main_menu">
 						<li>
 							<a href="./index.html">Home</a>
 						</li>
 						<li>
-							Background
+							Methodology
 							<ul class="sub_menu">
 								<li>
-									<a href="./ExposureSciencePerspective.html">Exposure Science Perspective</a>
-								</li>
-								<li>
-									<a href="./DataSciencePerspective.html">Data Science Perspective</a>
-								</li>
-								<li>
-									<a href="./SummaryOfRequirements.html">Summary of Requirements</a>
-								</li>
-								<li>
 									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
-								</li>																
+								</li>
 								<li>
 									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
 								</li>
 							</ul>														
 						</li>
 						<li>
-							Borrow
-							<ul class="sub_menu">
+							Protocol Design
+							<ul class="sub_menu">							
 								<li>
-									<a href="./BorrowLessonsLearned.html">Lessons Learned</a>
+									<a href="./DesignDecisions.html">Design Decisions</a>
 								</li>
 								<li>
-									<a href="#">The ALGAE Check List</a>
+									<a href="./FutureDevelopment.html">Future Development</a>
 								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
 							</ul>
 						</li>
 						<li>
-							Use
+							Using ALGAE
 							<ul class="sub_menu">
 								<li>
 									<a href="./SetupALGAE.html">Setup ALGAE</a>
@@ -87,39 +81,17 @@
 								<li>
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
-							</ul>
-						</li>
-						<li>
-							Adapt
-							<ul class="sub_menu">
-								<li>
-									<a href="./AdaptALGAEProtocol.html">Change life stages</a>
-								</li>
-								<li>
-									<a href="./AdaptALGAEProtocol.html#change_pollutants">Change pollutants</a>
-								</li>
-								<li>
-									<a href="./AdaptALGAEProtocol.html#change_covariates">Change covariates</a>
-								</li>							
-							</ul>
-						</li>
-						<li>
-							Understand
-							<ul class="sub_menu">
-								<li>
-									<a href="./DesignDecisions.html">Design Decisions</a>
-								</li>
-								<li>
-									<a href="./CodeRoadMap.html">Code Road Map</a>
-								</li>
 								<li>
 									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
-								</li>
-								<li>
-									<a href="./FutureDevelopment.html">Future Development</a>
-								</li>							
+								</li>								
 							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
 						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
 						<li>
 							<a href="./AboutUs.html">About Us</a>
 						</li>
@@ -129,7 +101,7 @@
 
 <section class="main_section">
 			
-<h1>ALGAE Data Dictionary: Later life sensitivity variables (algae6300-algae6320)</h1>
+<h1>ALGAE Data Dictionary: Later life sensitivity variables (algae6300-algae6317)</h1>
 
 <p>
 <i>
@@ -157,7 +129,7 @@ later_life/results/sensitivity_variables
 
 
 <h2>Example Result File</h2>
-See <a href="./example_results/res_later_sens_variables_2016-Jan-04-10-14.csv">here</a>.
+See <a href="./example_results/res_later_sens_variables_2016-Oct-24-22-47.csv">here</a>.
 
 
 <h2>Variable Naming Conventions</h2>
@@ -193,6 +165,7 @@ addr_
 
 
 <h2>Variable Dictionary</h2>
+
 
 
 
@@ -261,17 +234,6 @@ Otherwise, the result is "N" for "No".
 </td>
 </tr>
 
-<tr class="data_dictionary_even_row">
-<td class="data_dictionary_var_name">
-algae6306_life_stage_duration
-</td>
-<td class="data_dictionary_var_description">
-The total number of days in the life stage, including both the start and end
-days.
-</td>
-</tr>
-
-
 <tr>
 <td class="data_dictionary_var_name">
 algae6305_total_addr
@@ -283,38 +245,7 @@ Total number of addresses study members occupied during their whole exposure per
 
 <tr class="data_dictionary_even_row">
 <td class="data_dictionary_var_name">
-algae6306_oob_geocodes
-</td>
-<td class="data_dictionary_var_description">
-The total number of address periods which showed an "out-of-bounds" geocode.  Note that this total
-only refers to address periods that overlap with a study member's exposure period.
-A geocode is out-of-bounds if it satisfies two conditions:
-<ol>
-<li>
-the geocode is valid, meaning that its entry in the table <code>original_geocode_data</code> has
-"Y" for <code>has_valid_geocode</code>.
-</li>
-<li>
-the geocode is not associated with any exposure data.
-</li>
-</ol>
-</td>
-</tr>
-
-<tr>
-<td class="data_dictionary_var_name">
-algae6307_inv_geocodes
-</td>
-<td class="data_dictionary_var_description">
-Total number of address periods which overlap with the exposure period and which have an invalid geocode.
-A geocode is invalid if it has an empty value or if its entry in the table <code>original_geocode_data</code> 
-has a <code>has_valid_geocode</code> value of "N".
-</td>
-</tr>
-
-<tr class="data_dictionary_even_row">
-<td class="data_dictionary_var_name">
-algae6308_fixed_geocodes
+algae6306_fixed_geocodes
 </td>
 <td class="data_dictionary_var_description">
 The total number of address periods that fall within the exposure period and which have fixed geocodes.  
@@ -350,7 +281,7 @@ then ignored as if it never appeared in the <code>original_address_history_data<
 
 <tr>
 <td class="data_dictionary_var_name">
-algae6309_over_laps
+algae6307_over_laps
 </td>
 <td class="data_dictionary_var_description">
 The total number of overlaps that appear in the residential address history that
@@ -360,7 +291,7 @@ overlaps with the person's exposure period.
 
 <tr class="data_dictionary_even_row">
 <td class="data_dictionary_var_name">
-algae6310_gaps
+algae6308_gaps
 </td>
 <td class="data_dictionary_var_description">
 The total number of gaps that appear in the residential address history that
@@ -370,7 +301,7 @@ overlaps with the person's exposure period.
 
 <tr>
 <td class="data_dictionary_var_name">
-algae6311_gap_over_lap
+algae6309_gap_over_lap
 </td>
 <td class="data_dictionary_var_description">
 The number of address periods that overlap with the exposure period and have been altered both to fix a gap and
@@ -381,7 +312,7 @@ and its end date was contracted to fix an overlap with the following address per
 
 <tr class="data_dictionary_even_row">
 <td class="data_dictionary_var_name">
-algae6312_deletions
+algae6310_deletions
 </td>
 <td class="data_dictionary_var_description">
 The number of address periods which overlap with the exposure period and which have been deleted.  An address
@@ -406,7 +337,7 @@ it will contribute to <code>algae6312_deletions</code>.
 
 <tr>
 <td class="data_dictionary_var_name">
-algae6313_cln_blank_start_date
+algae6311_cln_blank_start_date
 </td>
 <td class="data_dictionary_var_description">
 The total number of blank start dates that were imputed in address periods which overlapped with the
@@ -417,7 +348,7 @@ the study member's conception date.
 
 <tr class="data_dictionary_even_row">
 <td class="data_dictionary_var_name">
-algae6314_cln_blank_end_date
+algae6312_cln_blank_end_date
 </td>
 <td class="data_dictionary_var_description">
 The total number of blank end dates that were imputed in address periods which overlapped with the
@@ -428,7 +359,7 @@ the current date.
 
 <tr>
 <td class="data_dictionary_var_name">
-algae6315_cln_blank_both_dates
+algae6313_cln_blank_both_dates
 </td>
 <td class="data_dictionary_var_description">
 The total number of address periods which had both a blank start date and a blank end dates.  Note that
@@ -438,7 +369,7 @@ all of these address periods will overlap with a study member's exposure period.
 
 <tr class="data_dictionary_even_row">
 <td class="data_dictionary_var_name">
-algae6316_cln_last_dates
+algae6314_cln_last_dates
 </td>
 <td class="data_dictionary_var_description">
 The number of address periods which overlap with the study member's exposure period and which had to have
@@ -449,7 +380,7 @@ period whose end date is less than the person's last exposure day.
 
 <tr>
 <td class="data_dictionary_var_name">
-algae6317_days_changed
+algae6315_days_changed
 </td>
 <td class="data_dictionary_var_description">
 Total number of days changed in address periods that overlapped with the study member's exposure period.
@@ -472,35 +403,7 @@ the address periods. <code>12-MAY-1996</code> will be counted once in each of a<
 
 <tr class="data_dictionary_even_row">
 <td class="data_dictionary_var_name">
-algae6318_has_bad_geocode_in_exp
-</td>
-<td class="data_dictionary_var_description">
-The total number of address periods which overlap with the study member's exposure period and have a bad geocode.
-A geocode is bad if it is:
-<ul>
-<li>
-<a href="./ALGAETerminology.html#invalid_geocode">invalid geocode</a>: the geocode is blank or its entry in the <code>original_geocode_data</code> table shows
-a "N" for <code>has_valid_geocode</code>.
-</li>
-<li>
-
-<a href="./ALGAETerminology.html#oob_geocode">out-of-bounds</a>: the geocode is valid but it is not associated with any exposure values
-</li>
-</ul>
-
-<p>
-Note that this total tells you how many address periods in the exposure period still have a bad geocode, even
-after ALGAE attempted to fix any of them.  See entry for <code>algae6308_fixed_geocodes</code>.
-
-
-
-
-</td>
-</tr>
-
-<tr>
-<td class="data_dictionary_var_name">
-algae6319_contention_days
+algae6316_contention_days
 </td>
 <td class="data_dictionary_var_description">
 The total number of <a href="./ALGAETerminology.html#contention_day">contention days</a> that overlap with a study 
@@ -529,13 +432,14 @@ appear in the changed parts of both a<sub>1</sub> and a<sub>2</sub>.
 </td>
 </tr>
 
-<tr class="data_dictionary_even_row">
+<tr>
 <td class="data_dictionary_var_name">
-algae6320_missing_exp
+<a name="algae6317_no_exp_data_days"></a>
+algae6317_no_exp_data_days
 </td>
 <td class="data_dictionary_var_description">
 The total number of missing exposure days that overlap with a study member's exposure period.  Note that this
-variable does not describe <a href="./ALGAETerminology.html#oob_geocode>out-of-bounds</a> geocodes, which are
+variable does not describe <a href="./ALGAETerminology.html#oob_geocode>out of bounds</a> geocodes, which are
 not associated with any exposure records.  Here, we consider valid geocodes which are associated with
 at least one exposure record in <code>original_exposure_data</code> but may be missing records for days
 within the exposure period.
@@ -543,6 +447,7 @@ within the exposure period.
 </tr>
 
 </table>
+
 
 
 			</section>

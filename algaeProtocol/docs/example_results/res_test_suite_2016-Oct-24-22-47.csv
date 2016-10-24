@@ -1,0 +1,307 @@
+test_case_name,test_area,test_case_description,pass_or_fail
+after_el_deletion_addr,Address Cleaning Life Stage Sensitivity Variables,,PASS
+missing_both_dates,Address Cleaning Life Stage Sensitivity Variables,,PASS
+missing_end_date,Address Cleaning Life Stage Sensitivity Variables,,PASS
+missing_last_end_date,Address Cleaning Life Stage Sensitivity Variables,,PASS
+missing_start_date,Address Cleaning Life Stage Sensitivity Variables,,PASS
+mult_fix_addr,Address Cleaning Life Stage Sensitivity Variables,,PASS
+mult_no_fix_addr,Address Cleaning Life Stage Sensitivity Variables,,PASS
+no_addr,Address Cleaning Life Stage Sensitivity Variables,,PASS
+one_addr,Address Cleaning Life Stage Sensitivity Variables,,PASS
+after_el_deletion_addr,Address Cleaning Sensitivity Variables,,PASS
+missing_both_dates,Address Cleaning Sensitivity Variables,,PASS
+missing_end_date,Address Cleaning Sensitivity Variables,,PASS
+missing_last_end_date,Address Cleaning Sensitivity Variables,,PASS
+missing_start_date,Address Cleaning Sensitivity Variables,,PASS
+mult_fix_addr,Address Cleaning Sensitivity Variables,,PASS
+mult_no_fix_addr,Address Cleaning Sensitivity Variables,,PASS
+one_addr,Address Cleaning Sensitivity Variables,,PASS
+one_fix_per_stage_addr,Address Cleaning Sensitivity Variables,,PASS
+after_el_deletion_addr,Address History Data,deletion after relevant exposure time frame,PASS
+after_el_deletion_addr,Address History Data,deletion after relevant exposure time frame,PASS
+after_el_deletion_addr,Address History Data,deletion after relevant exposure time frame,PASS
+missing_both_dates,Address History Data,,PASS
+missing_end_date,Address History Data,,PASS
+missing_last_end_date,Address History Data,,PASS
+missing_last_end_date,Address History Data,,PASS
+missing_start_date,Address History Data,,PASS
+mult_fix_addr,Address History Data,see scenario 1 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 1 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 10 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 10 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 11 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 11 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 12 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 12 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 13 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 13 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 14 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 14 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 15 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 15 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 16 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 16 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 17 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 17 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 18 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 18 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 19 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 19 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 2 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 2 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 20 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 20 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 21 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 21 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 22 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 22 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 23 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 23 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 23 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 24 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 24 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 24 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 25 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 25 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 25 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 3 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 3 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 4 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 4 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 5 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 5 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 6 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 6 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 7 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 7 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 8 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 8 diagram address period a2,PASS
+mult_fix_addr,Address History Data,see scenario 9 diagram address period a1,PASS
+mult_fix_addr,Address History Data,see scenario 9 diagram address period a2,PASS
+mult_no_fix_addr,Address History Data,change in T1  no adjustments,PASS
+mult_no_fix_addr,Address History Data,change in T3. no adjustments,PASS
+mult_no_fix_addr,Address History Data,,PASS
+one_addr,Address History Data,lived at one address. all data valid.,PASS
+one_fix_per_stage_addr,Address History Data,adding a buffer contiguous address,PASS
+one_fix_per_stage_addr,Address History Data,cause address fix in each life stage,PASS
+one_fix_per_stage_addr,Address History Data,causing addr to adjust for gap and overlap in T3,PASS
+one_fix_per_stage_addr,Address History Data,causing addr to adjust for gap and overlap in T3,PASS
+one_fix_per_stage_addr,Address History Data,deletion in EL,PASS
+one_fix_per_stage_addr,Address History Data,deletion in EL,PASS
+one_fix_per_stage_addr,Address History Data,deletion in EL,PASS
+one_fix_per_stage_addr,Address History Data,make an overlap in T2 between a4 and a5,PASS
+one_fix_per_stage_addr,Address History Data,shows gap in T1 between a1 and a2,PASS
+early_birth_addr_inv_addr,Dropped Exposures: Birth Address,has a short invalid address period that starts on a birth date.,PASS
+early_birth_addr_oob_addr,Dropped Exposures: Birth Address,has long out-of-bound address period that starts on day 2 of EL.,PASS
+early_stg_inv_addr,Dropped Exposures: Life Stage,all of T2 should be invalid address,PASS
+early_stg_oob_addr,Dropped Exposures: Life Stage,all of T2 should be at good match address,PASS
+early_inv_addr_gap,Dropped Exposures: Uncleaned,10 day gap should alter 40 days,PASS
+early_missing_addr_overlap,Dropped Exposures: Uncleaned,all for pm10_tot,PASS
+early_oob_addr_gap,Dropped Exposures: Uncleaned,all for pm10_tot,PASS
+early_poor_addr_gap_overlap,Dropped Exposures: Uncleaned,all for pm10_tot,PASS
+early_many_moves,Early Exposures: Cleaned,,PASS
+early_many_moves,Early Exposures: Cleaned,,PASS
+early_many_moves,Early Exposures: Cleaned,,PASS
+early_many_moves,Early Exposures: Cleaned,,PASS
+early_many_moves_with_err,Early Exposures: Cleaned,,PASS
+early_many_moves_with_err,Early Exposures: Cleaned,,PASS
+early_many_moves_with_err,Early Exposures: Cleaned,,PASS
+early_many_moves_with_err,Early Exposures: Cleaned,,PASS
+early_many_overlaps,Early Exposures: Cleaned,,PASS
+early_many_overlaps,Early Exposures: Cleaned,,PASS
+early_many_overlaps,Early Exposures: Cleaned,,PASS
+early_many_overlaps,Early Exposures: Cleaned,,PASS
+early_no_moves,Early Exposures: Cleaned,,PASS
+early_no_moves,Early Exposures: Cleaned,,PASS
+early_no_moves,Early Exposures: Cleaned,,PASS
+early_no_moves,Early Exposures: Cleaned,,PASS
+early_many_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_overlaps,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_overlaps,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_overlaps,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_overlaps,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_no_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_no_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_no_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_no_moves,Early Exposures: Fixed Life Stage Mobility,,PASS
+early_many_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves_with_err,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_overlaps,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_overlaps,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_overlaps,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_overlaps,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_no_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_no_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_no_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_no_moves,Early Exposures: Fixed Mobility Birth Address,,PASS
+early_many_moves,Early Exposures: Uncleaned,,PASS
+early_many_moves,Early Exposures: Uncleaned,,PASS
+early_many_moves,Early Exposures: Uncleaned,,PASS
+early_many_moves,Early Exposures: Uncleaned,,PASS
+early_many_moves_with_err,Early Exposures: Uncleaned,,PASS
+early_many_moves_with_err,Early Exposures: Uncleaned,,PASS
+early_many_moves_with_err,Early Exposures: Uncleaned,,PASS
+early_many_moves_with_err,Early Exposures: Uncleaned,,PASS
+early_many_overlaps,Early Exposures: Uncleaned,,PASS
+early_many_overlaps,Early Exposures: Uncleaned,,PASS
+early_many_overlaps,Early Exposures: Uncleaned,,PASS
+early_many_overlaps,Early Exposures: Uncleaned,,PASS
+early_no_moves,Early Exposures: Uncleaned,,PASS
+early_no_moves,Early Exposures: Uncleaned,,PASS
+early_no_moves,Early Exposures: Uncleaned,,PASS
+early_no_moves,Early Exposures: Uncleaned,,PASS
+early_many_moves,Exposure Sensitivity Variables,has no missing exposures,PASS
+early_many_moves_with_err,Exposure Sensitivity Variables,has no missing exposures,PASS
+early_many_overlaps,Exposure Sensitivity Variables,has no missing exposures,PASS
+early_no_moves,Exposure Sensitivity Variables,has no missing exposures,PASS
+missing_exposure_days,Exposure Sensitivity Variables,missing first 10 daily exposures,PASS
+one_addr_blank_geocode,Geocode Data,1 address period with blank geocode (not fixable),PASS
+one_addr_blank_geocode,Geocode Data,sensitivity: 1 address period with blank geocode (not fixable),PASS
+one_addr_geocode_invalid1,Geocode Data,1 address period with geocode is_valid = N (not fixable),PASS
+one_addr_geocode_invalid1,Geocode Data,sensitivity: 1 address period with geocode is_valid = N (not fixable),PASS
+one_addr_out_of_bounds,Geocode Data,1 address period with an out-of-bounds geocode (not fixable),PASS
+one_addr_out_of_bounds,Geocode Data,sensitivity: 1 address period with an out-of-bounds geocode (not fixable),PASS
+three_addr_fixable_geocode,Geocode Data,sensitivity: 3 address periods with middle one having invalid geocode and next having valid geocode,PASS
+two_addr_first_invalid_equal25,Geocode Data,invalid period that is 23 out of 92 days of T2 (not fixable),PASS
+two_addr_first_invalid_equal25,Geocode Data,sensitivity: 2 address periods first invalid has 25 percent stage overlap,PASS
+two_addr_first_invalid_equal25,Geocode Data,,PASS
+two_addr_first_invalid_geocode,Geocode Data,2 address periods with first having invalid geocode (fixable),PASS
+two_addr_first_invalid_geocode,Geocode Data,2 address periods with first having invalid geocode (fixable),PASS
+two_addr_first_invalid_geocode,Geocode Data,sensitivity: 2 address periods with first having invalid geocode (fixable),PASS
+two_addr_first_invalid_less25,Geocode Data,invalid period that is 22 of 92 days of T2 (fixable),PASS
+two_addr_first_invalid_less25,Geocode Data,sensitivity: 2 address periods first invalid has less than 25 percent stage overlap,PASS
+two_addr_first_invalid_less25,Geocode Data,,PASS
+two_addr_first_invalid_more25,Geocode Data,invalid period that is 24 out of 92 days of T2 (not fixable),PASS
+two_addr_first_invalid_more25,Geocode Data,sensitivity: 2 address periods first invalid has more than 25 percent stage overlap,PASS
+two_addr_first_invalid_more25,Geocode Data,,PASS
+two_addr_first_out_of_bounds,Geocode Data,2 address periods with first having an out-of-bounds geocode (not fixable),PASS
+two_addr_first_out_of_bounds,Geocode Data,2 address periods with first having an out-of-bounds geocode (not fixable),PASS
+two_addr_first_out_of_bounds,Geocode Data,sensitivity: 2 address periods with first having an out-of-bounds geocode (not fixable),PASS
+two_addr_last_invalid_geocode,Geocode Data,2 address periods and last period has invalid geocode (not fixable),PASS
+two_addr_last_invalid_geocode,Geocode Data,2 address periods and last period has invalid geocode (not fixable),PASS
+two_addr_last_invalid_geocode,Geocode Data,sensitivity: 2 address periods and last period has invalid geocode (not fixable),PASS
+year2_bad_geocode,Geocode Data,sensitivity: study member included for early life but excluded in later life analysis,PASS
+late_many_moves,Late Exposures: Cleaned,,PASS
+late_many_moves,Late Exposures: Cleaned,,PASS
+late_many_moves,Late Exposures: Cleaned,,PASS
+late_many_moves_with_err,Late Exposures: Cleaned,,PASS
+late_many_moves_with_err,Late Exposures: Cleaned,,PASS
+late_many_moves_with_err,Late Exposures: Cleaned,,PASS
+late_many_overlaps,Late Exposures: Cleaned,,PASS
+late_many_overlaps,Late Exposures: Cleaned,,PASS
+late_many_overlaps,Late Exposures: Cleaned,,PASS
+late_no_moves,Late Exposures: Cleaned,,PASS
+late_no_moves,Late Exposures: Cleaned,,PASS
+late_no_moves,Late Exposures: Cleaned,,PASS
+late_many_moves,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_moves,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_moves,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_moves_with_err,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_moves_with_err,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_moves_with_err,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_overlaps,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_overlaps,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_overlaps,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_no_moves,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_no_moves,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_no_moves,Later Exposures: Fixed Life Stage Mobility,,PASS
+late_many_moves,Later Exposures: Uncleaned,,PASS
+late_many_moves,Later Exposures: Uncleaned,,PASS
+late_many_moves,Later Exposures: Uncleaned,,PASS
+late_many_moves_with_err,Later Exposures: Uncleaned,,PASS
+late_many_moves_with_err,Later Exposures: Uncleaned,,PASS
+late_many_moves_with_err,Later Exposures: Uncleaned,,PASS
+late_many_overlaps,Later Exposures: Uncleaned,,PASS
+late_many_overlaps,Later Exposures: Uncleaned,,PASS
+late_many_overlaps,Later Exposures: Uncleaned,,PASS
+late_no_moves,Later Exposures: Uncleaned,,PASS
+late_no_moves,Later Exposures: Uncleaned,,PASS
+late_no_moves,Later Exposures: Uncleaned,,PASS
+has_valid_geocode01,Preprocessing: Geocode Flags,Interprets has_valid_geocode N as N,PASS
+has_valid_geocode02,Preprocessing: Geocode Flags,Interprets has_valid_geocode n as N,PASS
+has_valid_geocode03,Preprocessing: Geocode Flags,Interprets has_valid_geocode No as N,PASS
+has_valid_geocode04,Preprocessing: Geocode Flags,Interprets has_valid_geocode NO as N,PASS
+has_valid_geocode05,Preprocessing: Geocode Flags,Interprets has_valid_geocode no as N,PASS
+has_valid_geocode06,Preprocessing: Geocode Flags,Interprets has_valid_geocode FALSE as N,PASS
+has_valid_geocode07,Preprocessing: Geocode Flags,Interprets has_valid_geocode false as N,PASS
+has_valid_geocode08,Preprocessing: Geocode Flags,Interprets has_valid_geocode 0 as N,PASS
+has_valid_geocode09,Preprocessing: Geocode Flags,Interprets has_valid_geocode y as Y,PASS
+has_valid_geocode10,Preprocessing: Geocode Flags,Interprets has_valid_geocode Yes as Y,PASS
+has_valid_geocode11,Preprocessing: Geocode Flags,Interprets has_valid_geocode YES as Y,PASS
+has_valid_geocode12,Preprocessing: Geocode Flags,Interprets has_valid_geocode yes as Y,PASS
+has_valid_geocode13,Preprocessing: Geocode Flags,Interprets has_valid_geocode TRUE as Y,PASS
+has_valid_geocode14,Preprocessing: Geocode Flags,Interprets has_valid_geocode true as Y,PASS
+has_valid_geocode15,Preprocessing: Geocode Flags,Interprets has_valid_geocode 1 as Y,PASS
+no_yes_study_member_flags01,Preprocessing: Study Member Flags,Interprets n for N in study member data flags,PASS
+no_yes_study_member_flags02,Preprocessing: Study Member Flags,Interprets No for N in study member data flags,PASS
+no_yes_study_member_flags03,Preprocessing: Study Member Flags,Interprets NO for N in study member data flags,PASS
+no_yes_study_member_flags04,Preprocessing: Study Member Flags,Interprets no for N in study member data flags,PASS
+no_yes_study_member_flags05,Preprocessing: Study Member Flags,Interprets FALSE for N in study member data flags,PASS
+no_yes_study_member_flags06,Preprocessing: Study Member Flags,Interprets false for N in study member data flags,PASS
+no_yes_study_member_flags07,Preprocessing: Study Member Flags,Interprets 0 for N in study member data flags,PASS
+no_yes_study_member_flags08,Preprocessing: Study Member Flags,Interprets y for Y in study member data flags,PASS
+no_yes_study_member_flags09,Preprocessing: Study Member Flags,Interprets Yes for Y in study member data flags,PASS
+no_yes_study_member_flags10,Preprocessing: Study Member Flags,Interprets YES for Y in study member data flags,PASS
+no_yes_study_member_flags11,Preprocessing: Study Member Flags,Interprets yes for Y in study member data flags,PASS
+no_yes_study_member_flags12,Preprocessing: Study Member Flags,Interprets TRUE for Y in study member data flags,PASS
+no_yes_study_member_flags13,Preprocessing: Study Member Flags,Interprets true for Y in study member data flags,PASS
+no_yes_study_member_flags14,Preprocessing: Study Member Flags,Interprets 1 for Y in study member data flags,PASS
+imputed_gestation_age,Study Member Data,blank gestation age should be filled in by default value 38,PASS
+imputed_gestation_age,Study Member Data,imputed gestation of 38 weeks should have typical 38 wk T1,PASS
+imputed_gestation_age,Study Member Data,imputed gestation of 38 weeks should have typical 38 wk T2,PASS
+imputed_gestation_age,Study Member Data,imputed gestation of 38 weeks should have typical 38 wk T3,PASS
+imputed_gestation_age,Study Member Data,imputed gestation of 38 weeks should have typical 38 wk T4,PASS
+leap_year_duration,Study Member Data,duration should have 366 days,PASS
+leap_year_duration,Study Member Data,typical_38 weeks should have normal T1,PASS
+leap_year_duration,Study Member Data,typical_38 weeks should have normal T2 not shortened,PASS
+leap_year_duration,Study Member Data,typical_38 weeks should have normal T3,PASS
+no_yes_answer_format01,Study Member Data,handles n as yes-no input and converts it to N,PASS
+no_yes_answer_format02,Study Member Data,handles No as yes-no input and converts it to N,PASS
+no_yes_answer_format03,Study Member Data,handles no as yes-no input and converts it to N,PASS
+no_yes_answer_format04,Study Member Data,handles FALSE as a yes-no input and converts it to N,PASS
+no_yes_answer_format05,Study Member Data,handles FALSE as a yes-no input and converts it to N,PASS
+no_yes_answer_format06,Study Member Data,handles 0 as a yes-no input and converts it to N,PASS
+no_yes_answer_format07,Study Member Data,handles y as yes-no input and converts it to Y,PASS
+no_yes_answer_format08,Study Member Data,handles Yes as yes-no input and converts it to Y,PASS
+no_yes_answer_format09,Study Member Data,handles yes as yes-no input and converts it to Y,PASS
+no_yes_answer_format10,Study Member Data,handles TRUE as yes-no input and converts it to Y,PASS
+no_yes_answer_format11,Study Member Data,handles true as yes-no input and converts it to Y,PASS
+no_yes_answer_format12,Study Member Data,handles 1 as yes-no input and converts it to Y,PASS
+premature_23_weeks,Study Member Data,premature_23_weeks checking that flags are read correctly,PASS
+premature_23_weeks,Study Member Data,premature_23_weeks early life should be handled normally,PASS
+premature_23_weeks,Study Member Data,premature_23_weeks T1 should be present,PASS
+premature_23_weeks,Study Member Data,premature_23_weeks T2 should be shortened,PASS
+premature_23_weeks,Study Member Data,premature_23_weeks T3 should not exist,PASS
+premature_25_weeks,Study Member Data,premature_25_weeks checking that flags are read correctly,PASS
+premature_25_weeks,Study Member Data,premature_25_weeks early life should be handled normally,PASS
+premature_25_weeks,Study Member Data,premature_25_weeks T1 should be present,PASS
+premature_25_weeks,Study Member Data,premature_25_weeks T2 should be present but shortened,PASS
+premature_25_weeks,Study Member Data,premature_25_weeks T3 should not exist,PASS
+premature_26_weeks,Study Member Data,premature_26_weeks checking that flags are read correctly,PASS
+premature_26_weeks,Study Member Data,premature_26_weeks early life should be handled normally,PASS
+premature_26_weeks,Study Member Data,premature_26_weeks T1 should be present,PASS
+premature_26_weeks,Study Member Data,premature_26_weeks T2 should be shortened,PASS
+premature_26_weeks,Study Member Data,premature_26_weeks T3 should not exist,PASS
+typical_38_weeks,Study Member Data,typical_38 weeks should have normal EL,PASS
+typical_38_weeks,Study Member Data,typical_38 weeks should have normal T1,PASS
+typical_38_weeks,Study Member Data,typical_38 weeks should have normal T2 not shortened,PASS
+typical_38_weeks,Study Member Data,typical_38 weeks should have normal T3,PASS
+typical_38_weeks,Study Member Data,typical_38_weeks checking that flags are read correctly,PASS
+very_mature,Study Member Data,very mature EL,PASS
+very_mature,Study Member Data,very mature T1,PASS
+very_mature,Study Member Data,very mature T2,PASS
+very_mature,Study Member Data,very mature T3,PASS
+very_mature,Study Member Data,very_mature checking that flags are read correctly,PASS

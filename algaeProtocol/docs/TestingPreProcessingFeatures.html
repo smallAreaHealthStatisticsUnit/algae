@@ -1,0 +1,401 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Testing Part 1: Pre-processing Features</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes ALGAE test cases that relate to when the protocol creates staging input tables that are used by the rest of the software.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+
+<h1>Testing Part 1: Pre-processing features</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./TestingOverview.html" class="link_button">Testing Overview</a>
+</td>
+<td>
+<a href="./TestingGeocodeFeatures.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+
+<h2>Background</h2>
+<p>
+ALGAE alters copies of original data set files to produce corresponding staging 
+tables that standardise certain field values and check that various fields are 
+either not empty or are unique.   The rest of the protocol is driven from these 
+staging tables rather than the original data files.
+</p>
+
+<p>
+Tests for the pre-processing features need not be concerned with the outcomes 
+of any other features such as cleaning address histories or calculating exposures.  
+Most of the tests focus on correctly standardising the values of "Yes/No" fields or
+fields with empty values in the original data sets.  
+</p>
+
+<p>
+If the tests for the pre-processing features all pass, then test cases in all 
+subsequent test areas can rely on using standardised field values.  For example, 
+if we show that the protocol will replace <code>Yes</code> for <code>Y</code> in the 
+<code>has_valid_geocode</code> field of the original_geocode_data file, we don't have 
+to write a similar test for the Geocode Feature area.  If the pre-processing tests complete, 
+we can be guaranteed that any table field "person_id" will not be blank.
+</p>
+
+<p>
+The main reason for developing this test area is to help constrain the variation in 
+input values in order to minimise the proliferation of test cases we would have to 
+consider.
+</p>
+
+<h2>Coverage</h2>
+The coverage of this test area is shown in the following diagram:
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/PreProcessingTestArea.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+Most of the testing relates to checking whether database tables exist, 
+or if certain fields have values which are empty or duplicated.  Automated 
+test cases exist for the Yes/No fields <code>absent_during_exp_period</code>, 
+<code>at_1st_address_conception</code> and <code>has_valid_geocode</code>.
+</p>
+
+<p>
+There are no result output values to check.  All the tests examine values 
+in the staging tables to confirm that values were standardised correctly.
+</p>
+
+<h3>Input Fields Covered by Test Cases</h3>
+
+<table class="original_data_table">
+
+<tr class="generic_data_table_header">
+<th>Table</th>
+<th>Field</th>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_study_member_data
+</td>
+<td class="courier_font_name">
+person_id
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_study_member_data
+</td>
+<td class="courier_font_name">
+birth_date
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_study_member_data
+</td>
+<td class="courier_font_name">
+absent_during_exp_period
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_study_member_data
+</td>
+<td class="courier_font_name">
+at_1st_addr_conception
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_geocode_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_geocode_data
+</td>
+<td class="courier_font_name">
+has_valid_geocode
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_address_history_data
+</td>
+<td class="courier_font_name">
+person_id
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_address_history_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+staging_exp_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+staging_exp_data
+</td>
+<td class="courier_font_name">
+date_of_year
+</td>
+</tr>
+
+</table>
+
+<h3>Output Fields Covered by Test Cases</h3>
+There are no result output values to check.  All the tests examine 
+values in the staging tables to confirm that values were standardised 
+correctly.
+
+<h2>Test Case Design</h2>
+
+<h3>
+Do not test built-in database function
+</h3>
+Testing does not include any effort to check that PostgreSQL's built-in 
+database functions work - we assume they do.  Therefore, no automated 
+test cases are used to check whether the staging tables exist, or whether 
+the database is able to add table field constraints such as requiring 
+that they are unique or non-empty.  Instead, visual inspection of the 
+code is used to verify that built-in constraint checks are being 
+applied to tables and fields.  If any of the following assumptions 
+do not hold, the protocol will throws an exception and stop working:
+<ul>
+<li>
+the tables <code>staging_study_member_data</code>, 
+<code>staging_geocode_data</code>, 
+<code>staging_exposure_data</code> and 
+<code>staging_address_history_data exist</code>
+</li>
+<li>
+<code>staging_study_member_data.person_id</code> is both unique and 
+non-empty
+</li>
+<li>
+<code>staging_study_member_data.birth_date</code> is not empty
+</li>
+<li>
+<code>staging_study_member_data.absent_during_exp_period</code> and 
+<code>at_1st_addr_conception</code> are not empty.
+</li>
+<li>
+<code>staging_geocode_data.geocode</code> and 
+<code>has_valid_geocode</code> are not empty
+</li>
+<li>
+<code>staging_exp_data.geocode</code> and 
+<code>date_of_year</code> are not null and together must be unique.
+</li>
+</ul>
+
+<h3>
+Create test cases that show that the protocol standardises yes/no field values 
+correctly.  
+</h3>
+
+There are three fields in the original data tables that 
+provide yes/no values.  These are:
+<ul>
+<li>
+<code>
+original_study_member_data.absent_during_pregnancy
+</code>
+</li>
+<li>
+<code>
+original_study_member_data.at_1st_address_conception
+</code>
+</li>
+<li>
+<code>
+original_geocode_data.has_valid_geocode
+</code>
+</li>
+</ul>
+
+<p>
+Tests are made to ensure that in each field, the following data 
+cleaning operations can be successfully applied:
+<ul>
+<li>
+<code>{n, No, NO, FALSE, false, 0}</code> are cleaned to become 
+<code>N</code>
+</li>
+<li>
+<code>{y, Yes, YES, TRUE, true, 1}</code> are cleaned to become 
+<code>Y</code>
+</li>
+</ul>
+
+<h3>
+Create test cases that show protocol standardises empty values for 
+geocodes
+</h3>
+Tests exist to check that the protocol can correctly transform field values 
+of <code>NULL</code>, <code>#NULLIF</code> and the empty string '' to 
+<code>empty_geocode</code>.  All of the 
+work needed to standardise empty values is contained with the function call:
+<code>
+standardise_geocode_value(original_geocode_value, is_null_allowed)
+</code>
+
+<p>
+In order to minimise testing costs, tests are developed to exercise this 
+function rather than the set of input fields that may be transformed by 
+them.  In a production settings, these tests will appear commented out.  
+The following inputs for the function should provide these results:
+<ul>
+<li>
+an original geocode of <code>123456-234543</code> should remain unchanged
+</li>
+<li>
+original geocode values of <code>NULL</code>, <code>#NULLIF</code>, '' 
+should result in <code>empty_geocode</code>.
+</li>
+</ul>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

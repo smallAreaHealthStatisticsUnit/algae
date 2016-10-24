@@ -1,0 +1,192 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Errors and Limitations</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes the the bugs and limitations that either have been corrected or will be changed in future
+		releases.">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">
+		<link rel="stylesheet" type="text/css" href="algae.css">
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">						
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+			
+<h1>Errors and Limitations</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<h2>Renaming early life stage result file</h2>
+The file <code>results_early_life_stages_[Date stamp].csv</code> was renamed to 
+<code>res_early_life_stages_[Date stamp].csv</code> to make the file comply with result file
+naming conventions used for all other result files.
+
+<h2>Shifted the numbering of variables that compare exposure measurements</h2>
+The names of variables in the <code>algae41</code> series have been changed so that it starts with
+<code>algae4100_person_id</code> instead of <code>algae4100_life_stage</code>.  The change was 
+made to be consistent with having <code>person_id</code> considered a variable in other variable
+groups.
+
+<p>
+The same change was made to variables in the 
+<code>algae11</code>,
+<code>algae12</code>,
+<code>algae21</code>,
+<code>algae22</code>,
+<code>algae37</code>,
+<code>algae38</code>,
+<code>algae42</code>, 
+<code>algae43</code>,
+<code>algae44</code>,
+<code>algae45</code>, 
+<code>algae46</code> series as well.
+</p>
+
+<p>
+Variables of the form <code>algae[code area]00_person_id</code> were inserted in the 
+<code>algae51</code>, <code>algae52</code>, <code>algae61</code>, <code>algae62</code> series.
+
+
+<h2>Corrected spellings of variable names</h2>
+Variables in the <code>algae42</code> and <code>algae46</code> series were changed from 
+<code>aglae...</code> to <code>algae...</code>.
+
+
+aglae48 to algae48
+
+aglae42
+
+
+<h2>Corrected name of result file for comparing life stage mobility vs birth address assessments</h2>
+A search and replace error was corrected to change the result table and result CSV from the form
+<code>results_early_stg_mob_vs_stg_mob_birth</code> to the form 
+
+<code>
+res_early_mob_uncln_vs_no_mob_birth
+</code>
+
+<h2></h2>
+<code>
+algae2111_,
+</code>
+
+to 
+
+<code>
+algae2111_max_life_stage_overlap
+</code>
+
+
+<h2></h2>
+<code>
+algae2211_,
+</code>
+
+to 
+
+<code>
+algae2211_max_life_stage_overlap
+</code>
+
+
+<code>results_early_stg_mob_vs_no_mob_birth</code>
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

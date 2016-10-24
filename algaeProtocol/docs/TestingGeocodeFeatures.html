@@ -1,0 +1,403 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Testing Part 2: Geocode Features</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes ALGAE test cases that relate to cleaning geocodes.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+
+<h1>Testing Part 2: Geocode Features</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./TestingOverview.html" class="link_button">Testing Overview</a>
+</td>
+<td>
+<a href="./TestingPreProcessingFeatures.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./TestingStudyMemberFeatures.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Background</h2>
+<p>
+These features relate to the spatial aspects of cleaning address histories.  
+For various reasons, some address periods will have a 'bad geocode' - one which 
+is blank, is considered out-of-bounds, or is otherwise marked with has_valid_geocode=N 
+in the staging_geocode_data table.  If a study member has an address period with a bad 
+geocode that is within their exposure time frame and cannot be fixed, then that person 
+will be excluded from any exposure assessment.  
+</p>
+
+<p>
+Processing geocodes is identical for early life and later life analyses; therefore, 
+we will limit testing to only using early life data.  The tests will cover variables 
+that appear in both the finished address period file <code>res_early_cleaned_addr.csv</code> 
+and in the sensitivity variable files <code>res_early_sens_variables</code>.  
+</p>
+
+<p>
+If all the tests pass for the geocode testing area, then test cases in the remaining 
+test areas can be designed to use only valid geocodes that have exposure values.  
+Having this test area allows us to simplify test design by separating concerns about 
+spatial from temporal data cleaning. 
+</p>
+
+<h2>Coverage</h2>
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/GeocodeTestArea.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<h3>Input Fields Covered by Test Cases</h3>
+
+<table class="original_data_table">
+
+<tr class="generic_data_table_header">
+<th>Table</th>
+<th>Field</th>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+original_geocode_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+original_geocode_data
+</td>
+<td class="courier_font_name">
+has_valid_geocode
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+original_address_history_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+original_address_history_data
+</td>
+<td class="courier_font_name">
+geocode
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+original_address_history_data
+</td>
+<td class="courier_font_name">
+start_date
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+original_address_history_data
+</td>
+<td class="courier_font_name">
+end_date
+</td>
+</tr>
+
+</table>
+
+
+<h3>Output Fields Covered by Test Cases</h3>
+<table class="data_dictionary_table">
+<tr class="data_dictionary_header">
+<td>Table</td>
+<td>Field</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_cleaned_addr
+</td>
+<td class="courier_font_name">
+start_date
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_cleaned_addr
+</td>
+<td class="courier_font_name">
+end_date
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_cleaned_addr
+</td>
+<td class="courier_font_name">
+is_fixed_invalid_geocode
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_cleaned_addr
+</td>
+<td class="courier_font_name">
+ith_residence_type
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_cleaned_addr
+</td>
+<td class="courier_font_name">
+fin_adjusted_start_date
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_cleaned_addr
+</td>
+<td class="courier_font_name">
+fin_adjusted_end_date
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+total_addr_periods
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+out_of_bounds_geocodes
+</td>
+</tr>
+
+
+<tr>
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+invalid_geocodes
+</td>
+</tr>
+
+<tr class="data_dictionary_even_row">
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+fixed_geoocodes
+</td>
+</tr>
+
+<tr>
+<td class="courier_font_name">
+early_sens_variables
+</td>
+<td class="courier_font_name">
+has_bad_geocode_within_time_frame
+</td>
+</tr>
+
+</table>
+
+
+
+
+
+<h2>Test Design</h2>
+<h3>
+Ignore the fields version, ed91, oa2001, coa2011 in staging_geocode_data
+</h3>
+The protocol does not change any of these fields and does not use them to 
+compute exposures.  Version can help scientists determine whether there 
+is a relationship between bad geocodes and a particular attempt to 
+convert postal addresses into geospatial coordinates.  ed91, oa2001 
+and coa2011 have no meaning on their own; instead, they have value when 
+they are linked to covariate data sets.
+
+<h3>
+Identify an address period which has a blank geocode
+</h3>
+Testing should consider the case where there is no value for geocode in 
+an address period.  These would correspond to residential addresses that 
+were so poor that the software was unable to provide any guess for 
+geospatial coordinates.
+
+<h3>
+Identify an address period which has a geocode that is marked 
+<code>has_valid_geocode=N</code> in the staging_geocode_data table
+</h3>
+Geocoding software applications may try to attempt to provide coordinates 
+for a partially specified address, but acknowledge a low-quality match.  
+The result may be a geocode which is not blank (see above) but which is 
+still too poor to use in the study.
+
+<h3>
+Identify an address period which is out of bounds
+</h3>
+An out-of-bounds geocode is one which is valid, but which is not associated 
+with any exposure values.  These would correspond to residential addresses 
+which are located outside the exposure area of interest.
+
+<h3>
+Test criteria used to fix a bad address period
+</h3>
+Develop a test case that satisfies all three criteria for a fixable address 
+period and others that are failing one criterion.  For example, have a test 
+case where an address period overlaps with less than 25%, 25% and more 
+than 25% with some life stage. 
+
+<h3>
+Identify a bad address period which occurs after the exposure time frame
+</h3>
+Create an address period which has a bad address period which cannot be 
+fixed but which occurs after the end of the study member's exposure 
+time frame.
+
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>
