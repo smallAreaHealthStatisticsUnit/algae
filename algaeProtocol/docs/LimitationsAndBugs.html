@@ -113,81 +113,17 @@ by Kevin Garwood
 </i>
 </p>
 
-<h2>Renaming early life stage result file</h2>
-The file <code>results_early_life_stages_[Date stamp].csv</code> was renamed to 
-<code>res_early_life_stages_[Date stamp].csv</code> to make the file comply with result file
-naming conventions used for all other result files.
-
-<h2>Shifted the numbering of variables that compare exposure measurements</h2>
-The names of variables in the <code>algae41</code> series have been changed so that it starts with
-<code>algae4100_person_id</code> instead of <code>algae4100_life_stage</code>.  The change was 
-made to be consistent with having <code>person_id</code> considered a variable in other variable
-groups.
-
-<p>
-The same change was made to variables in the 
-<code>algae11</code>,
-<code>algae12</code>,
-<code>algae21</code>,
-<code>algae22</code>,
-<code>algae37</code>,
-<code>algae38</code>,
-<code>algae42</code>, 
-<code>algae43</code>,
-<code>algae44</code>,
-<code>algae45</code>, 
-<code>algae46</code> series as well.
-</p>
-
-<p>
-Variables of the form <code>algae[code area]00_person_id</code> were inserted in the 
-<code>algae51</code>, <code>algae52</code>, <code>algae61</code>, <code>algae62</code> series.
-
-
-<h2>Corrected spellings of variable names</h2>
-Variables in the <code>algae42</code> and <code>algae46</code> series were changed from 
-<code>aglae...</code> to <code>algae...</code>.
-
-
-aglae48 to algae48
-
-aglae42
-
-
-<h2>Corrected name of result file for comparing life stage mobility vs birth address assessments</h2>
-A search and replace error was corrected to change the result table and result CSV from the form
-<code>results_early_stg_mob_vs_stg_mob_birth</code> to the form 
-
-<code>
-res_early_mob_uncln_vs_no_mob_birth
-</code>
-
-<h2></h2>
-<code>
-algae2111_,
-</code>
-
-to 
-
-<code>
-algae2111_max_life_stage_overlap
-</code>
-
-
-<h2></h2>
-<code>
-algae2211_,
-</code>
-
-to 
-
-<code>
-algae2211_max_life_stage_overlap
-</code>
-
-
-<code>results_early_stg_mob_vs_no_mob_birth</code>
-
+<h2>
+Performance
+</h2>
+ALGAE is driven off daily exposure records and for the later life analysis, we
+converted annual average exposures for each location into daily exposures that covered
+the same period.  This significantly increased the amount of time the protocol needed
+to run.  However, the reason why both early and later life analyses use daily exposure
+records is to simplify the code base.  Whereas before ALGAE used daily exposures for
+the early life analysis and weighted annual average exposures for address periods in
+the later life analysis, now both analyses share exactly the same code for exposure
+calculations.  This has provided a great benefit for simplifying testing.
 
 			</section>
 		</div>
