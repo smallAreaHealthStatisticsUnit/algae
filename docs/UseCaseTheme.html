@@ -6,10 +6,11 @@
 		<meta charset="utf-8"/>
 		<meta name="language" content="English"> 
 		<meta name="robots" content"index, follow">
-		<title>ALGAE Protocol: An automated protocol for assessing early life exposures in longitudinal cohorts</title>
+		<title>ALGAE Protocol: Main Use Case Theme</title>		
 		<meta name="description" 
-		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.
-		This page describes the history of the project.">
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		ALGAE can be used to help assess exposures to pollutants for members of longitudinal cohorts. 
+		This page describes at a high level the kind of scientific study ALGAE was made to support.">
 		<meta name="description" 
 		content="">
 		<meta name="author" content="Kevin Garwood">
@@ -21,7 +22,6 @@
 	
 	<body>
 		<div id="wrapper">
-
 			<header>
 
 				<table class="banner_table" width="100%">
@@ -48,6 +48,9 @@
 							Methodology
 							<ul class="sub_menu">
 								<li>
+									<a href="./UseCaseTheme.html">Main Use Case</a>
+								</li>
+								<li>
 									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
 								</li>
 								<li>
@@ -57,13 +60,16 @@
 						</li>
 						<li>
 							Protocol Design
-							<ul class="sub_menu">						
+							<ul class="sub_menu">							
 								<li>
 									<a href="./DesignDecisions.html">Design Decisions</a>
 								</li>
 								<li>
 									<a href="./FutureDevelopment.html">Future Development</a>
 								</li>
+								<li>
+									<a href="./ChecklistForSimilarStudies.html">Checklist for Similar Studies</a>
+								</li>								
 								<li>
 									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
 								</li>								
@@ -101,8 +107,63 @@
 					</ul>		
 				</nav>	
 			</header>
+
 <section class="main_section">
-<h1>Project History</h1>
+
+<h1>
+Main Use Case Theme
+</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+ALGAE was originally developed to support a specific environmental health study, and
+was later generalised both in response to the environment in which it was deployed and
+in response to growing interest from other environmental health researchers who may
+want to use it.
+
+<p>
+ALGAE was designed to use residential address histories of cohort study members to 
+assess their exposures to various pollutants, using historically assessed exposure 
+values within an exposure area. It was made to support notions of an early life 
+analysis and a later life analysis to fit a time frame that is of interest in early 
+life environmental health studies.  The early life analysis begins at conception and 
+will typically end at some point in the first year of life.  The later life analysis 
+begins at the date of birth and uses year long life stages that typically end at in 
+the 16th year of life.  
+</p>
+
+<p>
+The protocol cleans the residential address histories so that study members occupy 
+exactly one location for each day of their exposure time frame (e.g.: conception until 
+the end of first year of life).  The daily locations are mapped to historically 
+assessed pollution data to make daily exposure values.  These are then aggregated 
+based on life stage.  
+</p>
+
+<p>
+Along with aggregating daily exposure values, ALGAE attempts to assess daily exposure 
+error values and one of five mutually exclusive data quality measure of each value.  
+The exposure error is based on an opportunity cost mechanism that is applied to any 
+day that is involved in a gap or overlap in address periods that may occur in the 
+original residential address histories.  
+</p>
+
+<p>
+The data quality measures are expressed in numbers of days.  Scientists would use the 
+day counts for various categories (e.g.: days spent at an invalid address, at an out of 
+bounds address etc.) and the total days for a given life stage to produce thresholds of 
+data quality that would let them filter results as is appropriate for their studies.
+</p>
+
+<p>
+ALGAE's reliance on daily exposure values allows it to support multiple assessment methods.  
+These methods will vary based on whether they include days that have been affected by data 
+cleaning, and whether they use contributions from all locations or just those that happen at 
+key dates.
+</p>
 
 			</section>
 		</div>

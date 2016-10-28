@@ -52,6 +52,9 @@
 							Methodology
 							<ul class="sub_menu">
 								<li>
+									<a href="./UseCaseTheme.html">Main Use Case</a>
+								</li>
+								<li>
 									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
 								</li>
 								<li>
@@ -61,13 +64,16 @@
 						</li>
 						<li>
 							Protocol Design
-							<ul class="sub_menu">							
+							<ul class="sub_menu">														
 								<li>
 									<a href="./DesignDecisions.html">Design Decisions</a>
 								</li>
 								<li>
 									<a href="./FutureDevelopment.html">Future Development</a>
 								</li>
+								<li>
+									<a href="./ChecklistForSimilarStudies.html">Checklist for Similar Studies</a>
+								</li>								
 								<li>
 									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
 								</li>								
@@ -108,98 +114,263 @@
 
 <section class="main_section">
 
-<h1>Adapt the Code</h1>
-We expect that there are three main ways that projects may want to adapt
-the ALGAE protocol to better suit their needs:
+<h1>Adapting the ALGAE Protocol for Other Studies</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+The ALGAE protocol was originally designed to support a specific environmental health study 
+that has been part of a collaborative activity between Imperial College and ALSPAC.  
+However, early on the interest in reusing the data sets the protocol produced led us to 
+consider ways in which the protocol could be generalised or adaptable to suit other studies 
+or be applied to different cohorts.  
+
+<p>
+Before we consider how ALGAE could be adapted, it is worth reviewing the original use
+case that the protocol was designed to support.  Please see Section 
+<a href="./UseCaseTheme.html">Main Use Case Theme</a>.
+
+<p>
+If your study bears strong resemblance to the original use case study, then ALGAE may 
+be adaptable for your own activities.  If it isn't, then I would suggest the most 
+reusable part of the code for other projects may be the code that cleans address 
+histories.  I suspect it would find a great many other applications in cases where 
+it was necessary to produce a temporally contiguous address history for people.
+</p>
+
+<h2>
+Changing the Types of Exposures
+</h2>
+Other studies may want to analyse different exposures, such as ozone, radon, or pollen.   They 
+may also want to express the same exposure type but through a different method.  For example, 
+<code>ozone_meth1</code>, <code>ozone_meth2</code>, <code>ozone_meth3</code> may represent the 
+pollutant concentration that has been assessed through different types of instruments or 
+monitoring sources.
+
+<p>
+ALGAE attaches no meaning and gives no special treatment to any of its default exposure types.  
+Although changing the exposure types is not a configurable option in the code, it is easy to 
+modify the code.  ALGAE's consistent use of naming conventions should mean that substituting 
+one of its existing exposure types for another is literally using a search and replace operation.  
+For example, PM10 RD is always called either pm10_rd in the code or PM10 RD in the documentation.  
+I would suggest the fastest way of adapting the code to support a new exposure type is to just 
+search and replace an existing exposure type such as nox_rd.
+</p>
+
+<p>
+In your original data tables, you could just leave all the other pollutant values blank.  ALGAE 
+should work correctly and you would just ignore the empty contributions of the pollutants that 
+were not relevant to your activity.  This is an inefficient way of running the protocol 
+because the protocol would be processing many fields that would be considered irrelevant.  
+However, from the perspective of minimising the effort needed to change the code, this is 
+probably the best approach.
+</p>
+
+<p>
+If you have more than the number of exposure types that ALGAE supports, then I would choose 
+one exposure type (e.g.: <code>pm10_tot</code>) and find every occurrence of it in the code.  
+Immediately below it, add an extra line (e.g.: <code>ozone_height_10m</code>).
+</p>
+
+<h2>
+Changing the Default Gestation Age at Birth Value
+</h2>
+By default, ALGAE will fill in a blank gestation age at birth value with 38 weeks.
+If this does not suit your needs, you can change it in the method
+<code>setup_scripts(...)</code> in the file <code>Common_InitialiseGlobalConstants.sql</code>.  You can also find it by searching for the
+phrase "<code>#CHANGE_DEFAULT_GESTATION_AGE</code>" in the codebase.
+
+<h2>
+Changing Conception Date Calculations
+</h2>
+ALGAE has a <a href="CalculationsAndAlgorithms.html#conception_date_calculation">default</a> way of calculating conception 
+date.  If you want to change that, then you can change it by altering the method
+<code>comm_cln_gest_age_at_birth()</code> in the code file
+<code>Common_CalculateLifeStages.sql</code>.  You can search for
+<code>#CHANGE_CONCEPTION_CALCULATION</code> in the code base.
+
+
+
+
+<h2>
+Changing the Life Stages
+</h2>
+Studies may want to use different life stages that cover a different exposure time frame and 
+they may also choose to divide the same exposure time frame that ALGAE uses in different ways. 
+The best examples of this are in the early life analysis, where researchers may have different 
+opinions about the temporal boundaries of trimesters.  They may also choose to consider the 
+first year of life or divide that up into smaller life stages.  
+
+<p>
+In general, ALGAE attaches little meaning to any of the life stages.  Its main assumption is 
+that they do not exhibit gaps or overlaps.  It is possible for you to rename the life stages 
+to something other than <code>YR1</code>, <code>YR2</code>.
+</p>
+<p>
+ALGAE does attach significant to whatever life stage starts when the study member is born.  
+By default this is <code>EL</code> but in another one of our study runs it was named differently.  It uses 
+the meaning of this life stage to help it correct calculations of life stage boundaries in cases 
+of very premature births.  If a study member is born prematurely enough, they will not have a 
+T3.
+
+<p>
+If you need to change the life stages, then you need to alter code in one of two places:
 <ul>
 <li>
-adjust life stage boundaries for early life analyses
+the method <code>early_calc_life_stages()</code>, which is found in 
+<code>EarlyLife_CalculateLifeStages.sql</code> or
 </li>
 <li>
-add or remove life stages for the later life analysis
-</li>
-<li>
-change one or more of the pollutants
+the method <code>late_calc_life_stages()</code>, which is found in 
+<code>LaterLife_CalculateLifeStages.sql</code>
 </li>
 </ul>
 
 <p>
-Here we provide some suggestions about how you would do these tasks.  
-Please note however that any changes you make to the code will likely cause
-the test suites to fail.
+You can also find more advice about how to change these methods by doing a search 
+for <code>#CHANGE_LIFE_STAGES</code> in the code base.
 </p>
 
 <h2>
-<a name="change_life_stages">
-How do I change the life stages?
-</a>
+Turning Off the Feature for Fixing Bad Address Periods
 </h2>
-The easiest way to learn how to change the life stages is to look for 
-the tag "#CHANGE_LIFE_STAGES" in the code base.  It will take you to
-the part of the code in the function <code>early_calc_life_stages</code>
-that specifies default stages of T1, T2, T3 and EL.
+Before it cleans address histories, ALGAE tries to identify and fix certain kinds of bad 
+address periods, where it is not clear where a study member was living.  In its development 
+history, this fixing feature was created in an attempt to help prevent study members who 
+had bad address periods in their exposure time frames from being excluded from further 
+analysis.  It used a set of three criteria in order to identify scenarios where an incorrect 
+change of address record was immediately followed by a corrected version of it.  By default, 
+a bad address period is fixable if:
+<ol>
+<li>
+it has an invalid geocode
+</li>
+<li>
+it is immediately followed by an address period which does have a valid geocode
+</li>
+<li>
+it does not overlap with any life stage by more than 25%
+</li>
+</ol>
 
 <p>
-Definitions of life stages will appear like the following snippet of code: 
-<pre>
-		 SELECT
-		 	person_id,
-			'T2' AS life_stage,
-			birth_date,
-			(conception_date + INTERVAL '92 days')::date AS start_date,
-			(conception_date + INTERVAL '183 days')::date AS end_date
-</pre>
-
-<p>
-In this case, if you wanted to change the name of the life stage <code>T2</code> to 
-<code>Trimester 2</code>, you would first do a global search-and-replace on the 
-phrase "'T2'" with "'Trimester 2'".  If you wanted to change the temporal boundaries, 
-you would adjust the numbers in the phrases <code>'92 days'</code> and 
-<code>'183 days'</code>.  <b>Remember: however you change the temporal boundaries for 
-a life stage, ensure that they are temporally contiguous with other life stages</b>.
+We developed these criteria but in response to the nature of how address history data 
+were originally gathered and by our own assessment of what bad address periods should 
+be fixed.  However, our fixing feature has two weaknesses.  First, they may be viewed 
+as capturing our view of what would identify a certain type of data entry error.  
+Second, whereas we use 25%, others may have a different tolerance for overlap.
 </p>
 
 <p>
-Please exercise care when you change the life stages in the early life analysis.  
-ALGAE performs checks that fix T2 and T3 periods so that they do not overlap with
-the EL period, which by default begins at birth.  The protocol does the checks to
-correct for problems that occur in calculations when the <code>estimated_gestation_age</code>
-value reflects a very premature birth.
+Later on, ALGAE was modified so that rather than excluding study members who had bad 
+address periods in their exposure time frames, the protocol would simply keep track of 
+how many days in a life stage could be associated with various categories used to 
+describe the quality of daily exposure values.
 </p>
 
 <p>
-If you want to change the life stage definitions for the later life analysis,
-you will need to look at similar code in <code>later_calc_life_stages</code>.
+Given the advent of that mechanism, some may conclude that fixing bad address periods 
+introduces an element of judgement that would be better left out of assessments.  
+If you want to disable the feature for fixing bad address periods, all of the relevant 
+code is contained in the method <code>comm_id_and_fix_bad_geocodes(</code>), which is found within 
+the file <code>Common_CleanAddressHistories.sql</code>.  The code you will need to change is well 
+documented and can be found by searching for <code>#DISABLE_FIXING_BAD_ADDRESS_PERIODS</code> 
+in the code base.
 </p>
 
 <h2>
-<a name="change_covariates">
-How do I change the covariates?
-</a>
+Changing the Assumptions for Fixing Gaps and Overlaps
 </h2>
-The advice here is similar to that we suggest for changing pollutants.  ALGAE
-attaches no significance to <code>ed91</code>, <code>oa2001</code>, 
-<code>coa2011</code> - they are just treated as identifiers that will be used
-by researchers to link exposures to covariate data sets.  Search for the 
-covariate linking field <code>oa2001</code> to better understand where you 
-may have to add or edit code.
+
+<p>
+ALGAE has facilities for fixing gaps and overlaps that may occur in the residential address 
+histories.  The way we fix them is influenced by the characteristics of the database application 
+that was originally developed to retain the most recent postal addresses of study members.  
+</p>
+
+<p>
+In the original use case, we assumed that for any address period, a start date provided a 
+stronger signal for location than end date.  When we developed the algorithm for fixing gaps and 
+overlaps, we used the policy that we would wherever possible conserve the start date.  Our 
+assumption was that study members were likely to have already been living at a location by the 
+start date for the new location.  
+</p>
+
+<p>
+These assumptions have influenced our way of fixing gaps and overlaps (See Section 
+<a href="./ALGAEMethodology.html#fix_gaps_overlaps">Identify and fix temporal gaps and 
+overlaps</a>).  However, in other studies, the residential address histories could warrant 
+different assumptions.  
+
+<p>
+For example, the histories could be managed by an application that was actually designed to track 
+someone's past addresses rather than audit their current addresses.  In this case, start date 
+and end dates may provide an equally good signal for data quality.  
+</p>
+
+<p>
+You would expect then that in such applications there would be no gaps or overlaps.  However, 
+if there are, then there are at least two alternative approaches you may consider.  The first is to 
+impute the exposures for days that have been involved with gaps or overlaps.  For example, for a 
+gap day you could consider using an average of two exposures from the neighbouring locations.  
+Perhaps the values would be imputed with some default exposure value for the exposure area.  
+</p>
+
+<p>
+I would recommend you don't do this because I'm not sure how this would affect the code.  
+Specifically, I'm not sure how such a scheme would work with calculations of exposure 
+misclassification error (i.e. you thought they were at location a<sub>1</sub> but 
+they were at location a<sub>2</sub>).
+</p>
+
+<p>
+An alternative approach that could be supported by ALGAE would be to favour conserving end dates.  
+I have trouble imagining an administrative system that would be more definite about end dates than 
+start dates.  However, if you want to change how ALGAE fixes gaps and overlaps, you will need to 
+change code in the method <code>comm_fix_gaps_and_overlaps()</code> in the code file 
+<code>Common_CleanAddressHistories.sql</code>.  The code you would need to change can be found 
+by searching for <code>#CHANGE_GAP_OVERLAP_BEHAVIOUR</code> in the code base.
+</p>
 
 <h2>
-<a name="change_pollutants">
-How do I change the pollutants?
-</a>
+Disabling the Feature for Cleaning Gaps and Overlaps
 </h2>
-ALGAE does not attach meaning to any of the pollutant values: NAME, NOX,
-PM10 are just numeric fields that are used in aggregate calculations.  
-The easiest way to use other pollutants is to carefully go through and 
-search-and-replace one of the existing pollutants.  For example, you could replace 
-a pollutant like <code>pm10_rd</code> with <code>radon</code>.  
+In the original use case, the address histories represented residential address histories.  One 
+of the key assumptions we made was that in an address history, a person would have to live 
+somewhere.  If they always had a location where they were living, then gaps and overlaps could 
+be fixed to show a continual pattern of living locations.  
 
+<p>
+However, for some studies, the address histories might expect gaps to exist between address 
+periods.  For example, if address histories represented the locations of main work places, 
+then it is possible that study members would not be working for a period of time.  Therefore, 
+it would not make sense to fix gaps in the record.  
+</p>
 
+<p>
+If, for whatever reason, you don't want ALGAE to fix gaps and overlaps, then I would suggest 
+it would be easiest if you ensured that the original address periods showed none of these problems. 
+Where you want to preserve gaps between successive address periods, I would inject bad address 
+periods into the histories that would be picked up in the end results.  For example, I would 
+suggest using either a geocode called <code>not_applicable</code> or some out of bounds coordinate like 
+the North Pole to help you gauge when study members weren't at an address that would contribute 
+exposure to the study.
+</p>
 
+<p>
+In order for this to work, you would then have to disable our feature for fixing bad address
+periods.  Following our example, if in a year of life someone had a break of a week between jobs, 
+then for that seven days they would not be at a location that would contribute to workplace 
+pollution.  However, 7 days relative to a whole year of life is small, and ALGAE would try to 
+remove the gap by assuming that it should really belong to the following work place.
+</p>
 
-
-
+<p>
+As we have already discussed in this section, the code for disabling the fixing feature can be 
+found by searching for <code>#DISABLE_FIXING_BAD_ADDRESS_PERIODS</code> in the code base.
+</p>
 
 			</section>
 		</div>
