@@ -19,7 +19,7 @@
  *
  * Main Function
  * -------------
- *    common_perform_prelim_system_checks
+ *    comm_perform_prelim_system_checks
  *
  * ------------------------------------------------------------------------------------------------
  * Copyright 2016 Imperial College London, developed by the Small Area

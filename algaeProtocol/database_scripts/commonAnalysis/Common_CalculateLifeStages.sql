@@ -71,15 +71,12 @@ DECLARE
 
 BEGIN
 
-
 	/*
 	 * #DESIGN_FOR_REUSE: Change conception date calculation.
+	 * #CHANGE_CONCEPTION_CALCULATION
 	 * If you think the conception date should be calculated differently, edit the 
 	 * case...end statement which provides the conception_date variable
 	 *
-	 * #DESIGN_FOR_REUSE: Change value used to impute missing gestation age at birth values.
-	 * Where the function setup_scripts is called, replace the "38" with the default 
-	 * value you think it should be. 
 	 */	 
 	DROP TABLE IF EXISTS fin_basic_life_stage_data;
 	CREATE TABLE fin_basic_life_stage_data AS

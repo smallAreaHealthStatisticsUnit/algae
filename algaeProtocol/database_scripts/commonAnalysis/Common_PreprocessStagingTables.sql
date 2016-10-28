@@ -21,7 +21,7 @@
  *
  * Main Function
  * -------------
- *    common_preprocess_staging_tables
+ *    comm_preprocess_staging_tables
  * ------------------------------------------------------------------------------------------------
  * Copyright 2016 Imperial College London, developed by the Small Area
  * Health Statistics Unit in collaboration with the Avon Longitudinal Study of Parents
@@ -48,7 +48,7 @@
 
 /**
  * ------------------------------------------------------------------------------------------------ 
- * MAIN FUNCTION common_preprocess_staging_tables
+ * MAIN FUNCTION comm_preprocess_staging_tables
  * ----------------------------------------------
  * Description
  * -----------

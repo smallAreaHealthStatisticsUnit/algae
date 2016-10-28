@@ -1,5 +1,7 @@
 /*
- *
+ * This is a module to help clean up some of the temporary tables that the protocol
+ * produces.  When you're debugging the code or tracing end results back to the
+ * original data sets, you may want to not call the comm_cleanup method.
  * ------------------------------------------------------------------------------------------------
  * Copyright 2016 Imperial College London, developed by the Small Area
  * Health Statistics Unit in collaboration with the Avon Longitudinal Study of Parents

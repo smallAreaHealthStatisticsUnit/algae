@@ -1,6 +1,15 @@
 
 /*
- *
+ * ================================================================================================= 
+ * MODULE: COMMON_EXPOSURE_CALCULATIONS
+ * ================================================================================================= 
+ * Description
+ * -----------
+ * The exposure calculations for early and later life analyses are almost the same.
+ * The main difference is that in the early life analysis, there is one more 
+ * analysis, which is to assess the entire early life analysis using the addresses
+ * the study members occupied at birth.
+ *  
  * ------------------------------------------------------------------------------------------------
  * Copyright 2016 Imperial College London, developed by the Small Area
  * Health Statistics Unit in collaboration with the Avon Longitudinal Study of Parents

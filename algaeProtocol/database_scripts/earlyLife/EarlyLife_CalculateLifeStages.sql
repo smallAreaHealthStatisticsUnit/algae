@@ -92,6 +92,7 @@ BEGIN
 	DROP INDEX IF EXISTS ind_tmp_overall_exp_time_frames2;
 	CREATE INDEX  ind_tmp_overall_exp_time_frames2 ON tmp_overall_exp_time_frames(time_frame_end_date);
 
+	-- #CHANGE_LIFE_STAGES
 	-- #DESIGN_FOR_REUSE: Change the life stage calculations
 	-- This is the part of the code you would change if either you wanted to change the existing
 	-- boundaries of trimesters or you wanted to add in your own life stages. For example, you
@@ -226,8 +227,6 @@ BEGIN
 				a.end_date
 			END AS end_date
 	*/
-
-	
 
 	DROP TABLE IF EXISTS fin_general_life_stage_data;
 	CREATE TABLE fin_general_life_stage_data AS

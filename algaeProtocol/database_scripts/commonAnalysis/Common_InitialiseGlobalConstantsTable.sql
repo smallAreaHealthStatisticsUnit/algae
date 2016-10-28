@@ -7,6 +7,12 @@
  * -----------
  * This module contains code that manages the global settings that apply when the analyses are
  * running.
+ * 
+ * NOTE: Apart from the setting the default gestational age at birth,
+ * the other global constants appear to be something that gets developed more in the
+ * future.  
+ * 
+ * 
  *
  * Main Function
  * -------------
@@ -54,6 +60,7 @@
  * Description
  * -----------
  * Initialises global constants that are used throughout the protocol.
+ * NOTE: It seems that most of these 
  * 
  * Parameters
  * ----------
@@ -125,6 +132,12 @@ DECLARE
 BEGIN
 
  	-- Part I: Validate Parameters
+ 	
+ 	/*
+ 	 * #CHANGE_DEFAULT_GESTATION_AGE
+ 	 * If a study member's gestation age at birth field value in the
+ 	 * study_member_data table, then it will be filled in with 38 weeks
+ 	 */
 	IF f_default_gestation_age IS NULL THEN
 		a_default_gestation_age := 38;
 	ELSE

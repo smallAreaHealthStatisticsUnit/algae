@@ -14,8 +14,9 @@
  *
  * Main Function
  * -------------
- *    derive_study_metadata
- * 
+ *      comm_set_exp_sensitivity_data();
+ *      comm_set_stage_sensitivity_data(); 
+ *
  * Assumptions
  * -----------
  * The routines in this module assume that the address periods have already been completely 
@@ -98,8 +99,6 @@ BEGIN
 END;
 $$   LANGUAGE plpgsql;
 --SELECT "comm_set_study_member_sensitivity_data"();
-
-
 
 CREATE OR REPLACE FUNCTION comm_set_geocode_sensitivity_data()
 	RETURNS void AS 

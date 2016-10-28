@@ -732,6 +732,55 @@ BEGIN
 
 	ALTER TABLE tmp_max_percent_life_stage_overlap ADD PRIMARY KEY (person_id, ith_residence);
 
+	/**
+	  * #DISABLE_FIXING_BAD_ADDRESS_PERIODS
+   	  * #DESIGN_FOR_REUSE
+   	  * 
+   	  * You may want to disable our feature for fixing bad address periods.
+   	  * You may want to to this for one of two reasons: (1) to remove our 
+   	  * own sense of judgement from your results and (2) to allow you to 
+   	  * intentionally make use of injecting bad address periods into address
+   	  * histories.  Injecting bad address periods may be useful in scenarios
+   	  * where you have gaps between address periods that you want to simply 
+   	  * treat with null value contributions in the results.  For example, if
+   	  * your addresses describe work place locations, then you may want to 
+   	  * preserve gaps between them to indicate you have no data owing to 
+   	  * occupational pollution for periods when someone wasn't working.
+   	  *
+   	  * To disable this, comment out the existing code used to create the 
+   	  * tmp_addr_periods6 table.  Then copy it and edit the copy.
+   	  * You will want to make sure a field called is_fixable_invalid_geocode 
+   	  * exists but is always set to 'N'.
+   	  * 
+   	  * I think the following might work:
+   	  *
+   	  * Replace:
+   	  *		CASE
+	  *			WHEN a.has_valid_geocode = 'N' AND 
+	  *				LEAD(a.has_valid_geocode) OVER 
+	  *					(PARTITION 
+	  *						BY a.person_id 
+	  *					 ORDER BY 
+	  *						a.ith_residence) = 'Y' AND
+	  *				b.shows_significant_life_stage_overlap = 'N' THEN
+	  *					'Y'
+	  *			ELSE
+	  *				'N' --
+	  *		END AS is_fixable_invalid_geocode,   	  
+   	  *
+   	  * with:
+   	  *		'N' AS is_fixable_invalid_geocode
+   	  *
+   	  * The rest of the code used to create tmp_addr_periods6 should then NOT
+   	  * be triggered because of the 'N' value.  For the rest of the protocol,
+   	  * it should assume that none of the address periods matched criteria for
+   	  * being fixed.  The bad address periods will then be preserved, although
+   	  * data cleaning may change their temporal boundaries if they have gaps or
+   	  * overlaps with neighbouring address periods.
+   	  *
+   	  */
+ 
+
 	-- Create a flag to indicate whether it is a fixable_invalid_geocode.  Note that
 	-- the flag may be No because the address period is in fact valid.  Also note that
 	-- if we have had to subsume a(n) with a(n + 1), then the duration of a(n + 1) would
@@ -1153,6 +1202,22 @@ DECLARE
 
 BEGIN
 
+	/*
+	 * #CHANGE_GAP_OVERLAP_FIXING_BEHAVIOUR
+	 * #DESIGN_FOR_REUSE
+	 *
+	 * It seems unlikely, but you may decide that when you encounter a gap or
+	 * overlap, you want to preserve the end date as a stronger signal than
+	 * the start date.  This would imply that study members would have not yet
+	 * left a location by the time of the end date for the address period.  
+	 *
+	 * This would only seem likely if people in general notified cohorts of their
+	 * moves before they actually moved. If you still want to change the behaviour
+	 * then you will probably only need to swap CASE WHEN fragments so that
+	 * for a gap between a(n) and a(n+1), a(n).end_date = a(n+1).start_date - 1 day
+	 * and for an overlap, a(n+1).start_date = a(n).end_date + 1 day.
+	 *
+	 */
 	--Adjust start and end dates as needed
 	DROP TABLE IF EXISTS tmp_addr_periods9;
 	CREATE TABLE tmp_addr_periods9 AS 
