@@ -251,10 +251,29 @@ td {
 	background-color: #B9E9FF;
 }
 
+.data_dictionary_sensitive_var_name {
+	valign: top;
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+  	color: red;
+  	font-weight: bold;
+} 
+
 .data_dictionary_var_name {
 	valign: top;
  	white-space: pre;
   	font-family: Courier New, monospace;
+} 
+
+.data_dictionary_sensitive_var_name {
+	valign: top;
+ 	white-space: pre;
+  	font-family: Courier New, monospace;
+} 
+
+.data_dictionary_sensitive_var_name a {
+	color: red;
+	font-weight: bold;
 } 
 
 .algae_input_table_name {

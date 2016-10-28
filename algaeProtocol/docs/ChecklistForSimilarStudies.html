@@ -1,0 +1,336 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>A Check List for Similar Studies</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes a check list of things you may want to consider when you set up your own early life
+		environmental health study.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./UseCaseTheme.html">Main Use Case</a>
+								</li>							
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./ChecklistForSimilarStudies.html">Check List for Similar Studies</a>								
+								</li>								
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+			
+<section class="main_section">
+<h1>
+A Check List for Similar Studies
+</h1>
+Based on what we've learned developing the ALGAE protocol, we have identified 
+a number of issues we feel researchers may want to consider when they are
+setting up a similar kind of early life exposure study.  
+
+<p>
+We hope the list we've provided can help you avoid pitfalls and obstacles 
+that you may encounter when you are gathering, linking or cleaning the various 
+kinds of data needed to support those studies.  Please treat them as a kind of 
+informal tick list of issues to consider and judge for yourselves how relevant they 
+are for your own activities.
+</p>
+
+
+<h2>
+Defining Life Stages
+</h2>
+<b>
+Define the boundaries of temporally contiguous life stages.
+</b>
+<p>
+ALGAE does not attach meaning to any one life stage, except the life stage in 
+the early life analysis that starts with a birth date (typically called 
+<code>EL</code>).  However, the protocol assumes that study members occupy 
+exactly one life stage for every day of their exposure time frame.
+</p>
+
+<p>
+<b>
+Review calculations for trimesters and conception date.
+</b>
+</p>
+<p>
+In the protocol, ALGAE uses the gestation age at birth in weeks to calculate 
+conception date.  The gestational age value can be assessed in at least one of 
+two ways: foetal scans or the estimation of a pregnant mother's last menstrual 
+period.  Both of these ways of determining the gestation age at birth come with 
+their own inaccuracies and this may in turn influence how researchers determine 
+the conception date.
+</p>
+
+<p>
+It is possible to alter the way ALGAE calculates conception date.  Please 
+review whether those ALGAE's way of calculating the conception date matches 
+your needs. 
+</p>
+
+<p>
+<b>
+Define the overall exposure time frame.
+</b>
+</p>
+<p>
+ALGAE relies on a collection of daily exposure values that are meant to 
+accommodate all study members whose life stages overlap with those days.  
+However you do this, it may find it useful to ensure your modelling effort 
+covers what we call the overall exposure time frame.  The boundaries of the time 
+frame are calculated as:
+<ul>
+<li>
+start date: the earliest conception date of any study member in the cohort
+</li>
+<li>
+end date: the latest last day of first year of life of any study member in the 
+cohort
+</li>
+</ul>
+
+<p>
+Once you have defined conception date and the boundaries of your life stages, 
+you can determine this time frame.
+</p>
+
+<p>
+<b>
+If study members have a blank gestation age at birth value, what should 
+the default be?
+</b>
+</p>
+<p>
+Be aware that ALGAE assumes it is by default 38 weeks.
+</p>
+
+<h2>
+Indicating Absences from Existing Residential Address History Data
+</h2>
+<b>
+Are there cohort variables that would indicate that study members spent 
+significant time at addresses that weren't specified in residential address 
+histories?
+</b>
+<p>
+ALGAE assumes that study members will occupy some location that is specified 
+in the residential address histories.  However, study members may have occupied 
+other locations for a period that is significant relative to the duration of the 
+life stages of interest.  This may mean their exposures may not always reflect 
+what they would have received at the additional places they occupied.   
+</p>
+
+<p>
+Absences from residential address histories may be due to a number of 
+circumstances: 
+<ul>
+<li>
+vacations that could have been outside the study area
+</li>
+<li>
+living with relatives who could live outside the study area
+</li>
+<li>
+hospitalisation
+</li>
+<li>
+homelessness
+</li>
+<li>
+prison
+</li>
+</ul>
+
+<p>
+Think about how you could use these variables together to determine a single 
+<code>Yes/No</code> flag for the field absent_during_exp_period found in the 
+table original_study_member_data table.
+</p>
+
+<p>
+<b>
+Are there cohort variables that would indicate whether a study member was at 
+an address at conception that was different than their first recorded address?
+</b>
+</p>
+<p>
+ALGAE expects that it can place study members at exactly one residential 
+address for each day of their exposure time frame, beginning at their conception 
+dates.  However, in many early life studies, the members may be recruited when 
+their mothers are already pregnant with them.  The first address registered for 
+study members may be where their mothers are living when they enrol their 
+children in the cohort.  There then could be some uncertainty about whether the 
+study member was at that address during conception.  Consider looking for any 
+variables that may indicate whether they had lived at some other addresses.  Use 
+them to create the <code>Yes/No</code> flag for the 
+<code>at_1st_addr_conception</code>.
+</p>
+
+<h2>
+Creating Residential Address Histories
+</h2>
+<b>
+Have you considered whether situations where parents living at different locations 
+have joint custody of child study members?
+</b>
+Suppose the parents of a study member are living at different locations and the 
+study member alternates between one location and another.  In this scenario, a 
+study member could be move between addresses in a way that isn't reflected in 
+the address histories.
+
+<p>
+<b>
+Do the addresses represent where study members live or where they receive mail?
+</b>
+</p>
+<p>
+Consider that for some study members, the addresses that are listed may be places 
+where extended family members might pick up mail on behalf of study members.
+</p>
+
+<p>
+<b>
+Do address changes represent when study members actually started and stopped living 
+at a location? Or do they represent when they were recorded in a database system?
+</b>
+<p>
+Consider that a study member may have not yet or already moved by the time cohort 
+administrators update that person's most current address.
+</p>
+
+<p>
+<b>
+How did cohort administrators receive updates about changes of address?
+</b>
+</p>
+
+<p>
+Consider the following ways that address changes could be conveyed to cohorts:
+<ul>
+<li>
+self-report through an online application
+</li>
+<li>
+send a postal return
+</li>
+<li>
+make a phone call
+</li>
+<li>
+make an in-person visit
+</li>
+<li>
+cohort administrators find out about address changes through digests from 
+government databases
+</li>
+</ul>
+</p>
+
+<p>
+Each of these modes of communication may be associated with a different level 
+of accuracy that the address period start and end dates could represent.  For 
+example, study members who made and in-person visit or a phone call might 
+emphasise that the change of address is effective of a certain date.  A postal 
+return may suggest a lag time between when a letter is written and received.  
+In some cases, cohort administrators may find out a child study member has moved 
+because of updates in various government databases.  
+</p>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>
