@@ -111,8 +111,77 @@
 <h1>
 Assessing Sensitive Data in the Data Dictionary
 </h1>
+Some of the variables that ALGAE produces may be considered too sensitive for 
+researchers to take away from the secure system where data linking is being done.  
+Information governance decisions about which variables should be allowed to be 
+transfered to other computer systems may vary from one cohort project to another.  
 
+<p>
+ALGAE is meant to be a generic protocol that could be applied by multiple cohorts.  
+Rather than have its variable set be shaped by the information governance policies
+of any one cohort, we assume that cohort administrators will engage in a clearing 
+process that filters which variables researchers can take off-site.
+</p>
 
+<p>
+Because the protocol produces hundreds of long-named variables in dozens of tables, 
+we thought it would be useful to highlight those tables and variables which may 
+warrant special scrutiny by the information governance bodies that regulate cohort
+activities.  We are not trying to be prescriptive in suggesting that some variables are
+sensitive and others are not.  We are also not saying that an off-site computing
+environment could not accommodate more sensitive variables.  Instead, we simply want 
+to flag variables that may be of particular concern to cohorts in general.
+</p>
+
+<p>
+We'd like to draw your attention to the following kinds of variables:
+<ul>
+<li>
+<b>geocodes</b>: although geocodes are treated by the protocols as just identifiers, 
+in practice, they may contain easting and northing values which can make locations 
+highly identifiable.
+</li>
+<li>
+<b>life stage boundaries</b>: ALGAE generates a life stage table that contains the
+start and end dates of every life stage.  Birth dates of cohort members could in theory
+be derived from the start dates of some life stages.
+</li>
+</ul>
+
+<p>
+Fortunately, these variable all happen to be concentrated and limited to a few files.
+They have the format of:
+ 
+<ul>
+<li>
+<code>
+early_life\results\cleaned_address_history\res_early_cleaned_addr[Time Stamp].csv
+</code>
+</li>
+ 
+<li>
+<code>
+early_life\results\life_stage_data\results_early_life_stages[Time Stamp].csv
+</code>
+</li> 
+ 
+<li>
+<code>
+later_life\results\cleaned_address_history\res_later_cleaned_addr[Time Stamp].csv
+</code>
+</li>
+ 
+<li>
+<code>
+later_life\results\life_stage_data\results_later_life_stages[Time Stamp].csv
+</code>
+</li>  
+</ul>
+
+<p>
+If you think they're too sensitive for them to be used in another analysis environment, 
+just delete the files.
+</p>
 
 			</section>
 		</div>
