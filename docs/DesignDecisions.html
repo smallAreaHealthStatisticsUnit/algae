@@ -128,7 +128,7 @@ by Kevin Garwood
 <td width=600>
 Most of this web site describes how the ALGAE protocol works, but here we discuss why 
 the protocol was designed in the manner that it was.  ALGAE is the product of over
-50 separate design decisions that were drawn from four main areas of requirements:
+100 separate design decisions that were drawn from four main areas of requirements:
 <ul>
 <li>
 domain science decisions
@@ -374,20 +374,11 @@ involved in the later life analysis.
 Business-7
 </td>
 <td class="design_decision_description">
-
-</td>
-</tr>
-
-<tr class="design_decision_table_even_row">
-<td class="design_decision_name">
-Business-7
-</td>
-<td class="design_decision_description">
 The protocol must be fully automated.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-8
 </td>
@@ -397,7 +388,7 @@ can demonstrate that it is behaving correctly.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-9
 </td>
@@ -407,7 +398,7 @@ independently of health outcomes that could be linked to it.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-10
 </td>
@@ -419,7 +410,7 @@ protocol supported only a single study.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-11
 </td>
@@ -435,7 +426,7 @@ want to borrow parts of the code for other projects.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-12
 </td>
@@ -447,7 +438,7 @@ a data dictionary that describes the meaning and context of result variables.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-13
 </td>
@@ -457,7 +448,7 @@ have the same meaning.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-14
 </td>
@@ -468,7 +459,7 @@ ways of representing "Y" for Yes.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-15
 </td>
@@ -478,7 +469,7 @@ the empty string "", a null value, some form of "<code>NULL</code>", and "<code>
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-16
 </td>
@@ -488,7 +479,7 @@ boundaries for existing life stages.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-17
 </td>
@@ -498,7 +489,7 @@ which normally contains the birth date as a start date).
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-18
 </td>
@@ -507,7 +498,7 @@ Document how other projects could change the pollutants that are used for the st
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-19
 </td>
@@ -519,7 +510,7 @@ variables after the results have been generated.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-20
 </td>
@@ -529,7 +520,7 @@ fields, and will just treat them as identifiers that link tables together.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-21
 </td>
@@ -541,8 +532,7 @@ of holding sensitive data in the intermediate data sets produced by the protocol
 </td>
 </tr>
 
-
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
 Business-22
 </td>
@@ -555,7 +545,7 @@ than a given cohort will allow to be taken off-site.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
 Business-23
 </td>
@@ -826,6 +816,29 @@ an from further calculations by subsuming it within <code>a<sub>n+1</sub>:  a<su
 Data Science-23
 </td>
 <td class="design_decision_description">
+Assess the data quality of exposure values for each pollutant independently of one 
+another.
+</td>
+</tr>
+
+<tr class="design_decision_table_even_row">
+<td class="design_decision_name">
+Data Science-24
+</td>
+<td class="design_decision_description">
+For each pollutant, exposure results will be accompanied by day count variables 
+that describe various mutually exclusive kinds of daily exposure values that were 
+used in aggregation.  These mutually exclusive categories include: invalid address 
+days, out of bounds days, poor match days, missing exposure days and good match days.  
+The sum of these counts will be the same value as the life stage duration.
+</td>
+</tr>
+
+<tr>
+<td class="design_decision_name">
+Data Science-25
+</td>
+<td class="design_decision_description">
 The protocol will support a set of sensitivity variables that will allow researchers to 
 quantify the influence of data quality attributes and data cleaning actions on subsets 
 of exposure results.  These variables will provide meta data about data transformation 
@@ -835,19 +848,20 @@ activities and will be provided as a result file for users.
 
 <tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-24
+Data Science-26
 </td>
 <td class="design_decision_description">
 The sensitivity variables will include variables that allow researchers to isolate 
 exposure results based on how confident they can be that the residential address 
 histories can cover the exposure time frame of interest.  These variables will borrow 
-the <code>at_1st_addr_conception</code> and <code>absent_during_exp_period</code> variables from the 
-<code>original_study_member_data</code> table.
+the <code>at_1st_addr_conception</code> and <code>absent_during_exp_period</code> 
+variables from the <code>original_study_member_data</code> table.
 </td>
 </tr>
+
 <tr>
 <td class="design_decision_name">
-Data Science-25
+Data Science-27
 </td>
 <td class="design_decision_description">
 The sensitivity variables will include ones that can help researchers determine whether low exposure 
@@ -857,9 +871,9 @@ and include a yes/no flag <code>is_gestation_age_imputed</code>.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-26
+Data Science-28
 </td>
 <td class="design_decision_description">
 The sensitivity variables will include ones that can help researchers identify study members who 
@@ -869,9 +883,9 @@ throughout the whole exposure time frame: <code>invalid_geocodes</code>, <code>f
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
-Data Science-27
+Data Science-29
 </td>
 <td class="design_decision_description">
 :  The sensitivity variables will include ones that can help researchers assess the extent to which 
@@ -881,10 +895,9 @@ include the following totals measured across the whole exposure time frame: <cod
 </td>
 </tr>
 
-
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-28
+Data Science-30
 </td>
 <td class="design_decision_description">
 The sensitivity variables will include ones that can help researchers assess the kinds 
@@ -899,12 +912,12 @@ include the following totals, measured across the whole exposure time frame:
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
-Data Science-29
+Data Science-31
 </td>
 <td class="design_decision_description">
-:  The sensitivity variables will include days_changed, which is the total number of 
+The sensitivity variables will include <code>days_changed</code>, which is the total number of 
 days that were adjusted across all address periods which overlapped with the exposure 
 time frame.  The total considers the total number of days that each address period 
 was shifted in data cleaning.  In cases of successive overlaps, some days may be 
@@ -912,12 +925,12 @@ counted more than once.
 </td>
 </tr>
 
-<tr>
+<tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-30
+Data Science-32
 </td>
 <td class="design_decision_description">
-:  The sensitivity variables will include <code>total_contention_days</code>, which measures 
+The sensitivity variables will include <code>total_contention_days</code>, which measures 
 the total number of unique days in an exposure time frame that were involved 
 with a gap or an overlap.  It is called a contention day because on such a day, 
 a study member could be placed at either of two locations: the location that 
@@ -926,9 +939,9 @@ that may have been allowed in uncleaned address periods.
 </td>
 </tr>
 
-<tr class="design_decision_table_even_row">
+<tr>
 <td class="design_decision_name">
-Data Science-31
+Data Science-33
 </td>
 <td class="design_decision_description">
 The sensitivity variables will include <code>missing_exposure_days</code>, which gives the total number 
@@ -938,7 +951,7 @@ of days in the exposure time frame that are not associated with exposure values.
 
 <tr>
 <td class="design_decision_name">
-Data Science-32
+Data Science-34
 </td>
 <td class="design_decision_description">
 Assume that on a given day, placing a study member at one location when they actually lived at another 
@@ -949,7 +962,7 @@ life stage exposure results.
 
 <tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-33
+Data Science-35
 </td>
 <td class="design_decision_description">
 Suppose the protocol cleans two successive address periods a<sub>n</sub> and a<sub>n+1</sub>, where a gap or overlap exists 
@@ -964,7 +977,7 @@ of contention will be calculated as
 
 <tr>
 <td class="design_decision_name">
-Data Science-34
+Data Science-36
 </td>
 <td class="design_decision_description">
 Daily values for exposure measurement error will be aggregated in the same way as exposure values are aggregated.  
@@ -976,7 +989,7 @@ and median aggregation operations.
 
 <tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-35
+Data Science-37
 </td>
 <td class="design_decision_description">
 The cleaned mobility assessment considers exposure contributions from all cleaned address periods that 
@@ -987,7 +1000,7 @@ correspond with daily exposures and they are aggregated in the same ways.
 
 <tr>
 <td class="design_decision_name">
-Data Science-36
+Data Science-38
 </td>
 <td class="design_decision_description">
 The uncleaned mobility assessment considers exposure contributions from all cleaned 
@@ -999,7 +1012,7 @@ exposure measurement errors are assessed in this approach.
 
 <tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-37
+Data Science-39
 </td>
 <td class="design_decision_description">
 The life stage mobility assessment uses the locations study members used on the first day 
@@ -1011,7 +1024,7 @@ assessed in this approach.
 
 <tr>
 <td class="design_decision_name">
-Data Science-38
+Data Science-40
 </td>
 <td class="design_decision_description">
  The birth address assessment uses the birth addresses of study members to represent their 
@@ -1023,7 +1036,7 @@ Data Science-38
 
 <tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-39
+Data Science-41
 </td>
 <td class="design_decision_description">
 The protocol will compare pairs of exposure assessment methods and calculate 
@@ -1033,7 +1046,7 @@ percent error values for corresponding exposure results.
 
 <tr>
 <td class="design_decision_name">
-Data Science-40
+Data Science-42
 </td>
 <td class="design_decision_description">
 The protocol will produce CSV result files whose names follow standard naming 
@@ -1044,7 +1057,7 @@ predictable structure.
 
 <tr class="design_decision_table_even_row">
 <td class="design_decision_name">
-Data Science-41
+Data Science-43
 </td>
 <td class="design_decision_description">
 Variables that are produced by the protocol will have names which are 
@@ -1053,10 +1066,9 @@ to help uniquely identify the context which produced variables.
 </td>
 </tr>
 
-
 <tr>
 <td class="design_decision_name">
-Data Scienc-42
+Data Science-44
 </td>
 <td class="design_decision_description">
 The protocol will come with a comprehensive data dictionary that 
