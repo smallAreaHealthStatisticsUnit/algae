@@ -125,8 +125,126 @@ when you actually call ALGAE within the context of your own activity.
 <p>
 
 <p>
-More detail to follow...
+The code below was actually the high level method that was written to
+run the early life analysis for the ALSPAC-Imperial study.  Remember that all of 
+ALGAE was written using PostgreSQL.  
 </p>
+
+<pre>
+CREATE OR REPLACE FUNCTION run_imperial_early_analysis()
+	RETURNS void AS 
+$$
+DECLARE
+	input_data_directory TEXT;
+	output_data_directory TEXT;
+	results_directory TEXT;
+	
+BEGIN
+
+	/*
+	 * define the output directory where all the result CSV files
+	 * will be exported.  Copy the structure of a results directory
+	 * from one of the early or later life analyses that appear in the
+	 * test test_environment directory of the download bundle
+	 */
+	output_data_directory :=
+		'C:\algae_protocol\production_environment\alspac\early_life\results';
+
+	/*
+	 * Part I: Run cohort-specific routines which load data from CSV 
+	 * files into a set of original data tables
+	 * 
+	 * This method extracts data from all sorts of files and 
+	 * creates the original_study_member_data, original_exp_data,
+	 * original_geocode_data and original_addr_history_data tables.
+	 */
+	PERFORM alspac_early_load_data();
+
+	/*
+	 * Part II: Run generic early life routines
+	 */
+	 
+	/*
+	 * setup scripts does things like sets the default for
+	 * blank imputed gestation dates
+	 */
+	PERFORM setup_scripts(null, null, null, null);	
+	/*
+	 * This method ensures that the original data tables actually
+	 * exist.  It also tries to standardise values whose format
+	 * may vary from one cohort to another.  For example, the
+	 * way yes/no or null field values are represented.  The
+	 * results are stored in a staging table for each original
+	 * table.  The rest of the protocol runs off the staging
+	 * tables.
+	 */
+	PERFORM comm_preprocess_staging_tables();
+	/*
+	 * This method mainly tries to validate aspects of the 
+	 * staging tables by attempting to add constraints to fields
+	 * eg: primary key, not null etc.
+	 */
+	PERFORM comm_perform_prelim_system_checks();
+	
+	
+	/*
+	 * fin_daily_exposures will probably be populated differently
+	 * for each of early life and later life exposures.  In the
+	 * later life analysis, annual exposure values are exploded into
+	 * daily exposure records having the same value.  Once it is
+	 * in the fin_daily_exposures table, the rest of the protocol,
+	 * apart from the code that corrects life stages for 
+	 * premature births, is not aware of whether the analysis is 
+	 * covering early or later life.
+	 */
+	DROP TABLE IF EXISTS fin_daily_exposures;	
+	CREATE TABLE fin_daily_exposures AS 	
+	SELECT
+		*
+	FROM
+		staging_exp_data;
+	ALTER TABLE fin_daily_exposures ADD PRIMARY KEY (geocode, date_of_year);
+
+
+	/*
+	 * This next block of calls contain methods that are all defined
+	 * in the code base.  This is the main place where ALGAE does
+	 * its work
+	 */
+	PERFORM early_calc_life_stages();
+	PERFORM comm_set_study_member_sensitivity_data();
+	PERFORM comm_process_addr_histories();
+	PERFORM comm_set_geocode_sensitivity_data();
+	PERFORM comm_set_address_history_sensitivity_data();
+	PERFORM common_calc_exposures();
+	PERFORM early_calc_exposures();
+	PERFORM comm_set_exp_sensitivity_data();
+	PERFORM comm_set_stage_sensitivity_data();
+	PERFORM comm_determine_life_stage_cov();
+	PERFORM comm_determine_moves_cov();
+	PERFORM early_life_create_result_tables_and_backup();
+	PERFORM early_life_create_reports(output_data_directory);
+
+	/*
+	 * Afterwards, there may be other tasks you may want to do,
+	 * such as associating various covariates with the locations
+	 * that study members occupied at various life stages.
+	 * or getting health outcome data that may later be linked to
+	 * exposure data
+	 */
+	PERFORM alspac_early_cohort_specific_results(output_data_directory);
+
+END;
+$$   LANGUAGE plpgsql;
+--SELECT "run_imperial_early_analysis"();
+
+
+</pre>
+
+
+
+
+
 
 
 

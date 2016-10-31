@@ -24,7 +24,9 @@ body {
 }
 	
 header {
-	height: 138px;
+	#height: 138px;###################################
+
+	height: 130px;
 
 	/*height: 140px;*/
 	/* R:197, G:224 B:180 */
@@ -439,6 +441,11 @@ td {
     line-height: 2em;
     padding: 0.5em 2em;
     text-decoration: none;
+}
+
+
+.top_navigation_bar li {
+	border-bottom:20px solid transparent ####
 }
 
 .top_navigation_bar li:hover {

@@ -1,0 +1,1419 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Testing Part 5: Exposure Features</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, an automated protocol for assessing early life exposures in longitudinal cohorts.  
+		This page describes test cases that were developed to help ALGAE cope with bad address periods that couldn't be fixed.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assessing early life exposures in longitudinal cohorts</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./UseCaseTheme.html">Main Use Case</a>
+								</li>							
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./ChecklistForSimilarStudies.html">Checklist for Similar Studies</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAE.html">Run ALGAE</a>								
+								</li>
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>						
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+<section class="main_section">
+
+<h1>Testing Part 6: Accommodating Bad Address Periods</h1>
+
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+
+<p align="right">
+<table>
+<tr>
+<td>
+<a href="./TestingOverview.html" class="link_button">Testing Overview</a>
+</td>
+<td>
+<a href="./TestingExposureFeatures.html" class="link_button">Previous</a>
+</td>
+<td>
+<a href="./TestingAllOtherFeatures.html" class="link_button">Next</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2>Background</h2>
+<p>
+One of the major challenges of developing the protocol was trying to develop
+ways to make it accommodate bad address periods, which can occur in the exposure
+time frame of some study members and result in periods where their exposure values
+are either unknown or of poor quality.
+</p>
+
+<p>
+ALGAE now allows bad address periods to be accommodated, but their contributions
+can be hidden in the aggregation daily exposure records that help produce 
+life stage exposure results.
+</p>
+
+<p>
+In order to allow poor exposure values in analysis but also indicate their 
+significance to researchers, ALGAE associates the following data quality day
+counters with each pollutant:
+<ul>
+<li>
+<a href="./ALGAETerminology.html#inv_addr_days">
+invalid address days
+</a>
+</li>
+<li>
+<a href="./ALGAETerminology.html#oob_days">
+out of bounds days
+</a>
+</li>
+<li>
+<a href="./ALGAETerminology.html#poor_addr_days">
+poor address days
+</a>
+</li>
+<li>
+<a href="./ALGAETerminology.html#missing_exp_days">
+missing exposure days
+</a>
+</li>
+<li>
+<a href="./ALGAETerminology.html#good_addr_days">
+good address days
+</a>
+</li>
+</ul>
+</p>
+
+<p>
+The sum of all these count values equals the duration of the life stage.  
+Researchers can use the totals to create their own data quality thresholds.
+The tests in this section describe scenarios whose effect on results should
+be verified by these totals.  
+</p>
+
+<h2>Coverage</h2>
+The coverage in this area is a bit complicated.  We first want to test that when
+bad address periods are fixed, that they don't contribute to the data quality rating
+of the life stage exposures.
+
+Next, we introduce
+two test "all or nothing" cases which are meant to verify that the data quality 
+variables show correct values when either the entire exposure time frame is spent
+at a good address or when it is spent at an invalid address.
+
+<p>
+Next, we start with checking that in the birth address assessment, the outcome of 
+whether the birth address is at a good address or an invalid one is reflected in 
+the data quality measures.  The test cases then move onto testing that the same idea
+applies with the locations that fall on the first days of life stages.  As we move
+on with the test cases, we switch between considering invalid and out of bounds 
+causes of bad address periods.
+</p>
+
+<p>
+Testing then moves on from the life stage assessment to the cleaned and uncleaned
+assessments.  They use exactly the same address history data, but in the uncleaned
+assessment: 
+<ul>
+<li>
+days involved with gaps and overlaps are ignored
+</li>
+<li>
+the number of gap and overlap days is also subtracted from the life stage duration.
+</li>
+</ul>
+
+<h3>Tests that verify fixed bad address periods don't affect exposure data quality</h3>
+<h4>Test Case: Fixable bad address period 1</h4>
+If a bad address period can be fixed, then it should make no contributions to the 
+data quality indicators.  Here, the study member lives at three address periods
+where two good address periods sandwich an invalid address period. ALGAE should
+correct the address period, resulting in only good address days.  
+
+
+<p>
+
+
+</p>
+
+
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyFixableBadAddressPeriod1.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<tr class="generic_data_table_header">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h4>Test Case: Fixable bad address period 2</h4>
+This test case just again confirms that a fixable bad address period makes no
+contribution to the data quality of a life stage exposure.  In this example,
+the bad address period is fixed, and then a gap is later filled.  Regardless of 
+whether gaps or overlaps are corrected afterwards, the fixed bad address period
+should not influence data quality for life stage exposures.
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyFixableBadAddress2.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<tr>
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h3>Tests for "all or nothing" scenarios of all good or all bad address time frames</h3>
+<h4>Test Case: No exposure loss</h4>
+In this test case, a study member lives at one valid address period which has
+exposure values for every day of her exposure time frame.  The results should
+show that the total number of good address days equals the total days in 
+the life stage.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyNoExposureLoss.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<tr>
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h4>Test Case: Total exposure loss</h4>
+A study member has lived at only one address period that spans the entire 
+exposure time frame.  It has an invalid geocode, so we would expect that
+every life stage will have the invalid address days equal the life stage
+duration.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyTotalExposureLoss.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<tr>
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h3>Tests for bad address periods in birth address assessments</h3>
+<h4>Test Case: Birth address assessment spent at good address period</h4>
+In this scenario about the birth address exposure assessment, the study member 
+occupies a good address period that ends on the day she was born.  Afterwards,
+she lives at an invalid address period.  Because the birth address mobility
+assessment uses the birth address to represent the location for the entire
+early life analysis, the entire exposure time will appear to be spent at
+the good address period.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyBirthAddressOOB.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<tr>
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h4>Test Case: Birth address assessment spent at invalid address</h4>
+The study member occupies an invalid address period that starts at
+conception and ends within the first few days of the <code>EL</code>
+period.  Afterwards, she lives at a good address period.  Again, 
+because of the way the birth address assessment works, the results 
+will show that she lived at invalid address for the entire early 
+life analysis.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyBirthAddressInvalid.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h3>Tests for bad address periods in life stage assessments</h3>
+<h4>Test Case: Life stage mobility assessment with invalid address</h4>
+In the life stage mobility assessment, a study member occupies an 
+invalid address period that starts on the first day of <code>T2</code>.  
+She then lives at a good address period that spans the rest of that life stage.
+Because of the way the life stage assessment works, she will appear to 
+have occupied an invalid address period for all of <code>T2</code>.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyLifeStageInvalidAddress.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<tr>
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>92</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>0</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h4>Test Case: Life stage mobility assessment with out of bounds address</h4>
+In the life stage mobility assessment, a study member lives at good address
+period until the first day of a life stage.  Afterwards, she occupies an 
+out of bounds address.  The assessment should place her at the good address
+period for all of T2, even though she only spent one day out of 92 days.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyLifeStageOOBAddress.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>92</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h3>Tests for bad address periods in cleaned and uncleaned mobility assessments</h3>
+In these test cases, we are verifying that ALGAE's facilities for fixing gaps
+and overlaps treats an unfixable bad address period as if it were like any other
+record in the residential address history.  In each test case, we report expected
+results for both cleaned and uncleaned assessments.  The two main differences between the
+two are that in the uncleaned assessment:
+<ul>
+<li>
+days involved with gaps and overlaps are ignored
+</li>
+<li>
+the total number of days involved with gaps and overlaps is subtracted from the life
+stage duration.
+</li>
+</ul>
+
+<p>
+As we go through our handling of gaps and overlaps, we sometimes change the kind of 
+exposure data quality type we use.
+</p>
+
+<h4>Test Case: Bad address periods and gaps</h4>
+In this scenario, there is a gap between a good address period and an invalid address
+period that follows it. 
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyCleanedGapInvalidAddressPeriod.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results for Cleaned Assessment</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>50<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>42<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+
+<p>
+<b>Expected Results for Uncleaned Assessment</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>40<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>42<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<h4>Test Case: Poor address periods and combinations of gaps and overlaps</h4>
+In this case, we alter the temporal boundaries of a poor address period twice:
+once to fix a gap and another to fix an overlap.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/EarlyCleanedGapOverlapPoorAddressPeriod.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+
+<p>
+<b>Expected Results for Cleaned Assessment</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>35<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>42<td>
+<td>92</td>
+<td>41<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+<p>
+<b>Expected Results for Uncleaned Assessment</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>25<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>0</td>
+<td>0<td>
+<td>0</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>42<td>
+<td>92</td>
+<td>26<td>
+<td>365</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+
+</table>
+
+
+
+
+<h3>Testing multiple types of exposure quality in the same life stages</h3>
+In this test case, a study member has each type of exposure quality in each life stage.
+We want to check that ALGAE will assess each life stage exposure quality type independently
+of each other.
+
+<p>
+<figure class="explanation_figure">
+<img src="./images/MultipleBadExposureCauses.jpg" width=700>
+<figcaption>
+</figcaption>  
+</figure>
+</p>
+
+<p>
+<b>Expected Results</b>
+</p>
+
+<table class="generic_data_table">
+<th>Exposure Category<th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>EL</th>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Invalid Address Days
+</td>
+<td>0<td>
+<td>25</td>
+<td>20<td>
+<td>92</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Out of Bounds Address Days
+</td>
+<td>0<td>
+<td>2</td>
+<td>4<td>
+<td>6</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Poor Address Days
+</td>
+<td>0<td>
+<td>26</td>
+<td>21<td>
+<td>94</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+Missing Exposure Days
+</td>
+<td>0<td>
+<td>4</td>
+<td>8<td>
+<td>12</td>
+</tr>
+
+<tr class="general_data_table_odd_row">
+<td>
+Good Address Days
+</td>
+<td>92<td>
+<td>35</td>
+<td>23<td>
+<td>161</td>
+</tr>
+
+<tr class="general_data_table_even_row">
+<td>
+<b>
+Life Stage Duration
+</b>
+</td>
+<td>92<td>
+<td>92</td>
+<td>76<td>
+<td>365</td>
+</tr>
+</table>
+
+
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>
