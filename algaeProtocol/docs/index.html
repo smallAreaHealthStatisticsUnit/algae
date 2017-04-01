@@ -90,8 +90,11 @@
 									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
 								</li>
 								<li>
-									<a href="./RunALGAE.html">Run ALGAE</a>								
+									<a href="./RunALGAEProtocol.html">Run ALGAE Protocol</a>								
 								</li>
+								<li>
+									<a href="./RunALGAEVisualisationSuite.html">Run ALGAE Visualisation Suite</a>								
+								</li>								
 								<li>
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
@@ -120,12 +123,31 @@
 <table>
 <tr>
 <td width=600>
-ALGAE is an automated protocol which can be used to assign environmental exposures to 
-participants of cohort and other types of longitudinal studies. It was originally
-developed as part of a MRC-funded collaboration between the Small Area Health Statistics
-Unit (<a href="http://www.sahsu.org">SAHSU</a>) at Imperial College and the 
-Avon Longitudinal Study of Parents and Children (
-<a href="http://www.bristol.ac.uk/alspac/">ALSPAC</a>).
+ALGAE is an automated protocol to assess historical exposure to air pollutants for 
+members of longitudinal cohort studies. It was developed as part of a research 
+project between the <a href="http://www.sahsu.org">Small Area Health Statistics
+Unit</a>(SAHSU), Imperial College London and 
+the <a href="http://www.bristol.ac.uk/alspac/">Avon Longitudinal Study of Parents 
+and Children</a>(ALSPAC).
+
+<p>
+Initially designed to support an environmental epidemiological study on air 
+pollution exposure  during pregnancy and respiratory health effects in children, 
+the protocol has since been developed into a generic solution which can be adapted 
+to investigate different life stages and environmental pollutants. ALGAE is intended 
+as a generic and reusable exposure study protocol to:
+<ul>
+<li>
+reconstruct residential address histories of longitudinal cohort studies
+</li>
+<li>
+assign exposure estimates  to cohort participants based on residential address
+</li>
+<li>
+aggregate exposure estimates over different time periods such as pregnancy, infancy, 
+and adolescence.
+</li>
+</ul>
 
 <p>
 Initially ALGAE was designed to support a study on 
@@ -135,10 +157,47 @@ adapted to different cohort studies, life stages, health outcomes and environmen
 exposures.
 </p>
 
+<p>
+For detailed description of the methodologies and algorithms used please see our 
+section on <a href="./ALGAEMethodology.html">Methodology</a>.
+</p>
+<p>
+The website is intended for people who want to: 
+<ul>
+<li>
+Learn about information governance considerations when integrating exposure 
+information into longitudinal studies
+</li>
+<li>
+Learn from the ALGAE design before building their own software 
+</li>
+<li>
+Adapt the ALGAE code to use in a different cohort study; 
+</li>
+<li>
+Adapt the ALGAE code to suit different use cases within ALSPAC
+</li>
+<li>
+Borrow parts of the code for other projects using ALSPAC data
+<li>
+</ul>
+More information on the design decisions made in the development of 
+ALGAE see our section on <a href="./DesignDecisions.html">Protocol Design</a>.
+
+<p>
+To support the protocol we have developed test cases using the SAHSU-ALSPAC as 
+example.. The code can be modified to include different life stages, 
+environmental pollutants or covariates.  Please see our sections on 
+<a href="./AdaptALGAEProtocol.html">adapting the code</a>.
+</p>
+
 <h1>How to Cite and License It</h1>
-The ALGAE Protocol has been developed and released using the 
-<a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3.0</a> open source license.  
-We recommend you site a published <a href="http://dx.doi.org/tbc">version</a>.
+
+The ALGAE Protocol has been developed by <a href="www.sahsu.org">SAHSU</a> and is 
+available under the <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3.0</a> open source license.
+If you use the software, please cite our <a href="">paper</a>, which was published in the 
+Environmental Modelling and Software.  We recommend you site a published version of 
+the code base <a href="http://dx.doi.org/tbc">version</a>.
 <p>
 <table>
 <tr>

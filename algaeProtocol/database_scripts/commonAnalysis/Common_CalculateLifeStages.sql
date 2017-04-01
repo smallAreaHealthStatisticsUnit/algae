@@ -28,7 +28,7 @@
  *    comm_cln_gest_age_at_birth
  *
  * ------------------------------------------------------------------------------------------------
- * Copyright 2016 Imperial College London, developed by the Small Area
+ * Copyright 2017 Imperial College London, developed by the Small Area
  * Health Statistics Unit in collaboration with the Avon Longitudinal Study of Parents
  * and Children (ALSPAC).
  * 
@@ -40,14 +40,14 @@
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
-
- * RIF is distributed in the hope that it will be useful,
+ *
+ * This code is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with RIF.  If not, see <http://www.gnu.org/licenses/>.
+ * along with the code.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Author: Kevin Garwood
  * ------------------------------------------------------------------------------------------------ 

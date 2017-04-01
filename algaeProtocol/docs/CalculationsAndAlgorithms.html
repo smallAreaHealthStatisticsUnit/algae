@@ -79,8 +79,11 @@
 									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
 								</li>
 								<li>
-									<a href="./RunALGAE.html">Run ALGAE</a>								
+									<a href="./RunALGAEProtocol.html">Run ALGAE Protocol</a>								
 								</li>
+								<li>
+									<a href="./RunALGAEVisualisationSuite.html">Run ALGAE Visualisation Suite</a>								
+								</li>								
 								<li>
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
@@ -148,9 +151,6 @@ results between pairs of them.
 See the section <a href="ALGAEMethodology.html#assess_exposures_different_ways">
 Aggregate Daily Exposure Methods Using Different Methods</a>.
 
-Percent error calculations 
-
-
 <p>
 <figure class="explanation_figure">
 <img src="./images/PercentErrorCalculation.jpg" width=500>
@@ -160,16 +160,13 @@ Percent error calculations
 </p>
 
 
-
-
-
-
 <a name="life_stage_calc"></a>
 <h2>Life Stage Calculations</h2>
 
-<h3>Calculation for life stage boundaries</h3>
+<h3>Calculation of temporal boundaries for life stages</h3>
 <p>
-Most of the life stage boundaries in the early life analysis are based on conception date,
+Most of the temporal boundaries for life stages in the early analysis 
+the early life analysis are based on the date of conception,
 which is calculated as follows:
 
 <a name="conception_date_calculation"></a>
@@ -227,9 +224,9 @@ conception date = birth date - (7 x gestation age at birth in weeks) - 1 day
 </caption>
 
 <h3>Algorithm for fixing life stage boundaries in cases of premature birth</h3>
-In the early life analysis, if the study member has a gestation age at birth value
-of less than 26 weeks, then one or both of T2 or T3 will overlap with the EL period.
-In order to corret this, we use an algorithm described by the following pseudo-code:
+In the early life analysis, if the cohort member has a gestation age at birth of 
+less than 26 weeks, then one or both of T2 or T3 will overlap with the EL period.
+In order to correct this, we use an algorithm described by the following pseudo-code:
 </p>
 
 <pre>

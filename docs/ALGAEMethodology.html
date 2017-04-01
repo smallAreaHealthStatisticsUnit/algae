@@ -84,8 +84,11 @@
 									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
 								</li>
 								<li>
-									<a href="./RunALGAE.html">Run ALGAE</a>								
+									<a href="./RunALGAEProtocol.html">Run ALGAE Protocol</a>								
 								</li>
+								<li>
+									<a href="./RunALGAEVisualisationSuite.html">Run ALGAE Visualisation Suite</a>								
+								</li>								
 								<li>
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
@@ -119,21 +122,27 @@ by Kevin Garwood and Daniela Fecht
 </p>
 
 <p>
-The ALGAE Protocol supports two analyses: an early life analysis and a later life analysis.
-The analyses are the same except for the kind of exposure data they use.  In the early life
-analysis, an exposure record is assumed to describe the concentrations of one or more
-pollutants for a given geocode for a given date.  
+The ALGAE Protocol in its current form, supports two types of analyses: an early 
+life analysis and a later life analysis. In the early life analysis, daily exposure 
+estimates are aggregated over the first (T1), second (T2) and third (T3) pregnancy 
+trimester and infancy from date of birth to the end of the first year of life (EL). 
+In the later life analysis, annual exposures estimates are assigned to life years 
+1 to 15 (YR1…YR15). The analyses are the same except for the temporal resolution 
+of exposure data they use (i.e. daily versus annual averages).
 </p>
 
 <a name="preprocess"></a>
 <h2>1 Pre-process original data tables</h2>
-The ALGAE Protocol pre-processes original data tables in order to make the software
-more forgiving of variations of field values that cohorts may create.  It standardises
-representations of null (eg: null,#NULLIF, NULL), Y (eg: Yes, yes, y, true), N (eg: No,
-no, n, false).  The pre-processed versions of the original data tables are named to
-begin with <code>staging_</code>.  For example, pre-processing alters a copy of 
-<code>original_geocode_data</code> to make a table <code>staging_geocode_data</code>.
-
+The ALGAE Protocol pre-processes the input tables in order to make the software 
+more generic in terms of field values that different cohort studies may create. 
+ALGAE, for example, standardises the representations of null (eg: <code>null</code>,
+<code>#NULLIF</code>, <code>NULL</code>), 
+yes (eg: <code>Yes</code>, <code>yes</code>, <code>y</code>, <code>Y</code>, 
+<code>true</code>) or no (eg: <code>No</code>, <code>no</code>, <code>n</code>, 
+<code>N</code>, <code>false</code>). The pre-processed 
+versions of the input tables are re-named and begin with <code>staging_</code>. 
+For example, pre-processing alters a copy of <code>original_geocode_data</code> 
+to create a table called <code>staging_geocode_data</code>.
 
 <a name="system_checks"></a>
 <h2>2 Perform preliminary system checks</h2>
@@ -142,37 +151,39 @@ help detect any errors that may exist in the cohort data sets as early as possib
 
 <a name="prepare_exposure_data"></a>
 <h2>3 Ensure daily exposure records are ready to use</h2>
-ALGAE processes daily exposure records.  In the later life analysis, an exposure
-record has the same fields but it represents an annual average concentration for the same
-pollutants.  In later life analyses, the date is always expected to be January 1st of a 
-calendar year.  The annual exposure records are converted to daily exposure records, and
-the rest of the protocol does not care whether it is processing an early or late analysis.
+ALGAE processes daily exposure estimates for the early life analysis. In the later 
+life analysis, an exposure record has the same fields but uses annual average 
+exposures. In later life analyses, the date is always expected to be January 1st 
+of a calendar year. The annual exposure records are converted to daily exposure 
+records to harmonise the further analysis. 
 
 <a name="calculate_life_stages"></a>
 <h2>4 Calculate life stages</h2>
-Life stages are calculated for each study member.  In the early life analysis, the temporal
-boundaries for T1, T2, T3 and EL are calculated.  In the later life analysis, boundaries
-are calculated for life years such as YR1, YR2, YR3, etc.  The early analysis has 
-additional code to help account for premature births.  When study members are born 
-premature, it is possible that parts of T2 and T3 will overlap with days past their
-birth date.  When the protocol corrects problems in these life stages, the result can
-be that either the end date of T2 or T3 is changed, or that T3 is made empty altogether.
-The life stage calculations ensure that they will not overlap: in other words, each
+Life stages are calculated for each cohort member. In the early life analysis, 
+the temporal boundaries for life stages T1, T2, T3 and EL are calculated. In the 
+later life analysis, temporal boundaries are calculated for life stages YR1, 
+YR2, YR3, etc. The early life analysis includes additional code to account for 
+premature births. When cohort members are born prematurely, the protocol corrects 
+problems in life stages, and will change the end date of T2 or T3 to reflect the 
+premature date of birth, or that T3 is missing altogether. The life stage 
+calculations ensure that trimesters will not overlap: in other words, each 
 relevant day of a person's life will belong to exactly one life stage.
 
 <p>
-As well as the life stage boundaries, the boundaries for the overall exposure time frame 
-are calculated.  For example in the early life analysis, the time frame would be 
-<code>[conception date, birth date + 1 year - 1 day]</code>.
+As well as the temporal boundaries of life stage, the temporal boundaries for the 
+overall exposure time frame are calculated. For example in the early life analysis, 
+the time frame would be from the day of conception until the end of the first year 
+of life calculated as: <code>[conception date, birth date + 1 year - 1 day]</code>.
 </p>
 
 <a name="clean_address_periods"></a>
 <h2>5 Clean address periods</h2>
-<b>5.1 Impute blank start and end dates.</b> First, it ensures that each address period has 
-non-blank values for its start date and end date values.  When a start date is missing,
-the protocol imputes the value with the study member's conception date.  When the end
-date is missing, the value is set to the current date.  
-
+<b>5.1 Impute blank start and end dates.</b> 
+Impute blank start and end dates. First, ALGAE ensures that each address period has 
+non-blank values for its start date and end date. When a start date is missing, 
+the protocol imputes the value with the cohort member's date of conception. When 
+the end date is missing, the value is set to the current date.
+  
 <figure class="explanation_figure">
 <img src="./images/ImputeBlankDates.jpg" width=600>
 <figcaption><b>Imputing blank dates</b>.  Blank start dates are filled with conception
@@ -181,10 +192,10 @@ dates and blank end dates are filled with the current date.
 </figure>
 
 <p>
-<b>5.2 Order address periods</b>.  Once any blank values have been imputed, the address 
-periods are sorted in a way that is maintained for the rest of the protocol.  Address 
-periods are ordered first by the study member ID, then by the start date, then by the 
-duration of the period.  
+<b>5.2 Order address periods</b>.  
+Once any blank values have been imputed, the address periods are ordered first by 
+the study member ID, then by the start date, then by the duration of the period 
+at the address.  Once sorted, the order is maintained for the rest of the protocol.  
 </p>
 
 <figure class="explanation_figure">
@@ -193,12 +204,11 @@ duration of the period.
 </figcaption>  
 </figure>
 
-
-
-
 <p>
-It is at this point in the protocol that ALGAE begins to track data cleaning changes 
-using sensitivity variables.   
+At this point in the protocol ALGAE begins to track data cleaning changes using 
+sensitivity variables.
+</p>
+
 
 <p>
 <a name="fixable_bad_geocodes"></a>
@@ -229,7 +239,7 @@ address period which has a bad geocode that can be fixed.
 </p>
 
 <p>
-If an address period a<sub>n</sub> is identified as having a geocode that is
+If an address period, a<sub>n</sub>, is identified as having a geocode that is
 "fixable" then:
 <ol>
 <li>
@@ -244,7 +254,7 @@ a<sub>n</sub> is marked with
 
 Address periods whose geocodes are "fixable" are flagged to be ignored in future
 data cleaning.  If a<sub>n</sub>.is_fixed_invalid_geocode=Y.  This marks 
-the period so it can be ignored from all future cleaning as if it didn't exist.
+the period and it will be ignored from all future cleaning as if it didn't exist.
 Note that this is not the same as marking a period for deletion, as what can
 happen later in the methodology.
 </p>
@@ -263,8 +273,9 @@ happen later in the methodology.
 Once the address periods have been ordered by <code>person_id</code>,
 <code>start_date</code> and <code>duration</code>, ALGAE proceeds to identify
 any gaps or overlaps that may appear in the residential address histories.
-The protocol scans the address periods and flags each one for the kind of 
+The protocol scans the address periods and flags each one depending on the 
 fit that exists between successive address periods.  
+</p>
 
 <p>
 <figure class="explanation_figure">
@@ -296,8 +307,8 @@ preserving the <code>start_date</code> of address periods.
 </p>
 
 <b>5.5 Ensure that every day of exposure time frame is covered by an address period</b>.
-It is possible in the early life analysis that there will be a gap between conception
-date and the date of enrolment.  It may also be possible in the early or late analysis
+It is likely that there will be a gap between date of conception and the date of enrolment 
+in the cohort study.  It may also be possible in the early or late analysis
 that the end date of the last available address period fails to cover days at the end
 of the exposure time frame.  In order to ensure that all days of an exposure time frame
 are covered, ALGAE will adjust boundaries of first and last relevant address periods.
@@ -314,19 +325,15 @@ are covered, ALGAE will adjust boundaries of first and last relevant address per
 <a name="calculate_exposures"></a>
 <h3>6 Calculate Exposures</h3>
 Once ALGAE has geocoded residential addresses and cleaned the address periods, it then 
-matches the appropriate daily exposure records for locations that study members occupied 
-on each day covered by their cleaned residential address histories.  Each exposure record 
-have a <code>person_id</code>, a <code>geocode</code>, a <code>date_of_year</code> and daily 
-pollution concentrations
-for
-<a href="./ALGAETerminology.html#name">NAME</a>, 
-<a href="./ALGAETerminology.html#nox_rd">NOX_rd</a>, 
-<a href="./ALGAETerminology.html#pm10_rd">PM10_rd</a>, 
-<a href="./ALGAETerminology.html#pm10_gr">PM10_gr</a> and  
-<a href="./ALGAETerminology.html#pm10_tot">PM10_tot</a>.
+matches the appropriate daily exposure estimates based on the locations that a study 
+member occupied on each day covered by their cleaned residential address histories.  
+Each exposure record has a <code>person_id</code>, a <code>geocode</code>, 
+a <code>date_of_year</code> and daily pollution estimates for various pollutants.
 
-The exposure records are then used by different ways of assessing exposures for early
-and later life analyses.  
+<p>
+The exposure records are used in different ways to assess exposures for early
+and later life analyses.
+</p>  
 
 <a name="assess_exposure_quality"></a>
 <h4>6.1 Assess the Data Quality of Each Daily Exposure Value</h3>

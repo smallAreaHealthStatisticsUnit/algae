@@ -1,0 +1,244 @@
+<DOCTYPE html>
+<html>
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html"/>
+		<meta charset="utf-8"/>
+		<meta name="language" content="English"> 
+		<meta name="robots" content"index, follow">
+		<title>ALGAE Protocol: Run ALGAE"</title>
+		<meta name="description" 
+		content="The ALGAE Protocol, An automated protocol for assigning early life exposures to longitudinal cohort studies.  
+		This page describes how you would incorporate the ALGAE code into your own cohort project.">
+		<meta name="description" 
+		content="">
+		<meta name="author" content="Kevin Garwood">
+		<meta name="copyright" content="Imperial College">		
+		
+		<link rel="stylesheet" type="text/css" href="algae.css">
+
+	</head>
+	
+	<body>
+		<div id="wrapper">
+			<header>
+
+				<table class="banner_table" width="100%">
+				<tr>
+				<td class="banner_table_text">
+				<h1 class="header_line"> The ALGAE Protocol</h1>
+				<h3 class="header_line"> <font color="#548235"><b>AL</b></font>orithms for <font color="#548235"><b>G</b></font>enerating address histories and <font color="#548235"><b>E</b></a></font>xposures</h3>
+				</td>
+				<td class="banner_table_logos" border="1">
+					<img src="./images/algae_banner_logos.jpg" height="70">
+				</td>
+				</tr>
+				</table>
+				<h4 class="header_line">
+					<i>An automated protocol for assigning early life exposures to longitudinal cohort studies</i>
+				</h4>
+								
+				<nav class="top_navigation_bar">
+					<ul class="main_menu">
+						<li>
+							<a href="./index.html">Home</a>
+						</li>
+						<li>
+							Methodology
+							<ul class="sub_menu">
+								<li>
+									<a href="./UseCaseTheme.html">Main Use Case</a>
+								</li>							
+								<li>
+									<a href="./ALGAEMethodology.html">ALGAE Methodology</a>
+								</li>
+								<li>
+									<a href="./CalculationsAndAlgorithms.html">Calculations and Algorithms</a>
+								</li>
+							</ul>														
+						</li>
+						<li>
+							Protocol Design
+							<ul class="sub_menu">							
+								<li>
+									<a href="./DesignDecisions.html">Design Decisions</a>
+								</li>
+								<li>
+									<a href="./FutureDevelopment.html">Future Development</a>
+								</li>
+								<li>
+									<a href="./ChecklistForSimilarStudies.html">Checklist for Similar Studies</a>
+								</li>
+								<li>
+									<a href="./AdviceImprovingAddressHistories.html">Advice for Improving Address Histories</a>								
+								</li>								
+							</ul>
+						</li>
+						<li>
+							Using ALGAE
+							<ul class="sub_menu">
+								<li>
+									<a href="./SetupALGAE.html">Setup ALGAE</a>
+								</li>
+								<li>
+									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
+								</li>
+								<li>
+									<a href="./RunALGAEProtocol.html">Run ALGAE Protocol</a>								
+								</li>
+								<li>
+									<a href="./RunALGAEVisualisationSuite.html">Run ALGAE Visualisation Suite</a>								
+								</li>								
+								<li>
+									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
+								</li>
+								<li>
+									<a href="./LimitationsAndBugs.html">Limitations and Bugs</a>
+								</li>								
+							</ul>
+						</li>						
+						<li>
+							<a href="./AdaptALGAEProtocol.html">Adapting the Code</a>
+						</li>
+						<li>
+							<a href="./TestingOverview.html">Testing</a>
+						</li>
+						<li>
+							<a href="./ALGAEResources.html">Resources</a>
+						</li>											
+						<li>
+							<a href="./AboutUs.html">About Us</a>
+						</li>
+					</ul>		
+				</nav>	
+			</header>
+
+<section class="main_section">
+
+<h1>Run the ALGAE Visualisation Suite</h1>
+<p>
+<i>
+by Kevin Garwood
+</i>
+</p>
+The ALGAE Visualisation Suite is a script that you can run to generate a variety of
+graph images that are based on the data sets that are created by the ALGAE Protocol.
+The program, written in Python, reads all of the exposure CSV files and uses them
+to create the following kinds of graphs:
+
+<ul>
+
+<li>
+<b>Data quality graphs</b>: these show stacked bar charts that quantify the 
+number of days in a given life stage that are can be characterised as: poor
+match exposure days, invalid exposure days, out-of-bounds exposure days, 
+missing exposure days and good match exposure days
+</li>
+<li>
+<b>Null exposure graphs</b>: these show stacked bar charts showing the number of 
+study members who had either null or non-null values for exposures in a given life
+stage.  Each image includes stacked bar charts for each type of relevant exposure 
+assignment method (cleaned, uncleaned, life stage and birth address)
+</li>
+<li>
+<b>Exposure box plot graphs</b>: these show the distribution of exposure values for
+all study members for a given life stage.  Each image features a box plot for each
+relevant exposure assignment method.
+</li>
+</ul>
+
+<p>
+Currently the scripts are designed to generate results for the PM10 Total
+pollutant, and some graphs will use the <code>pm10_tot_sum</code> values.  
+</p>
+
+<h2>Example Outputs</h2>
+<p>
+The script produces graphs such as these:
+
+<p>
+<img src="./images/ExampleBoxPlotGraph.png" width=500>
+
+<p>
+<img src="./images/ExampleDataQualityGraph.png" width=500>
+
+<p>
+<img src="./images/ExampleNullBarGraph.png" width=500>
+
+
+<h2>Setup Environment</h2>
+To run the script, ensure you have installed 
+<a href="https://www.python.org/downloads/">Python 2.7</a>.  Ensure that when you 
+open a command line window, you can type "python" anywhere.  In order to do that,
+add the path to python's windows application to your Windows Path environment variable.
+On Windows 10, you would add the path as follows:
+<ol>
+<li>
+Right click on the Start icon in the lower-left hand corner (the picture is of a square
+divided into four little squares) and choose "Control Panel"
+</li>
+
+<li>
+Click the "System" panel
+</li>
+
+<li>
+In the left side, you'll see a number of options.  Click on "Advanced system settings"
+</li>
+
+<li>
+The "System Properties" dialog should appear.  Click the button "Environment variables ..."
+</li>
+
+<li>
+The "Environment Variables" dialog should appear.  In the lower part of the dialog,
+under "System variables", edit the <code>Path</code> variable.
+</li>
+<li>
+Add the directory that will contain the file <code>python.exe</code>.  For example, that may be
+<code>C:\Python27</code>.  Now save the changes and open a new command line window.
+</li>
+<li>
+Navigate to any other directory and type "python".  If it works, the last line should now be ">>>".
+Type Ctrl + C to quit out of Python.
+</li>
+</ol>
+
+<h2>Run the Script</h2>
+Let's assume that you have unzipped algae_protocol.zip and you now have a folder at C:\algae_protocol.
+
+<ul>
+<li>Before you run this script, <a href="./RuneALGAEProtocol.html">run the ALGAE Protocol</a> 
+so that it will produce results.
+</li>
+<li>
+Navigate to where the main python script is and type <code>python ALGAEVisualisationSuite.py</code>.  
+In our example installation, it would look something like this:
+<img src="./images/ALGAEVisualisationSuiteCommandLine.jpg">
+</li>
+<li>
+Now open <code>C:\algae_protocol\analysis\analysis_results </code> and you should see the
+auto-generated graph image files.
+</li>
+
+<h2>Changing Input and Output Directories of Script</h2>
+If you want to change the default locations for where the script scans for data files and
+where it generates the graphs, you may run the script by typing something like this instead:
+<p>
+<code>
+python ALGAEVisualisationSuite.py -inputDirectory C:\myALGAEProject -outputDirectory C:\final_graphs
+</code>
+</p>
+
+
+
+
+</pre>
+
+			</section>
+		</div>
+		<footer>
+			(c) 2016 Small Area Health Statistics Unit, Imperial College London. ALGAE is licensed using the GPL 3.0 open source license. 
+		</footer>
+	</body>
+</html>

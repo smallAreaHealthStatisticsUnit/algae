@@ -32,7 +32,7 @@
  * be called before reports are generated.
  *
  * ------------------------------------------------------------------------------------------------
- * Copyright 2016 Imperial College London, developed by the Small Area
+ * Copyright 2017 Imperial College London, developed by the Small Area
  * Health Statistics Unit in collaboration with the Avon Longitudinal Study of Parents
  * and Children (ALSPAC).
  * 
@@ -44,12 +44,13 @@
  * Lesser General Public License as published by the Free Software Foundation, either version 3 
  * of the License, or (at your option) any later version.
  *
- * RIF is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
- * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
- * Lesser General Public License for more details.
+ * This code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License along with RIF.  
- * If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with the code.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Author: Kevin Garwood
  * ================================================================================================= 
@@ -764,7 +765,7 @@ BEGIN
 		'\exposure_data' ||
 		'\mobility_unclean\res_early_mob_uncln_exp_' || date_phrase || '.csv';
 	EXECUTE format ('
-	COPY results_early_mob_cln_exp
+	COPY results_early_mob_uncln_exp
 	TO
 		%L
 	(FORMAT CSV, HEADER)', 
@@ -791,7 +792,7 @@ BEGIN
 		'\exposure_data' ||
 		'\no_mobility_birth_address\res_early_no_mob_birth_addr_exp_' || date_phrase || '.csv';
 	EXECUTE format ('
-	COPY results_early_stg_mob_exp
+	COPY results_early_no_mob_birth_addr_exp
 	TO
 		%L
 	(FORMAT CSV, HEADER)', 

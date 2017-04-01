@@ -32,7 +32,7 @@
  * be called before reports are generated.
  *
  * ------------------------------------------------------------------------------------------------
- * Copyright 2016 Imperial College London, developed by the Small Area
+ * Copyright 2017 Imperial College London, developed by the Small Area
  * Health Statistics Unit in collaboration with the Avon Longitudinal Study of Parents
  * and Children (ALSPAC).
  * 
@@ -44,12 +44,13 @@
  * Lesser General Public License as published by the Free Software Foundation, either version 3 
  * of the License, or (at your option) any later version.
  *
- * RIF is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
- * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
- * Lesser General Public License for more details.
+ * This code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License along with RIF.  
- * If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with the code.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Author: Kevin Garwood
  * ================================================================================================= 
@@ -185,8 +186,7 @@ BEGIN
 	SELECT
 		person_id AS algae3500_person_id,
 		life_stage AS algae3501_life_stage,	
-		life_stage AS algae3502_life_stage_duration,	
-
+		life_stage_duration AS algae3502_life_stage_duration,
 		name_invalid_address_days AS algae3503_name_inv_addr_days,
 		name_oob_days AS algae3504_name_oob_days,
 		name_poor_address_days AS algae3505_name_poor_addr_days,
@@ -621,7 +621,7 @@ BEGIN
 		'\exposure_data' ||
 		'\mobility_unclean\res_later_mob_uncln_exp_' || date_phrase || '.csv';
 	EXECUTE format ('
-	COPY results_later_mob_cln_exp
+	COPY results_later_mob_uncln_exp
 	TO
 		%L
 	(FORMAT CSV, HEADER)', 

@@ -87,8 +87,11 @@
 									<a href="./PrepareCohortDataWorkflow.html">Prepare cohort data</a>
 								</li>
 								<li>
-									<a href="./RunALGAE.html">Run ALGAE</a>								
+									<a href="./RunALGAEProtocol.html">Run ALGAE Protocol</a>								
 								</li>
+								<li>
+									<a href="./RunALGAEVisualisationSuite.html">Run ALGAE Visualisation Suite</a>								
+								</li>								
 								<li>
 									<a href="./ALGAEDataDictionary.html">Data dictionary</a>								
 								</li>
@@ -132,9 +135,7 @@ by Kevin Garwood
 </a>
 </td>
 <td width=600>
-Most of this web site describes how the ALGAE protocol works, but here we discuss why 
-the protocol was designed in the manner that it was.  ALGAE is the product of over
-100 separate design decisions that were drawn from four main areas of requirements:
+ALGAE is the product of over 100 separate design decisions that were drawn from four main areas of requirements:
 <ul>
 <li>
 domain science decisions
@@ -150,9 +151,8 @@ software engineering decisions.
 </li>
 </ul>
 <p>
-Instead of spreading the discussion over dozens of web pages, we provide the entire
-discussion in a separate document that project members can more easily print out and 
-read.
+The design decisions are summarised in the tables below.  Additional information
+including a detailed discussion of these decisions is provided in the document.
 </p>
 </td>
 </tr>
@@ -173,10 +173,10 @@ Domain Science-1
 </td>
 <td class="design_decision_description">
 The protocol will use residential address histories, historically modelled 
-pollutant concentrations and life stage data to assess life stage exposures 
-in members the ALSPAC cohort.  The life stage exposures will then be linked 
-with health outcomes relating to respiratory health outcomes that are measured 
-at years 8 and 15
+pollutant concentrations at residential addresses and information about life stages 
+to assess life stage exposures in members the ALSPAC cohort.  The life stage 
+exposures will then be linked with health outcomes relating to respiratory 
+health outcomes that are measured at years 8 and 15.
 </td>
 </tr>
 
@@ -190,7 +190,7 @@ early life analysis will assess exposures in: Trimester 1 (<code>T1</code>),
 Trimester 2 (<code>T2</code>), Trimester 3 (<code>T3</code>), and an early life 
 period that spans the first year of life (<code>EL</code>). 
  The later life analysis will assess exposures for years of life beginning in 
- year 2 and ending in year 15 (<code>YR2...YR15</code>).</td>
+ year 1 and ending in year 15 (<code>YR1...YR15</code>).</td>
 </tr>
 
 
@@ -199,8 +199,8 @@ period that spans the first year of life (<code>EL</code>).
 Domain Science-3
 </td>
 <td class="design_decision_description">
-Conception date will be calculated as: date of birth - (7 x gestation age at 
-birth measured in weeks) - 1 day.
+Date of Conception will be calculated as: date of birth - (7 x gestation 
+age at birth measured in weeks) - 1 day.
 </td>
 </tr>
 
@@ -209,7 +209,7 @@ birth measured in weeks) - 1 day.
 Domain Science-4
 </td>
 <td class="design_decision_description">
-The boundaries of early life stages will be calculated as follows: 
+The temporal boundaries of early life stages will be calculated as follows: 
 T1 = [conception date, conception date + 91 days], 
 T2 = [conception date + 92 days, conception date + 183 days], 
 T3=[conception date + 184 days, birth date - 1 day], 
@@ -223,8 +223,8 @@ Domain Science-5
 </td>
 <td class="design_decision_description">
 In the early life analysis, the protocol will need a facility for 
-correcting overlaps in life stage boundaries that may occur with 
-prematurely born study members.
+correcting overlaps in life stage boundaries that may occur for 
+prematurely born cohort members.
 </td>
 </tr>
 
@@ -244,9 +244,7 @@ birth + (n+1) years - 1 day.
 Domain Science-7
 </td>
 <td class="design_decision_description">
-The protocol will assess exposures for the following pollutants: 
-<code>PM10_tot</code></code>, <code>PM10_rd</code>, <code>PM10_gr</code>, 
-<code>NOx_rd</code>, and <code>NAME</code>
+The protocol will assess exposures for various pollutants. 
 </td>
 </tr>
 
@@ -255,7 +253,7 @@ The protocol will assess exposures for the following pollutants:
 Domain Science-8
 </td>
 <td class="design_decision_description">
-Assume that the exposure area will exhibit high spatial and temporal 
+Assume that the exposure will exhibit high spatial and temporal 
 variation during the exposure time frame.
 
 </td>
@@ -266,8 +264,8 @@ variation during the exposure time frame.
 Domain Science-9
 </td>
 <td class="design_decision_description">
-Assume that the susceptibility of study members to spatial and temporal 
-fluctuations in exposures may depend on the life stages being used in 
+Assume that the susceptibility of cohort members to the spatial and temporal 
+exposures variability may depend on the life stages being used in 
 assessment.
 
 </td>
@@ -289,7 +287,7 @@ Domain Science-11
 </td>
 <td class="design_decision_description">
 The protocol will aggregate exposures by life-stage, and express the 
-results using cumulative, average and median calculations.
+results using cumulative, average and median exposures.
 </td>
 </tr>
 
@@ -312,7 +310,7 @@ results using cumulative, average and median calculations.
 Business-1
 </td>
 <td class="design_decision_description">
-The protocol must be able to omit from analysis any study members who have 
+The protocol must be able to omit from analysis any cohort members who have 
 withdrawn consent to participate in the activity, at any time during the 
 activity.
 </td>
@@ -345,7 +343,7 @@ linked residential addresses to specific individuals.
 Business-4
 </td>
 <td class="design_decision_description">
-The protocol assumes that exposure data would be generated on the premises of 
+The protocol assumes that exposure data is generated on the premises of 
 the collaborating research institution and not those of the cohort facilities.
 </td>
 </tr>
@@ -368,7 +366,7 @@ Business-6
 </td>
 <td class="design_decision_description">
 An exposure record will comprise a geocode, a date of year, and concentration values 
-for each type of pollutants.  In the early life analysis, the date of year will 
+for each pollutant.  In the early life analysis, the date of year will 
 represent a daily exposure record.  In the later life analysis, the same field will 
 represent an annual exposure value and will be January 1st of some year that is 
 involved in the later life analysis.
@@ -399,8 +397,8 @@ can demonstrate that it is behaving correctly.
 Business-9
 </td>
 <td class="design_decision_description">
-The protocol would generate a reusable exposure data set that was made 
-independently of health outcomes that could be linked to it.
+The protocol would generate a reusable exposure data set that could be 
+linked to the individual and health information stored by the cohort study.
 </td>
 </tr>
 
@@ -427,7 +425,7 @@ protocol to be measured by the number of projects that download and use it,
 anticipated tiered levels of buy-in from other groups.  These are: people 
 who want to reuse its design to make their own software; people who want to 
 reuse the software tool with a different cohort; people who want to adapt 
-the code to suit different slightly different use cases; and people who 
+the code to suit slightly different use cases; and people who 
 want to borrow parts of the code for other projects.
 </td>
 </tr>
@@ -590,7 +588,7 @@ Data Science-2
 <td class="design_decision_description">
 The input CSV file that holds data about geocodes will have a free-text field called "<code>version</code>".  
 Cohorts can use the field to describe an iteration of geocoding that uses a particular version 
-of software, was done by a particular method or was done by a particular people.
+of software, was done by a particular method or was done by particular people.
 </td>
 </tr>
 
@@ -601,8 +599,8 @@ Data Science-3
 </td>
 <td class="design_decision_description">
 The input CSV file that holds data study member data will have a yes/no field called 
-"<code>at_1st_address_conception</code>".  If the flag value is "Y", then researchers can be confident that 
-a cohort member was definitely at their enrolment address when he or she was conceived.
+"<code>at_1st_address_conception</code>".  If the flag value is "Y", then the 
+mother of the cohort member lived at this address at the date of conception.
 </td>
 </tr>
 
@@ -611,7 +609,7 @@ a cohort member was definitely at their enrolment address when he or she was con
 Data Science-4
 </td>
 <td class="design_decision_description">
-The input CSV file that holds data study member data will have a yes/no field called 
+The input CSV file that holds data cohort member data will have a yes/no field called 
 "<code>absent_during_exp_period</code>".  If the flag value is "Y", then researchers can be confident 
 that a cohort member spent a significant amount of their exposure time frame living at 
 a location that was not specified in his/her residential address history.
@@ -624,8 +622,8 @@ a location that was not specified in his/her residential address history.
 Data Science-5
 </td>
 <td class="design_decision_description">
-Cohort projects will need to comply with naming conventions for both the paths of input files 
-and for the variable names within those files.
+Cohort studies will need to comply with naming conventions for both the paths of 
+input files and for the variable names within those files.
 </td>
 </tr>
 
@@ -699,7 +697,7 @@ them from consideration in calculations.
 Data Science-12
 </td>
 <td class="design_decision_description">
-Assume that the date that a study member's current address was updated in the Contacts 
+Assume that the date that a study member's current address was updated in the contacts 
 database is the date when he or she began living at a new address.  This value is the 
 start date of an address period.
 </td>
